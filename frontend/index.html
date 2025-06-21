@@ -1,28 +1,56 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="css/bootstrap.custom.min.css">
-    <script src="js/bootstrap.bundle.js"></script>
-    <title></title>
-  </head>
-  <body>
-
-    <header>
-
-    </header>
-
-
-
-    <main>
-
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="css/index.css" />
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <title>Document</title>
+</head>
+<body class="text-light fondo">
+    <main class="d-flex flex-column min-vh-100">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-md p-3">
+        <div class="container-fluid align-items-center">
+          <img src="img/bg.jpg" alt="logo" class="redondo me-3" />
+          <h1 class="h3 flex-grow-1 mb-0">Sistema de alarmas</h1>
+          <div class="d-flex flex-wrap gap-2">
+            <a href="registro.html" class="btn btn-outline-light">Registrarse</a>
+            <a href="login.html" class="btn btn-outline-light">Iniciar Sesión</a>
+          </div>
+        </div>
+      </nav>
+  
+      <!-- Section -->
+      <section class="d-flex align-items-center justify-content-end p-5 text-end">
+        <div class="me-md-5">
+          <h1 class="titulo fw-bold">Sistema de alarmas</h1>
+          <p>Un sistema donde podrá acceder y controlar la seguridad de su casa</p>
+          <a class="btn btn-outline-light mt-3 asd">Ingresar</a>
+        </div>
+        
+      </section>
     </main>
-
-
-
-    <footer>
-
-    </footer>
-
+          <!-- Footer -->
+      <footer class="footerTransparente text-light p-4 mt-auto">
+        <hr class="border-light" />
+        <div class="container">
+          <div class="d-flex align-items-center mb-3">
+            <img src="img/bg.jpg" alt="logoFooter" class="redondoChico me-3" />
+            <h3 class="h5 mb-0">Sistema de alarmas</h3>
+          </div>
+  
+          <div class="d-flex flex-wrap gap-3">
+            <a href="#"><img src="img/mail.svg" alt="mail" class="iconoRed" /></a>
+            <a href="#"><img src="img/wpp.svg" alt="wpp" class="iconoRed" /></a>
+            <a href="#"><img src="img/ig.svg" alt="instagram" class="iconoRed" /></a>
+            <a href="#"><img src="img/fb.svg" alt="facebook" class="iconoRed" /></a>
+          </div>
+  
+          <div class="text-end mt-4 small">
+            © 2025 alarmas.com
+          </div>
+        </div>
+      </footer>
   </body>
 </html>
