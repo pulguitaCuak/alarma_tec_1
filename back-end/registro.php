@@ -16,7 +16,10 @@
         $nacimiento=$_POST('nacimiento');
         $mail=$_POST('mail');
 
-        $procedimiento=mysqli_query($conexion,"call insertar_usuario('$usuario','$contrasenia',$nacimiento,$dni,'$email',$telefono);
+        mysqli_query($conexion,"call insertar_usuario('$usuario','$contrasenia',$nacimiento,$dni,'$email',$telefono);
+
+        mysqli_close($conexion);
+
     ?>
 
 </body>
