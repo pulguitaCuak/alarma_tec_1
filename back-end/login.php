@@ -7,12 +7,23 @@
 </head>
 <body>
     <?php
+        
         include('conexion.php');
+
         $usuario=$_POST('usuario');
         $contrasenia=$_POST('contrasenia');
-        $idUsuario=mysqli_query($conexion,"select idUser from user where user='$usuario' and password='$contrasenia'");
 
-        //SIN TERMINAR 16/9
+        $stmt=mysqli->prepare("select idUser from user where user=? and password=?");
+        $stmt=->bind_param('ss',$usuario,$contrasenia);
+        $stmt->execute();
+
+        if($stmt>=1){
+            header('Location: ../frontend/equipos-usuario.html');
+            exit;
+        }
+        else{
+            echo('usuario no registrado');
+        }
     ?>
 </body>
 </html>

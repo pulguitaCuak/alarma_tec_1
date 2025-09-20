@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=<, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
     <?php
+        
         include('conexion.php');
+        
 
         $usuario=$_POST('usuario');
         $contrasenia=$_POST('contrasenia');
@@ -16,9 +17,15 @@
         $nacimiento=$_POST('nacimiento');
         $mail=$_POST('mail');
 
-        mysqli_query($conexion,"call insertar_usuario('$usuario','$contrasenia',$nacimiento,$dni,'$email',$telefono);
+        $stmt=mysqli->prepare("call insertar_usuario(?,?,?,?,?,?)");
+        $stmt=->bind_param('ssiisi',$usuario,$contrasenia,$nacimiento,$dni,$mail,$telefono);
+        $stmt->execute();
 
         mysqli_close($conexion);
+
+        header('Location: ..frontend/index.html');
+        exit;
+
 
     ?>
 
