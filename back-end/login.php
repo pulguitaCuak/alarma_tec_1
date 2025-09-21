@@ -10,8 +10,8 @@
         
         include('conexion.php');
 
-        $usuario=$_POST('usuario');
-        $contrasenia=$_POST('contrasenia');
+        $usuario=$_POST['usuario'];
+        $contrasenia=$_POST['contrasenia'];
 
         $stmt=mysqli->prepare("select idUser from user where user=? and password=?");
         $stmt=->bind_param('ss',$usuario,$contrasenia);
