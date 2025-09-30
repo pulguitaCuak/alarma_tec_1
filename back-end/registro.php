@@ -6,24 +6,27 @@
 </head>
 <body>
     <?php
-        
+        header('Location: ../frontend/index.html');
         include('conexion.php');
 
-        $stmt = $conexion->prepare("call insertar_usuario(?, ?, ?, ?, ?, ?);");
-        $stmt->bind_param('ssiisi',$usuario,$contrasenia,$nacimiento,$dni,$mail,$telefono);
+        //$stmt = $conexion->prepare("insert into user(user,password,idCharge,DNI,birthdate,email,phone) values (?,?,?,?,?,?,?);");
+        //$stmt->bind_param('ssiissi',$usuario,$contrasenia,$cargo,$dni,$nacimiento,$mail,$telefono);
         
         $usuario=$_POST['usuario'];
         $contrasenia=$_POST['contrasenia'];
-        $dni=$_POST['dni'];
+        //$dni=$_POST['dni'];
         $telefono=$_POST['telefono'];
-        $nacimiento=$_POST['nacimiento'];
+        //$nacimiento=$_POST['nacimiento'];
         $mail=$_POST['mail'];
+        $cargo=4;
+
+        mysqli_query($conexion,"insert into user(user,password,idCharge,email,phone) values ('$usuario','$contrasenia',$cargo,'$email',$telefono);") or die("error en el insert");
         
-        $stmt->execute();
+        //$stmt->execute();
 
         mysqli_close($conexion);
 
-        header('Location: ..frontend/index.html');
+
         exit;
 
 

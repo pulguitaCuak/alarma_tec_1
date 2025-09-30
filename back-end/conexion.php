@@ -7,7 +7,7 @@
 </head>
 <body>
     <?php
-    $conexion=mysqli_connect('10.0.50.143','root','1234','alarmadb') or die('error de conexion');
+    $conexion=mysqli_connect('localhost','root','1234','alarmadb') or die('error de conexion');
     ?>
 </body>
 </html>
