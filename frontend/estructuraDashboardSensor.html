@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alarma</title>
+  <link rel="stylesheet" href="css/bootstrap.custom.min.css" />
+  <link rel="stylesheet" href="bootstrap-icons-1.13.1/bootstrap-icons.css" />
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      background-color: #f2f2f2;
+    }
+
+    .sidebar {
+      min-width: 60px;
+    }
+
+    .sidebar .nav-link {
+      color: black;
+    }
+
+    .sidebar .nav-link:hover {
+      background-color: #bbb;
+    }
+
+    .sidebar-bottom {
+      margin-top: auto;
+      margin-bottom: 1rem;
+    }
+
+    main {
+      background-color: #f2f2f2;
+    }
+
+    .card {
+      background-color: white;
+    }
+
+    .icon-column {
+      min-width: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <nav class="navbar navbar-expand-lg bg-info text-white px-3">
+      <div class="container-fluid d-flex justify-content-between">
+        <span class="navbar-brand text-white">Alarma</span>
+        <div class="d-flex align-items-center gap-2">
+          <span class="text-white fw-bold">Dashboard</span>
+          <i class="bi bi-grid-3x3-gap text-white fs-5"></i>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- MAIN -->
+  <main class="d-flex">
+    <!-- SIDEBAR -->
+    <div class="sidebar d-flex flex-column align-items-center pt-3 bg-dark">
+      <a href="#" class="nav-link mb-3"><i class="bi bi-house-door fs-4" data-bs-toggle="tooltip" title="Inicio"></i></a>
+      <a href="#" class="nav-link mb-3"><i class="bi bi-person-gear fs-4" data-bs-toggle="tooltip" title="Administración"></i></a>
+      <a href="#" class="nav-link mb-3"><i class="bi bi-person-circle fs-4" data-bs-toggle="tooltip" title="Perfil"></i></a>
+      <a href="#" class="nav-link mb-3"><i class="bi bi-telephone fs-4" data-bs-toggle="tooltip" title="Soporte"></i></a>
+    </div>
+
+    <!-- CONTENT AREA -->
+     <div class="justify-content-start gap-4 p-4">
+      <h4 class="">Equipos</h4>
+
+      <div class="flex-grow-1 d-flex flex-wrap justify-content-center align-content-start gap-4 p-4">
+        
+        <!-- CARD 1 -->
+        <div class="card shadow-sm p-3" style="max-width: 300px;">
+          <div class="d-flex gap-3">
+            <div class="icon-column align-items-center">
+              <i class="bi bi-house-door fs-3"></i>
+              <i class="bi bi-exclamation-triangle text-warning fs-4"></i>
+            </div>
+            <div>
+              <h6 class="fw-bold">Mi Casa :)</h6>
+              <p class="text-muted small">Alguna especie de descripción que no me imagino ahora mismo.</p>
+              <button class="btn btn-light btn-sm border">Entra</button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- CARD 2 -->
+        <div class="card shadow-sm p-3" style="width: 300px;">
+          <div class="d-flex gap-3">
+            <div class="icon-column align-items-center">
+              <i class="bi bi-house-door fs-3"></i>
+            </div>
+            <div>
+              <h6 class="fw-bold">Otra Casa</h6>
+              <p class="text-muted small">Alguna especie de descripción que no me imagino ahora mismo.</p>
+              <button class="btn btn-light btn-sm border">Entra</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="card shadow-sm p-3" style="width: 300px;">
+          <div class="d-flex gap-3">
+            <div class="icon-column align-items-center">
+              <i class="bi bi-house-door fs-3"></i>
+              <i class="bi bi-exclamation-triangle-fill text-danger fs-4"></i>
+            </div>
+            <div>
+              <h6 class="fw-bold">Mi Escuela ?</h6>
+              <p class="text-muted small">Alguna especie de descripción que no me imagino ahora mismo.</p>
+              <button class="btn btn-light btn-sm border">Entra</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="card shadow-sm p-3" style="width: 300px;">
+          <div class="d-flex gap-3">
+            <div class="icon-column align-items-center">
+              <i class="bi bi-house-door fs-3"></i>
+              <i class="bi bi-wifi-off text-dark fs-4"></i>
+            </div>
+            <div>
+              <h6 class="fw-bold">El Laburo :(</h6>
+              <p class="text-muted small">Alguna especie de descripción que no me imagino ahora mismo.</p>
+              <button class="btn btn-light btn-sm border">Entra</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-info text-light py-3 px-4 text-center">
+    <div>&copy; 2025 Escuela Técnica N°1 Gral. San Martín Inc. Todos los derechos reservados.</div>
+  </footer>
+
+</body>
+</html>

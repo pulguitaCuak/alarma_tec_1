@@ -1,0 +1,86 @@
+/* === Layout general === */
+body {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+}
+
+/* === SIDEBAR === */
+.sidebar {
+  width: 80px;
+  /* Antes estaba fixed, lo quitamos */
+  position: relative;
+  top: auto;
+  bottom: auto;
+  background-color: #aadbe3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1rem;
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+
+
+/* Ocultar en móvil inicialmente */
+@media (max-width: 991px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar.show {
+    transform: translateX(0);
+  }
+}
+
+/* === HEADER === */
+header {
+  margin-left: 0;
+  border-radius: 0;
+  height: 64px;
+}
+
+/* === MAIN === */
+main {
+  flex-grow: 1;
+  margin-left: 0; /* ya no necesitamos margen para sidebar fija */
+}
+
+@media (max-width: 991px) {
+  body {
+    flex-direction: column; /* sidebar arriba en móvil */
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+    width: 100%;
+    position: relative;
+  }
+
+  .sidebar.show {
+    transform: translateX(0);
+  }
+}
+
+/* === FOOTER === */
+footer {
+  margin-left: 0;
+  border-radius: 0;
+  height: 40px;
+}
+
+/* === CARDS === */
+.card {
+  border-radius: 16px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.card-title {
+  font-weight: 600;
+}
+
+/* === Botón hamburguesa === */
+#toggleSidebar {
+  border-radius: 10px;
+}
+
