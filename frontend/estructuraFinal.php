@@ -215,7 +215,6 @@ if (!isset($_SESSION["id_user"])) {
           li.className='nav-item mb-3';
           li.innerHTML="<a href='administracion.php' class='nav-link text-white'><i class='bi bi-asterisk'></i></a>";
           ulsidebar.appendChild(li);
-          
         }
     }
     
