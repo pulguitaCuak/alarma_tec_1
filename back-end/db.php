@@ -1,6 +1,6 @@
 <?php
 $host = "localhost";
-$dbname = "sistema_alarma";
+$dbname = "sistema_alarmas";
 $user = "root";
 $pass = "";
 //yo uso pdo porque soy re piola y los piola somos piola
