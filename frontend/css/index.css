@@ -1,0 +1,66 @@
+/* Fondo general */
+.fondo {
+  background: linear-gradient(to bottom right, #0f2027, #203a43, #2c5364);
+  background: url('../img/fondo-ondas.png') no-repeat center center / cover;
+  min-height: 100vh;
+  color: white;
+}
+
+/* Logo redondo */
+.redondo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Logo redondo en footer */
+.redondoChico {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Título principal */
+.titulo {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+/* Botones */
+.btn-outline-light {
+  border-radius: 20px;
+  padding: 0.5rem 1.5rem;
+  font-weight: bold;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.btn-outline-light:hover {
+  background: white;
+  color: #000;
+}
+
+/* Sección principal */
+section {
+  flex-grow: 1;
+  background: transparent;
+}
+
+/* Footer transparente */
+.footerTransparente {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Iconos redes sociales */
+.iconoRed {
+  width: 30px;
+  height: 30px;
+  transition: transform 0.3s ease;
+}
+
+.iconoRed:hover {
+  transform: scale(1.1);
+}
