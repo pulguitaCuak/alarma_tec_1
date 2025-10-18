@@ -5,20 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.custom.min.css">
     <title>Document</title>
+  <style>
+        body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(to bottom right, #003973, #1CB5E0);
+      background-size: cover;
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .background-waves {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: url('https://www.transparenttextures.com/patterns/waves.png');
+      background-size: cover;
+      z-index: -1;
+      opacity: 0.2;
+    }
+
+  </style>
 </head>
+
 <!--
     primary:1995ad
     secondary:a1d6e2
     light:f1f1f2
     dark:bcbabe
     -->
-<body class="bg-light fw-bold">
+<body class="bg-light">
 <main>
   <!-- Contenedor que centra el formulario en pantalla -->
   <div class="container d-flex justify-content-center align-items-center min-vh-100">
 
     <!-- Tarjeta del formulario -->
-    <div class="card text-white bg-primary p-4 w-100 rounded-5 border-5 border-dark" style="max-width: 38rem;">
+    <div class="card text-black bg-white p-3 w-100 rounded-5 border-2 border-black" style="max-width: 38rem;">
       <div class="card-body">
         <form action="../back-end/registro.php" method="post">
           <fieldset>
@@ -26,40 +51,40 @@
             <div class="fs-4">
               <div class="row">
                 <div class="col-6">
-                  <label class="col-form-label mt-4" for="usuario">Usuario</label>
+                  <label class="col-form-label mt-1" for="usuario">Usuario</label>
                   <input type="text" class="form-control" placeholder="Usuario" id="usuario" name="usuario" required>
                 </div>
                 <div class="col-6">
-                  <label class="col-form-label mt-4" for="Telefono">Teléfono</label>
+                  <label class="col-form-label mt-1" for="Telefono">Teléfono</label>
                   <input type="text" class="form-control" placeholder="+54 9 11 26811505" id="Telefono" name="telefono" required>
                 </div>
               </div>
 
               <div>
-                <label for="DNI" class="form-label mt-4">DNI</label>
+                <label for="DNI" class="form-label mt-1">DNI</label>
                 <input type="text" class="form-control" id="DNI" placeholder="DNI" name="dni" required>
               </div>
 
               <div>
-                <label for="Nacimiento" class="form-label mt-4">Fecha de nacimiento</label>
+                <label for="Nacimiento" class="form-label mt-1">Fecha de nacimiento</label>
                 <input type="date" class="form-control" id="Nacimiento" name="nacimiento" required>
               </div>
 
               <div>
-                <label for="Email" class="form-label mt-4">Email</label>
+                <label for="Email" class="form-label mt-1">Email</label>
                 <input type="email" class="form-control" id="Email" placeholder="pepe123@gmail.com" name="mail" required>
               </div>
 
               <div>
-                <label for="contraseña" class="form-label mt-4">Contraseña</label>
+                <label for="contraseña" class="form-label mt-1">Contraseña</label>
                 <input type="password" class="form-control" id="contraseña" placeholder="Contraseña" autocomplete="off" name="contrasenia" required>
               </div>
 
               <div>
-                <label for="confirmar" class="form-label mt-4">Confirmar</label>
+                <label for="confirmar" class="form-label mt-1">Confirmar</label>
                 <input type="password" class="form-control" id="confirmar" placeholder="Confirmar contraseña" autocomplete="off" name="confirmar" required>
               </div>
-              <div class="text-center mt-4">
+              <div class="text-center mt-2">
                 <button type="submit" class="btn btn-primary w-75 rounded-4 border-0 fs-4 fw-bold mt-4" style="min-height: 3.5rem;transition:.5s;">Siguiente</button>
               </div>
             </div>
