@@ -1,36 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <?php
-        
-        include('conexion.php');
+<?php
+session_start();
+require_once "db.php";
 
-        $usuario=$_POST['usuario'];
-        $contrasenia=$_POST['contrasenia'];
-        $id=mysqli_query($conexion,"select user.idUser from user join charge on charge.idCharge=user.idCharge where user.user='$usuario' and user.password='$contrasenia' and charge.idCharge=4;") or die("error en el select".mysqli_error($conexion));
-        
-        //$stmt=mysqli->prepare("select user.idUser from user where user=? and password=?");
-        //$stmt=->bind_param('ss',$usuario,$contrasenia);
-        //$stmt->execute();
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $usuario = trim($_POST["usuario"]);
+    $contrasenia = trim($_POST["contrasenia"]);
 
-        if($id[idUser]>=1){
-            header('Location: ../frontend/equipos-usuario.html');
-            exit;
+    if (empty($usuario) || empty($contrasenia)) {
+        echo "<script>alert('Por favor complete todos los campos.'); window.history.back();</script>";
+        exit;
+    }
+
+    try {
+        $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE nombre = :usuario OR apellido = :usuario");
+        $stmt->execute(["usuario" => $usuario]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user) {
+            // Verificamos que el usuario esté activo (estado = 1)
+            if ($user["estado"] != 1) {
+                echo "<script>alert('Usuario inactivo. No puede iniciar sesión.'); window.history.back();</script>";
+                exit;
+            }
+
+            // recordatorio: aplicar password hash después para mayor seguridad
+            if ($contrasenia === $user["contrasena"]) {
+                $_SESSION["id_user"] = $user["id_user"];
+                $_SESSION["nombre"] = $user["nombre"];
+                $_SESSION["apellido"] = $user["apellido"];
+                $_SESSION["cargo"] = $user["id_cargo"];
+
+                header("Location: ../frontend/estructuraFinal.php");
+                exit;
+            } else {
+                echo "<script>alert('Contraseña incorrecta.'); window.history.back();</script>";
+            }
+        } else {
+            echo "<script>alert('Usuario no encontrado.'); window.history.back();</script>";
         }
-        else{
-            echo'
-            <script>
-                alert("Usuario o contraseña incorrectos");
-                window.location="../frontend/login.html";
-            </script>
-            ';
-            exit;
-        }
-    ?>
-</body>
-</html>
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}
+?>
