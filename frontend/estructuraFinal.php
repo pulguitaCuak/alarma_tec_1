@@ -83,8 +83,8 @@ if (!isset($_SESSION["id_user"])) {
     <div class="d-flex h-100">
 
       <!-- SIDEBAR -->
-      <div class="bg-secondary sidebar d-flex flex-column align-items-center py-3">
-        <ul class="nav nav-pills flex-column text-center">
+      <div id="idsidebar" class="bg-secondary sidebar d-flex flex-column align-items-center py-3">
+        <ul id="ulsidebar" class="nav nav-pills flex-column text-center">
           <li class="nav-item mb-3">
             <a href="#" class="nav-link text-white">
               <i class="bi bi-house-door fs-4"></i>
@@ -206,8 +206,21 @@ if (!isset($_SESSION["id_user"])) {
       }
     }
 
+    function botonAdmin(){
+      var cargo = <?php echo $_SESSION['cargo']; ?>;
+      switch(cargo){
+        case 1:
+          alert("bienvenido administrador");
+          var li = document.createElement("li");
+          li.className='nav-item mb-3';
+          li.innerHTML="<a href='administracion.php' class='nav-link text-white'><i class='bi bi-asterisk'></i></a>";
+          ulsidebar.appendChild(li);
+        }
+    }
+    
     // Cargar al iniciar
     cargarEquipos();
+    botonAdmin();
   </script>
 </body>
 </html>
