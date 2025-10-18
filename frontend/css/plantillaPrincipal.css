@@ -22,17 +22,6 @@ body {
 }
 
 
-/* Ocultar en móvil inicialmente */
-@media (max-width: 991px) {
-  .sidebar {
-    transform: translateX(-100%);
-  }
-
-  .sidebar.show {
-    transform: translateX(0);
-  }
-}
-
 /* === HEADER === */
 header {
   margin-left: 0;
@@ -53,8 +42,9 @@ main {
 
   .sidebar {
     transform: translateX(-100%);
-    width: 100%;
-    position: relative;
+    width: 20%;
+    position: absolute;
+    border-radius: 0 20px 20px 0;
   }
 
   .sidebar.show {
