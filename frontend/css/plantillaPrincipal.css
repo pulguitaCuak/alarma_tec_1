@@ -18,7 +18,7 @@ body {
   align-items: center;
   padding-top: 1rem;
   transition: transform 0.3s ease;
-  z-index: 1000;
+  z-index: 10;
 }
 
 
@@ -44,7 +44,7 @@ main {
     transform: translateX(-100%);
     width: 20%;
     position: absolute;
-    border-radius: 0 20px 20px 0;
+    border-radius: 0 40px 40px 0;
   }
 
   .sidebar.show {
