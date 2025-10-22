@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrar Usuario</title>
+    <title>Estructura</title>
     <link rel="stylesheet" href="css/bootstrap.custom.min.css">
     <link rel="stylesheet" href="bootstrap-icons-1.13.1/bootstrap-icons.css">
     <style>
@@ -99,86 +99,8 @@
                 </ul>
             </div>
 
-
-
             <!-- CONTENEDOR DE CARDS -->
-
-            <!-- REGISTRO DE USUARIOS -->
             <div class="flex-grow-1 d-flex flex-wrap justify-content-center gap-3 p-3" id="cardsContainer">
-                <div class="card text-black bg-white p-3 w-100 rounded-5 border-2 border-black"
-                    style="max-width: 38rem; margin: 5%;">
-                    <div class="card-body">
-                        <form action="../back-end/registro.php" method="post">
-                            <fieldset>
-                                <legend class="text-center fs-2">Registrarse</legend>
-                                <div class="fs-4">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <label class="col-form-label mt-1" for="usuario">Nombre</label>
-                                            <input type="text" class="form-control" placeholder="Usuario" id="usuario"
-                                                name="usuario" required>
-                                        </div>
-                                        <div class="col-6">
-                                            <label class="col-form-label mt-1" for="apellido">Apellido</label>
-                                            <input type="text" class="form-control" placeholder="Apellido"
-                                                id="apellido" name="apellido" required>
-                                        </div>
-                                        <div class="col-6">
-                                            <label class="col-form-label mt-1" for="Telefono">Teléfono</label>
-                                            <input type="text" class="form-control" placeholder="+54 9 11 26811505"
-                                                id="Telefono" name="telefono" required>
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <label for="DNI" class="form-label mt-1">DNI</label>
-                                        <input type="text" class="form-control" id="DNI" placeholder="DNI" name="dni"
-                                            required>
-                                    </div>
-
-                                    <div>
-                                        <label for="Nacimiento" class="form-label mt-1">Fecha de nacimiento</label>
-                                        <input type="date" class="form-control" id="Nacimiento" name="nacimiento"
-                                            required>
-                                    </div>
-
-                                    <div>
-                                        <label for="Email" class="form-label mt-1">Email</label>
-                                        <input type="email" class="form-control" id="Email"
-                                            placeholder="pepe123@gmail.com" name="mail" required>
-                                    </div>
-
-                                    <div>
-                                        <label for="Cargo" class="form-label mt-1">Cargo</label>
-                                        <select class="form-select" id="Cargo" name="cargo" required>
-                                            <option value="1">Administrador</option>
-                                            <option value="2">Técnico</option>
-                                            <option value="3" selected>Usuario</option>
-                                        </select>
-                                    </div>
-
-                                    <div>
-                                        <label for="contraseña" class="form-label mt-1">Contraseña</label>
-                                        <input type="password" class="form-control" id="contraseña"
-                                            placeholder="Contraseña" autocomplete="off" name="contrasenia" required>
-                                    </div>
-
-                                    <div>
-                                        <label for="confirmar" class="form-label mt-1">Confirmar</label>
-                                        <input type="password" class="form-control" id="confirmar"
-                                            placeholder="Confirmar contraseña" autocomplete="off" name="confirmar"
-                                            required>
-                                    </div>
-                                    <div class="text-center mt-2">
-                                        <button type="submit"
-                                            class="btn btn-primary w-75 rounded-4 border-0 fs-4 fw-bold mt-4"
-                                            style="min-height: 3.5rem;transition:.5s;">Siguiente</button>
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </form>
-                    </div>
-                </div>
                 <!-- Se insertan dinámicamente -->
             </div>
 
@@ -227,3 +149,9 @@
             </div>
         </div>
     </footer>
+
+    <!-- JS -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

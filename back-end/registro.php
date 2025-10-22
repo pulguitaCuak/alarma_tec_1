@@ -1,36 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Document</title>
-</head>
-<body>
-    <?php
-        header('Location: ../frontend/index.html');
-        include('conexion.php');
+<?php
+require('db.php');
 
-        //$stmt = $conexion->prepare("insert into user(user,password,idCharge,DNI,birthdate,email,phone) values (?,?,?,?,?,?,?);");
-        //$stmt->bind_param('ssiissi',$usuario,$contrasenia,$cargo,$dni,$nacimiento,$mail,$telefono);
-        
-        $usuario=$_POST['usuario'];
-        $contrasenia=$_POST['contrasenia'];
-        //$dni=$_POST['dni'];
-        $telefono=$_POST['telefono'];
-        //$nacimiento=$_POST['nacimiento'];
-        $mail=$_POST['mail'];
-        $cargo=4;
+$stmt = $pdo->prepare("insert into usuarios(nombre,apellido,contrasena,id_cargo,fecha_creacion,estado) values (:nombre,:apellido,:contrasena,:id_cargo,:fecha_creacion,:estado);");
 
-        mysqli_query($conexion,"insert into user(user,password,idCharge,email,phone) values ('$usuario','$contrasenia',$cargo,'$email',$telefono);") or die("error en el insert");
-        
-        //$stmt->execute();
+$usuario = $_POST['usuario'];
+$apellido = $_POST['apellido'];
+$contrasenia = password_hash($_POST['contrasenia'],PASSWORD_DEFAULT);
+$fecha_creacion = date('Y-m-d H:i:s');
+$estado = 1; // activo
+$cargo = $_POST['cargo'];
+//$dni=$_POST['dni'];
+//$telefono = $_POST['telefono'];
+//$nacimiento=$_POST['nacimiento'];
+//$mail = $_POST['mail'];
 
-        mysqli_close($conexion);
+$stmt->execute([
+    ':nombre' => $usuario,
+    ':apellido' => $apellido,
+    ':contrasena' => $contrasenia,
+    ':id_cargo' => $cargo,
+    ':fecha_creacion' => $fecha_creacion,
+    ':estado' => $estado
+]);
+echo "Registro exitoso";
+$pdo = null;
 
+header("Location: ../frontend/estructuraAdministrarUsuarios.php");
+exit;
 
-        exit;
-
-
-    ?>
-
-</body>
-</html>

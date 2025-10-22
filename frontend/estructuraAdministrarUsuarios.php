@@ -147,6 +147,7 @@
     <button>🏠</button>
     <button>📊</button>
     <button>👤</button>
+    <button formaction="estructuraRegistroUsuarios.php"><i class="bi bi-person-plus"></i></button>
   </div>
 
   <div class="content">
