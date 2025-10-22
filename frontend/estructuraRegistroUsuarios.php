@@ -67,7 +67,7 @@
                     <a class="navbar-brand" href="#">Alarma</a>
                 </div>
                 <div>
-                    <a class="navbar-brand">Dashboard</a>
+                    <a class="navbar-brand">Registro</a>
                     <i class="bi bi-ui-checks-grid"></i>
                 </div>
             </div>
@@ -120,8 +120,8 @@
                                         </div>
                                         <div class="col-6">
                                             <label class="col-form-label mt-1" for="apellido">Apellido</label>
-                                            <input type="text" class="form-control" placeholder="Apellido"
-                                                id="apellido" name="apellido" required>
+                                            <input type="text" class="form-control" placeholder="Apellido" id="apellido"
+                                                name="apellido" required>
                                         </div>
                                         <div class="col-6">
                                             <label class="col-form-label mt-1" for="Telefono">Teléfono</label>
@@ -179,12 +179,7 @@
                         </form>
                     </div>
                 </div>
-                <!-- Se insertan dinámicamente -->
             </div>
-
-            <!-- Mensaje si no hay equipos -->
-            <div id="noEquipos">Sin Equipos Asignados</div>
-        </div>
     </main>
 
     <!-- FOOTER -->

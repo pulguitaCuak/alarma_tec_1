@@ -217,7 +217,7 @@ if (!isset($_SESSION["id_user"])) {
         case 1:
           var li = document.createElement("li");
           li.className = 'nav-item mb-3';
-          li.innerHTML = "<a href='estructuraAdministrarUsuarios.php' class='nav-link text-white'><i class='bi bi-asterisk'></i></a> <li class='nav-item mb-3'><a href='estructuraRegistroUsuarios.php' class='nav-link text-white'><i class='bi bi-person-plus'></i></a></li>";
+          li.innerHTML = "<a href='estructuraAdministracionUsuarios.php' class='nav-link text-white'><i class='bi bi-asterisk'></i></a> <li class='nav-item mb-3'><a href='estructuraRegistroUsuarios.php' class='nav-link text-white'><i class='bi bi-person-plus'></i></a></li>";
           ulsidebar.appendChild(li);
       }
     }
