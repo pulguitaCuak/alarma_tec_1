@@ -25,6 +25,6 @@ $stmt->execute([
 echo "Registro exitoso";
 $pdo = null;
 
-header("Location: ../frontend/estructuraAdministrarUsuarios.php");
+header("Location: ../frontend/estructuraAdministracionUsuarios.php");
 exit;
 
