@@ -35,6 +35,9 @@ main {
   margin-left: 0; /* ya no necesitamos margen para sidebar fija */
 }
 
+.borde{
+  border: 1px solid black;
+}
 @media (max-width: 991px) {
   body {
     flex-direction: column; /* sidebar arriba en móvil */
