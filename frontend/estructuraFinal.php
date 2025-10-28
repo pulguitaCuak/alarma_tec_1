@@ -1,12 +1,13 @@
 <?php
 session_start();
 if (!isset($_SESSION["id_user"])) {
-    header("Location: login.html");
-    exit;
+  header("Location: login.html");
+  exit;
 }
 ?>
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,12 +52,14 @@ if (!isset($_SESSION["id_user"])) {
         transition: left 0.3s ease;
         z-index: 1050;
       }
+
       .sidebar.show {
         left: 0;
       }
     }
   </style>
 </head>
+
 <body>
 
   <!-- HEADER -->
@@ -70,7 +73,7 @@ if (!isset($_SESSION["id_user"])) {
           </button>
           <a class="navbar-brand" href="#">Alarma</a>
         </div>
-        <div> 
+        <div>
           <a class="navbar-brand">Dashboard</a>
           <i class="bi bi-ui-checks-grid"></i>
         </div>
@@ -134,8 +137,10 @@ if (!isset($_SESSION["id_user"])) {
 
         <div class="col-md mb-4 text-center">
           <h5>Síguenos</h5>
-          <a href="https://www.facebook.com/tecnica1grandbourg/?locale=es_LA" class="text-light me-3"><i class="bi bi-facebook me-1"></i>Facebook</a><br>
-          <a href="https://www.instagram.com/tecnica1malvinasarg/" class="text-light me-3"><i class="bi bi-instagram me-1"></i>Instagram</a><br>
+          <a href="https://www.facebook.com/tecnica1grandbourg/?locale=es_LA" class="text-light me-3"><i
+              class="bi bi-facebook me-1"></i>Facebook</a><br>
+          <a href="https://www.instagram.com/tecnica1malvinasarg/" class="text-light me-3"><i
+              class="bi bi-instagram me-1"></i>Instagram</a><br>
         </div>
       </div>
 
@@ -178,9 +183,9 @@ if (!isset($_SESSION["id_user"])) {
         noEquiposMsg.style.display = 'none';
 
         data.forEach(equipo => {
-        const card = document.createElement('div');
-        card.className = 'card shadow-sm p-3';
-        card.innerHTML = `
+          const card = document.createElement('div');
+          card.className = 'card shadow-sm p-3';
+          card.innerHTML = `
           <div class="d-flex align-items-start gap-3">
             <div class="d-flex flex-column gap-2">
               <i class="bi bi-house-door fs-2"></i>
@@ -196,8 +201,8 @@ if (!isset($_SESSION["id_user"])) {
             </div>
           </div>
         `;
-        cardsContainer.appendChild(card);
-      });
+          cardsContainer.appendChild(card);
+        });
 
       } catch (err) {
         console.error('Error al cargar equipos:', err);
@@ -206,21 +211,21 @@ if (!isset($_SESSION["id_user"])) {
       }
     }
 
-    function botonAdmin(){
+    function botonAdmin() {
       var cargo = <?php echo $_SESSION['cargo']; ?>;
-      switch(cargo){
+      switch (cargo) {
         case 1:
-          alert("bienvenido administrador");
           var li = document.createElement("li");
-          li.className='nav-item mb-3';
-          li.innerHTML="<a href='administracion.php' class='nav-link text-white'><i class='bi bi-asterisk'></i></a>";
+          li.className = 'nav-item mb-3';
+          li.innerHTML = "<a href='estructuraAdministracionUsuarios.php' class='nav-link text-white'><i class='bi bi-asterisk'></i></a> <li class='nav-item mb-3'><a href='estructuraRegistroUsuarios.php' class='nav-link text-white'><i class='bi bi-person-plus'></i></a></li>";
           ulsidebar.appendChild(li);
-        }
+      }
     }
-    
+
     // Cargar al iniciar
     cargarEquipos();
     botonAdmin();
   </script>
 </body>
+
 </html>

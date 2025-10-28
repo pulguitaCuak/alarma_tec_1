@@ -9,6 +9,7 @@ try {
             ORDER BY u.nombre ASC";
     $stmt = $pdo->query($sql);
     $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
 
     echo json_encode($usuarios);
 } catch (PDOException $e) {
