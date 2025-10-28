@@ -71,101 +71,238 @@
     <small class="footer-text">2025 Escuela Técnica N°1 Gral. San Martín Inc. Todos los derechos reservados.</small>
   </footer>
 
+<!-- Modal Ver Información -->
+<div class="modal fade" id="modalVerInfo" tabindex="-1" aria-labelledby="modalVerInfoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-info text-white">
+        <h5 class="modal-title" id="modalVerInfoLabel">Información del Usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Nombre:</strong> <span id="infoNombre"></span></p>
+        <p><strong>Cargo:</strong> <span id="infoCargo"></span></p>
+        <p><strong>Estado:</strong> <span id="infoEstado"></span></p>
+        <p><strong>Fecha creación:</strong> <span id="infoFecha"></span></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Editar Usuario -->
+<div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-secondary text-white">
+        <h5 class="modal-title" id="modalEditarLabel">Modificar Usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formEditar">
+          <input type="hidden" id="editId">
+          <div class="mb-3">
+            <label for="editNombre" class="form-label">Nombre</label>
+            <input type="text" id="editNombre" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="editApellido" class="form-label">Apellido</label>
+            <input type="text" id="editApellido" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="editCargo" class="form-label">Cargo</label>
+            <input type="text" id="editCargo" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label for="editEstado" class="form-label">Estado</label>
+            <select id="editEstado" class="form-select">
+              <option value="1">Activo</option>
+              <option value="2">Inactivo</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Guardar cambios</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Confirmar Eliminación -->
+<div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="modalEliminarLabel">Eliminar Usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center">
+        <p>¿Estás seguro de eliminar este usuario?</p>
+        <button id="btnConfirmEliminar" class="btn btn-danger me-2">Sí, eliminar</button>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
   <!-- Bootstrap scripts -->
-  <script src="js/bootstrap.bundle.min.js"></script>
-  <script>
-    const sidebar = document.getElementById('sidebar');
-    const toggleBtn = document.getElementById('toggleSidebar');
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    toggleBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('show');
+<script>
+  let usuariosOriginales = [];
+  let idEliminar = null;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    cargarUsuarios();
+    document.getElementById('busqueda').addEventListener('input', filtrarUsuarios);
+
+    document.getElementById('formEditar').addEventListener('submit', e => {
+      e.preventDefault();
+      guardarCambios();
     });
 
-    let usuariosOriginales = [];
+    document.getElementById('btnConfirmEliminar').addEventListener('click', eliminarUsuario);
+  });
 
-    document.addEventListener('DOMContentLoaded', () => {
-      cargarUsuarios();
-      document.getElementById('busqueda').addEventListener('input', filtrarUsuarios);
-    });
-
-    function cargarUsuarios() {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', '../back-end/obtener_usuarios.php', true);
-      xhr.onload = function () {
-        if (xhr.status === 200) {
-          usuariosOriginales = JSON.parse(xhr.responseText);
-          mostrarUsuarios(usuariosOriginales);
-        }
-      };
-      xhr.send();
-    }
-
-    // 🔎 Normaliza texto (quita acentos y pasa a minúsculas)
-    function normalizar(texto) {
-      return texto
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/\s+/g, ' ')
-        .trim()
-        .toLowerCase();
-    }
-
-    // 🔍 Filtra usuarios desde el front-end
-    function filtrarUsuarios() {
-      const valor = normalizar(document.getElementById('busqueda').value);
-      const filtrados = usuariosOriginales.filter(u => {
-        const nombre = normalizar(u.nombre);
-        const apellido = normalizar(u.apellido);
-        const cargo = normalizar(u.cargo || '');
-        return (
-          nombre.includes(valor) ||
-          apellido.includes(valor) ||
-          `${nombre} ${apellido}`.includes(valor) ||
-          cargo.includes(valor)
-        );
+  function cargarUsuarios() {
+    fetch('../back-end/obtener_usuarios.php')
+      .then(res => res.json())
+      .then(data => {
+        usuariosOriginales = data;
+        mostrarUsuarios(data);
       });
-      mostrarUsuarios(filtrados);
+  }
+
+  function normalizar(txt) {
+    return txt.normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
+  }
+
+  function filtrarUsuarios() {
+    const valor = normalizar(document.getElementById('busqueda').value);
+    const filtrados = usuariosOriginales.filter(u =>
+      normalizar(u.nombre).includes(valor) ||
+      normalizar(u.apellido).includes(valor) ||
+      normalizar(u.cargo || '').includes(valor)
+    );
+    mostrarUsuarios(filtrados);
+  }
+function mostrarUsuarios(usuarios) {
+    const lista = document.getElementById('userList');
+    lista.innerHTML = '';
+
+    if (!usuarios.length) {
+        lista.innerHTML = '<p class="text-center text-muted">No hay usuarios encontrados.</p>';
+        return;
     }
 
-    function mostrarUsuarios(usuarios) {
-      const lista = document.getElementById('userList');
-      lista.innerHTML = '';
-
-      if (usuarios.length === 0) {
-        lista.innerHTML = '<p style="text-align:center; color:gray;">No hay usuarios encontrados.</p>';
-        return;
-      }
-
-      usuarios.forEach(u => {
-        const item = document.createElement('div');
-        item.className = 'user-item';
-        item.innerHTML = `
-        <div class="list-group-item d-flex justify-content-between align-items-center">
-              <div class="d-flex align-items-center">
+    usuarios.forEach(u => {
+        const div = document.createElement('div');
+        div.className = 'list-group-item d-flex justify-content-between align-items-center';
+        div.innerHTML = `
+            <div class="d-flex align-items-center">
                 <i class="bi bi-person fs-2 me-3"></i>
                 <div>
-                  <strong>${u.nombre} ${u.apellido}</strong><br>
-                  <small class="text-muted">${u.cargo || 'Sin cargo'}</small>
+                    <strong>${u.nombre} ${u.apellido}</strong><br>
+                    <small class="text-muted">${u.cargo || 'Sin cargo'}</small>
                 </div>
-              </div>
-              <div>
-                <button class="btn btn-danger btn-sm me-2" onclick="eliminarUsuario(${u.id_user})">Eliminar</button>
-                <button class="btn btn-outline-secondary btn-sm me-2" onclick="modificarUsuario(${u.id_user})">Modificar</button>
-                <button class="btn btn-info btn-sm text-white" onclick="verInfo(${u.id_user})">Ver Info.</button>
-              </div>
             </div>
-      `;
-        lista.appendChild(item);
+            <div>
+                <button class="btn btn-danger btn-sm me-2" onclick="confirmarEliminar(${u.id_user})">Eliminar</button>
+                <button class="btn btn-success btn-sm me-2" onclick="darDeAlta(${u.id_user})">Dar de alta</button>
+                <button class="btn btn-outline-secondary btn-sm me-2" onclick="abrirEditar(${u.id_user})">Modificar</button>
+                <button class="btn btn-info btn-sm text-white" onclick="verInfo(${u.id_user})">Ver Info</button>
+            </div>
+        `;
+        lista.appendChild(div);
+    });
+}
+
+
+  // ✅ Ver información
+  function verInfo(id) {
+    fetch(`../back-end/obtener_usuario.php?id=${id}`)
+      .then(res => res.json())
+      .then(u => {
+        document.getElementById('infoNombre').textContent = `${u.nombre} ${u.apellido}`;
+        document.getElementById('infoCargo').textContent = u.cargo || 'Sin cargo';
+        document.getElementById('infoEstado').textContent = u.estado_descripcion;
+        document.getElementById('infoFecha').textContent = u.fecha_creacion;
+        new bootstrap.Modal('#modalVerInfo').show();
       });
-    }
+  }
 
-    // Placeholders
-    function eliminarUsuario(id) { alert(`Eliminar usuario con ID ${id}`); }
-    function modificarUsuario(id) { alert(`Modificar usuario con ID ${id}`); }
-    function verInfo(id) { alert(`Ver información de usuario con ID ${id}`); }
+  // ✏️ Abrir modal de edición
+  function abrirEditar(id) {
+    fetch(`../back-end/obtener_usuario.php?id=${id}`)
+      .then(res => res.json())
+      .then(u => {
+        document.getElementById('editId').value = u.id_user;
+        document.getElementById('editNombre').value = u.nombre;
+        document.getElementById('editApellido').value = u.apellido;
+        document.getElementById('editCargo').value = u.cargo;
+        document.getElementById('editEstado').value = u.id_estado;
+        new bootstrap.Modal('#modalEditar').show();
+      });
+  }
 
-  </script>
+  // 💾 Guardar cambios
+  function guardarCambios() {
+    const formData = new FormData(document.getElementById('formEditar'));
+    fetch('../back-end/actualizar_usuario.php', {
+      method: 'POST',
+      body: formData
+    })
+      .then(res => res.json())
+      .then(resp => {
+        alert(resp.mensaje);
+        if (resp.ok) {
+          bootstrap.Modal.getInstance(document.getElementById('modalEditar')).hide();
+          cargarUsuarios();
+        }
+      });
+  }
+
+  // 🗑️ Confirmar eliminación
+  function confirmarEliminar(id) {
+    idEliminar = id;
+    new bootstrap.Modal('#modalEliminar').show();
+  }
+
+  // ❌ Eliminar usuario
+  function eliminarUsuario() {
+    fetch('../back-end/eliminar_usuario.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id_user: idEliminar }) // <-- cambio aquí
+    })
+    .then(res => res.json())
+    .then(resp => {
+        alert(resp.message); // usar 'message' porque tu PHP devuelve 'message'
+        if (resp.status === 'success') {
+            bootstrap.Modal.getInstance(document.getElementById('modalEliminar')).hide();
+            cargarUsuarios();
+        }
+    });
+}
+function darDeAlta(id) {
+    fetch('../back-end/dar_de_alta.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id_user: id })
+    })
+    .then(res => res.json())
+    .then(resp => {
+        alert(resp.message);
+        if (resp.status === 'success') {
+            cargarUsuarios();
+        }
+    });
+}
+
+
+</script>
+
 </body>
 
 </html>
