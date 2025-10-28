@@ -137,7 +137,7 @@
 <div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header bg-danger text-white">
+      <div class="modal-header bg-secondary text-white">
         <h5 class="modal-title" id="modalEliminarLabel">Eliminar Usuario</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
@@ -150,11 +150,27 @@
   </div>
 </div>
 
+<!-- Modal Filtros de Búsqueda -->
+<div class="modal fade" id="modalFiltrar" tabindex="-1" aria-labelledby="modalFiltrarLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="modalFiltrarLabel">Filtrar Busqueda</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formFiltrar">
+
+        </form>
+        
+      </div></div></div></div>
+        
+
   <!-- Bootstrap scripts -->
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-  let usuariosOriginales = [];
+  let usuariosOriginales = []; //estaría bueno reemplazar esto por un trigger en la bd, pero por las dudas no toco nada
   let idEliminar = null;
 
   document.addEventListener('DOMContentLoaded', () => {
