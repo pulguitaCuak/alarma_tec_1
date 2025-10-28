@@ -113,7 +113,11 @@
           </div>
           <div class="mb-3">
             <label for="editCargo" class="form-label">Cargo</label>
-            <input type="text" id="editCargo" class="form-control">
+            <select id="editCargo" class="form-select">
+              <option value="1">Administrador</option>
+              <option value="2">Tecnico</option>
+              <option value="3">Cliente</option>
+            </select>
           </div>
           <div class="mb-3">
             <label for="editEstado" class="form-label">Estado</label>
