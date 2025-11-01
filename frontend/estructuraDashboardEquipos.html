@@ -9,6 +9,54 @@
   <link rel="stylesheet" href="bootstrap-icons-1.13.1/bootstrap-icons.css">
   <!-- Estilos personalizados -->
   <link rel="stylesheet" href="css/plantillaPrincipal.css">
+
+  <!-- ====== ESTILOS MODAL (idéntico al anterior, con blur y diseño limpio) ====== -->
+  <style>
+    .blur-active main,
+    .blur-active header,
+    .blur-active footer,
+    .blur-active aside {
+      filter: blur(5px);
+      pointer-events: none;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.4);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1050;
+    }
+
+    .modal-content-custom {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      width: 90%;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .modal-content-custom i {
+      font-size: 40px;
+      color: #0d6efd;
+      margin-bottom: 10px;
+    }
+
+    .modal-content-custom h5 {
+      margin-bottom: 15px;
+    }
+
+    .modal-content-custom .btn {
+      min-width: 100px;
+    }
+  </style>
 </head>
 <body class="bg-light d-flex flex-column min-vh-100">
 
@@ -65,14 +113,17 @@
             </div>
           </div>
 
-          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+           <div class="col-12 col-sm-6 col-md-4 col-lg-3">
             <div class="card h-100">
               <div class="card-body">
                 <div class="d-flex align-items-center mb-2">
                   <i class="bi bi-house-door me-2 fs-5"></i>
                   <h5 class="card-title mb-0">Mi Casa</h5>
                 </div>
-                
+                <div class="d-flex align-items-center text-muted">
+                  <i class="bi bi-wifi-off me-2 fs-5"></i>
+                  <small>Sin acceso</small>
+                </div>
                 <p class="card-text">Alguna especie de descripción que no me imagino ahora mismo.</p>
                 <div class="d-flex gap-2">
                   <button class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</button>
@@ -82,14 +133,17 @@
             </div>
           </div>
 
-          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+           <div class="col-12 col-sm-6 col-md-4 col-lg-3">
             <div class="card h-100">
               <div class="card-body">
                 <div class="d-flex align-items-center mb-2">
                   <i class="bi bi-house-door me-2 fs-5"></i>
                   <h5 class="card-title mb-0">Mi Casa</h5>
                 </div>
-                
+                <div class="d-flex align-items-center text-muted">
+                  <i class="bi bi-wifi-off me-2 fs-5"></i>
+                  <small>Sin acceso</small>
+                </div>
                 <p class="card-text">Alguna especie de descripción que no me imagino ahora mismo.</p>
                 <div class="d-flex gap-2">
                   <button class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</button>
@@ -99,14 +153,17 @@
             </div>
           </div>
 
-          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+           <div class="col-12 col-sm-6 col-md-4 col-lg-3">
             <div class="card h-100">
               <div class="card-body">
                 <div class="d-flex align-items-center mb-2">
                   <i class="bi bi-house-door me-2 fs-5"></i>
                   <h5 class="card-title mb-0">Mi Casa</h5>
                 </div>
-                
+                <div class="d-flex align-items-center text-muted">
+                  <i class="bi bi-wifi-off me-2 fs-5"></i>
+                  <small>Sin acceso</small>
+                </div>
                 <p class="card-text">Alguna especie de descripción que no me imagino ahora mismo.</p>
                 <div class="d-flex gap-2">
                   <button class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</button>
@@ -116,15 +173,17 @@
             </div>
           </div>
 
-
-<div class="col-12 col-sm-6 col-md-4 col-lg-3">
+           <div class="col-12 col-sm-6 col-md-4 col-lg-3">
             <div class="card h-100">
               <div class="card-body">
                 <div class="d-flex align-items-center mb-2">
                   <i class="bi bi-house-door me-2 fs-5"></i>
                   <h5 class="card-title mb-0">Mi Casa</h5>
                 </div>
-                
+                <div class="d-flex align-items-center text-muted">
+                  <i class="bi bi-wifi-off me-2 fs-5"></i>
+                  <small>Sin acceso</small>
+                </div>
                 <p class="card-text">Alguna especie de descripción que no me imagino ahora mismo.</p>
                 <div class="d-flex gap-2">
                   <button class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</button>
@@ -134,15 +193,17 @@
             </div>
           </div>
 
-
-          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+           <div class="col-12 col-sm-6 col-md-4 col-lg-3">
             <div class="card h-100">
               <div class="card-body">
                 <div class="d-flex align-items-center mb-2">
                   <i class="bi bi-house-door me-2 fs-5"></i>
                   <h5 class="card-title mb-0">Mi Casa</h5>
                 </div>
-                
+                <div class="d-flex align-items-center text-muted">
+                  <i class="bi bi-wifi-off me-2 fs-5"></i>
+                  <small>Sin acceso</small>
+                </div>
                 <p class="card-text">Alguna especie de descripción que no me imagino ahora mismo.</p>
                 <div class="d-flex gap-2">
                   <button class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</button>
@@ -152,15 +213,17 @@
             </div>
           </div>
 
-
-          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+           <div class="col-12 col-sm-6 col-md-4 col-lg-3">
             <div class="card h-100">
               <div class="card-body">
                 <div class="d-flex align-items-center mb-2">
                   <i class="bi bi-house-door me-2 fs-5"></i>
                   <h5 class="card-title mb-0">Mi Casa</h5>
                 </div>
-                
+                <div class="d-flex align-items-center text-muted">
+                  <i class="bi bi-wifi-off me-2 fs-5"></i>
+                  <small>Sin acceso</small>
+                </div>
                 <p class="card-text">Alguna especie de descripción que no me imagino ahora mismo.</p>
                 <div class="d-flex gap-2">
                   <button class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</button>
@@ -170,15 +233,17 @@
             </div>
           </div>
 
-
-          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+           <div class="col-12 col-sm-6 col-md-4 col-lg-3">
             <div class="card h-100">
               <div class="card-body">
                 <div class="d-flex align-items-center mb-2">
                   <i class="bi bi-house-door me-2 fs-5"></i>
                   <h5 class="card-title mb-0">Mi Casa</h5>
                 </div>
-                
+                <div class="d-flex align-items-center text-muted">
+                  <i class="bi bi-wifi-off me-2 fs-5"></i>
+                  <small>Sin acceso</small>
+                </div>
                 <p class="card-text">Alguna especie de descripción que no me imagino ahora mismo.</p>
                 <div class="d-flex gap-2">
                   <button class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</button>
@@ -188,10 +253,10 @@
             </div>
           </div>
 
-          </div>
         </div>
       </div>
     </div>
+  </div>
 
   </main>
 
@@ -200,16 +265,93 @@
   <small class="footer-text">2025 Escuela Técnica N°1 Gral. San Martín Inc. Todos los derechos reservados.</small>
 </footer>
 
+  <!-- ====== MODAL EDITAR NOMBRE + DESCRIPCIÓN ====== -->
+  <div id="modalOverlay" class="modal-overlay">
+    <div class="modal-content-custom">
+      <i class="bi bi-house-door me-2 fs-1" style="color: black;"></i>
+      <h5>Editar equipo</h5>
+      <form id="editForm">
+        <div class="mb-3 text-start">
+          <label class="form-label fw-bold">Nombre actual</label>
+          <input  style="border: solid 1px;"  type="text" id="oldName" class="form-control" readonly>
+        </div>
+        <div class="mb-3 text-start">
+          <label class="form-label fw-bold">Nuevo nombre</label>
+          <input  type="text" id="newName" style="border: solid 1px;" class="form-control" placeholder="Ingrese el nuevo nombre">
+        </div>
+        <div class="mb-3 text-start">
+          <label class="form-label fw-bold">Nueva descripción</label>
+          <textarea id="newDescription" style="border: solid 1px;" class="form-control" rows="3" placeholder="Ingrese la nueva descripción"></textarea>
+        </div>
+        <div class="d-flex justify-content-end gap-2">
+          <button type="button" class="btn btn-primary" id="cancelEdit"  style="margin-right: 60px;">Cancelar</button>
+          <button class="btn btn-secondary bg-secondary text-body btn-sm" type="submit" class="btn btn-primary" style="margin-right: 60px;">Aceptar</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- Bootstrap scripts -->
   <script src="js/bootstrap.bundle.min.js"></script>
+
   <script>
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('toggleSidebar');
-
     toggleBtn.addEventListener('click', () => {
       sidebar.classList.toggle('show');
     });
+
+    // === LÓGICA DEL MODAL EDITAR ===
+    const modalOverlay = document.getElementById('modalOverlay');
+    const cancelEdit = document.getElementById('cancelEdit');
+    const form = document.getElementById('editForm');
+    const oldNameInput = document.getElementById('oldName');
+    const newNameInput = document.getElementById('newName');
+    const newDescriptionInput = document.getElementById('newDescription');
+
+    let selectedCard = null;
+
+    // Abrir modal
+    document.querySelectorAll('.btn-outline-secondary').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        selectedCard = e.target.closest('.card');
+        const title = selectedCard.querySelector('.card-title').textContent.trim();
+        const description = selectedCard.querySelector('.card-text') ? selectedCard.querySelector('.card-text').textContent.trim() : '';
+
+        oldNameInput.value = title;
+        newNameInput.value = '';
+        newDescriptionInput.value = description;
+
+        document.body.classList.add('blur-active');
+        modalOverlay.style.display = 'flex';
+      });
+    });
+
+    // Cerrar modal
+    function closeEditModal() {
+      modalOverlay.style.display = 'none';
+      document.body.classList.remove('blur-active');
+      selectedCard = null;
+    }
+    cancelEdit.addEventListener('click', closeEditModal);
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeEditModal();
+    });
+
+    // Guardar cambios
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const newName = newNameInput.value.trim();
+      const newDesc = newDescriptionInput.value.trim();
+
+      if (selectedCard) {
+        if (newName) selectedCard.querySelector('.card-title').textContent = newName;
+        if (newDesc) selectedCard.querySelector('.card-text').textContent = newDesc;
+      }
+
+      closeEditModal();
+    });
   </script>
+
 </body>
 </html>

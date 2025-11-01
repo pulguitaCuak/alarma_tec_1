@@ -10,7 +10,223 @@
   <link rel="stylesheet" href="bootstrap-icons-1.13.1/bootstrap-icons.css">
   <!-- Estilos personalizados -->
   <link rel="stylesheet" href="css/plantillaPrincipal.css">
-  <link rel="stylesheet" href="css/estructuraDasboardSensores.css">
+
+  <style>
+    /* === Ajustes responsive y estructura === */
+    main {
+      overflow-x: hidden;
+    }
+
+    /* Distribución de columnas: cards (izquierda) y actividad (derecha) */
+    .dashboard-layout {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    @media (min-width: 992px) {
+      .dashboard-layout {
+        flex-direction: row;
+        width: 100%;
+      }
+
+      .dashboard-layout .cards-section {
+        flex: 0 0 65%;
+        max-width: 65%;
+        padding-right: 1rem;
+      }
+
+      .dashboard-layout .activity-section {
+        flex: 0 0 30%;
+        max-width: 30%;
+        margin-left: auto; /* la centra sin empujar fuera */
+      }
+    }
+
+    /* === Ajuste de tamaño de cards === */
+    .card-container .col-6,
+    .card-container .col-5 {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+
+    @media (min-width: 768px) {
+      .card-container .col-6,
+      .card-container .col-5 {
+        flex: 0 0 50%;
+        max-width: 50%;
+      }
+    }
+
+    .card {
+      position: relative;
+      border-radius: 14px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+      padding: 0.5rem;
+    }
+
+
+    /* Luz indicadores */
+    .luz::after {
+      content: ".";
+      color: greenyellow;
+      position: absolute;
+      bottom: 40%;
+      left: 90%;
+      font-weight: bolder;
+      font-size: 80px;
+    }
+    .luzMala::after {
+      content: ".";
+      color: red;
+      position: absolute;
+      bottom: 55%;
+      left: 90%;
+      font-weight: bolder;
+      font-size: 80px;
+    }
+/* --- CONTENEDOR DE ACTIVIDADES --- */
+.activity-section {
+  flex: 0 0 30%;
+  max-width: 30%;
+  margin-left: auto;
+  padding-right: 1rem;
+}
+
+@media (max-width: 991px) {
+  .activity-section {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+}
+
+/* --- CONTENEDOR INTERNO CON LAS CARDS DE ACTIVIDAD --- */
+.activity-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* espacio entre las cards */
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden; /* evita que se salga hacia la derecha */
+}
+
+/* --- CARD DE ACTIVIDAD INDIVIDUAL --- */
+.activity-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  padding: 1rem;
+  width: 100%;
+}
+
+    /* Sidebar responsive */
+    @media (max-width: 991px) {
+      .sidebar {
+        position: absolute;
+        top: 64px;
+        left: 0;
+        height:max-content;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 10;
+      }
+      .sidebar.show {
+        transform: translateX(0);
+      }
+    }
+@media (max-width: 767px) {
+  .activity-section {
+    order: 2;
+  }
+  .cards-section {
+    order: 1;
+  }
+}  /* ← ESTA llave cierra correctamente la media query */
+
+
+
+/* ==== MODAL EDITAR SENSOR ==== */
+
+/* Fondo desenfocado */
+.blur-active main,
+.blur-active header,
+.blur-active footer,
+.blur-active aside {
+  filter: blur(5px);
+  pointer-events: none;
+}
+
+/* Capa oscura detrás */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Ventana flotante */
+.modal-edit {
+  background: #fff;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 360px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
+  padding: 1.5rem;
+  text-align: center;
+  position: relative;
+}
+
+/* Ícono superior */
+.modal-edit i {
+  font-size: 2.5rem;
+  color: #0d6efd;
+  margin-bottom: 0.5rem;
+}
+
+/* Título */
+.modal-edit h5 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+/* Botones */
+.modal-edit .btn {
+  min-width: 100px;
+}
+
+/* Inputs */
+.modal-edit input {
+  font-size: 0.95rem;
+}
+
+/* Botón cerrar (opcional si querés arriba a la derecha) */
+.modal-close {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.modal-close:hover {
+  color: #000;
+}
+
+
+
+    
+  </style>
 </head>
 
 <body class="bg-light d-flex flex-column min-vh-100">
@@ -387,7 +603,7 @@
 <div class="activity-section py-4 px-3">
   <div class="activity-container">
     
-    <div class="activity-card borde">
+    <div class="activity-card">
       <div class="d-flex justify-content-between">
         <h6 class="mb-1">Actividad</h6>
         <div class="d-flex gap-4">
@@ -549,5 +765,77 @@
     const toggleBtn = document.getElementById('toggleSidebar');
     toggleBtn.addEventListener('click', () => sidebar.classList.toggle('show'));
   </script>
+  
+<!-- MODAL EDITAR SENSOR -->
+<div id="modalOverlay" class="modal-overlay">
+  <div class="modal-edit" style="border: solid 2px;">
+    <i class="bi bi-radar" style="color:#000;"></i>
+    <h5>Editar Sensor</h5>
+
+    <form>
+      <div class="mb-3 text-start">
+        <label class="form-label" style="font-weight: bold;">Nombre anterior</label>
+        <input type="text" id="sensor-old" class="form-control" readonly style="border: solid 1px;">
+      </div>
+
+      <div class="mb-3 text-start">
+        <label class="form-label" style="font-weight: bold;">Nuevo nombre</label>
+        <input style="border: solid 1px;" type="text" id="sensor-new" class="form-control" placeholder="Ingrese el nombre">
+      </div>
+
+      <div class="d-flex justify-content-end gap-2">
+        <button type="button" class="btn btn-primary" id="cancelEdit" style="margin-right: 60px;">Cancelar</button>
+        <button type="submit" class="btn btn-secondary bg-secondary text-body btn-sm" style="margin-right: 20px;">Aceptar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+const modalOverlay = document.getElementById('modalOverlay');
+const cancelEdit = document.getElementById('cancelEdit');
+const editButtons = document.querySelectorAll('.btn-outline-secondary'); // Botones "Editar"
+const oldNameInput = document.getElementById('sensor-old');
+const newNameInput = document.getElementById('sensor-new');
+const form = modalOverlay.querySelector('form');
+
+let selectedCard = null; // ← guardamos qué card se está editando
+
+// Abrir modal con nombre actual
+editButtons.forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    selectedCard = e.target.closest('.card'); // guardamos la card seleccionada
+    const title = selectedCard.querySelector('.card-title').textContent.trim();
+
+    oldNameInput.value = title;
+    newNameInput.value = '';
+
+    document.body.classList.add('blur-active');
+    modalOverlay.style.display = 'flex';
+  });
+});
+
+// Función para cerrar modal
+function closeEditModal() {
+  modalOverlay.style.display = 'none';
+  document.body.classList.remove('blur-active');
+  selectedCard = null;
+}
+
+// Cerrar modal solo con el botón cancelar
+cancelEdit.addEventListener('click', closeEditModal);
+
+// Guardar cambios solo en la card seleccionada
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const newName = newNameInput.value.trim();
+
+  if (newName && selectedCard) {
+    selectedCard.querySelector('.card-title').textContent = newName;
+  }
+
+  closeEditModal();
+});
+</script>
 </body>
 </html>
