@@ -41,15 +41,29 @@
     <!-- CONTENIDO CON USUARIOS -->
     <div class="flex-grow-1 ms-3">
       <div class="container-fluid py-4">
+
         <div class="d-flex align-items-center mb-3">
           <input type="text" class="form-control me-2" placeholder="Value">
-          <button class="btn btn-outline-secondary me-1"><i class="bi bi-x"></i></button>
-          <button class="btn btn-outline-secondary me-1"><i class="bi bi-search"></i></button>
-          <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-filter"></i></button>
-          <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-            <a class="dropdown-item" href="#">Dropdown link</a>
-            <a class="dropdown-item" href="#">Dropdown link</a>
+
+          <!-- Activador del menú -->
+          <div class="dropdown">
+            <a class="btn btn-info rounded-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-funnel"></i>
+            </a>
+
+            <ul class="dropdown-menu">
+              <li><h4 class="dropdown-header text-body">Rol</h4></li>
+              <li><hr class="dropdown-divider"></li>
+              <li class="p-1"><select class="form-select text-dark" id="exampleSelect1">
+                    <option>Todos</option>
+                    <option>Administrador</option>
+                    <option>Usuario</option>
+                  </select>
+              </li>
+              
+            </ul>
           </div>
+
         </div>
 
         <!-- Lista de usuarios -->
@@ -98,8 +112,10 @@
 
 
   <!-- Bootstrap scripts -->
-  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/bootstrap.bundle.js"></script>
   <script>
+    
+
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('toggleSidebar');
 
