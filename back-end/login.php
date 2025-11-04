@@ -23,8 +23,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 exit;
             }
 
-            // recordatorio: aplicar password hash después para mayor seguridad
-            if ($contrasenia === $user["contrasena"]) {
+            if (password_verify($contrasenia, $user["contrasena"]) || $contrasenia === $user["contrasena"]) {
+                //RECORDATORIO BORRAR EL COMPARADOR VIEJO (EL Q NO TIENE PASSWORD_VERIFY) Y AGREGAR UN
+                //ADMINISTRADOR CON CONTRASEÑA HASHEADA
+                
                 $_SESSION["id_user"] = $user["id_user"];
                 $_SESSION["nombre"] = $user["nombre"];
                 $_SESSION["apellido"] = $user["apellido"];
