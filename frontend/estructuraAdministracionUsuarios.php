@@ -49,7 +49,7 @@
               placeholder="Buscar usuario por nombre o apellido...">
             <button class="btn btn-outline-secondary me-1"><i class="bi bi-x"></i></button>
             <button class="btn btn-outline-secondary me-1"><i class="bi bi-search"></i></button>
-            <button class="btn btn-outline-secondary"><i class="bi bi-filter"></i></button>
+            <button class="btn btn-outline-secondary" onclick="abrirFiltrar()"><i class="bi bi-filter"></i></button>
           </div>
 
           <!-- Lista de usuarios -->
@@ -160,7 +160,24 @@
       </div>
       <div class="modal-body">
         <form id="formFiltrar">
-
+          <div class="mb-3">
+            <label for="filtroCargo" class="form-label">Cargo</label>
+            <select id="filtroCargo" class="form-select">
+              <option value="">Todos</option>
+              <option value="1">Administrador</option>
+              <option value="2">Tecnico</option>
+              <option value="3">Cliente</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="filtroEstado" class="form-label">Estado</label>
+            <select id="filtroEstado" class="form-select">
+              <option value="">Todos</option>
+              <option value="1">Activo</option>
+              <option value="2">Inactivo</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-danger w-100">Aplicar Filtros</button>
         </form>
         
       </div></div></div></div>
@@ -264,6 +281,10 @@ function mostrarUsuarios(usuarios) {
         document.getElementById('editEstado').value = u.id_estado;
         new bootstrap.Modal('#modalEditar').show();
       });
+  }
+
+  function abrirFiltrar(){
+    new bootstrap.Modal('#modalFiltrar').show();
   }
 
   // 💾 Guardar cambios
