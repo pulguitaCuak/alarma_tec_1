@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard - Alarma</title>
+
+  <!-- Bootstrap local -->
+  <link rel="stylesheet" href="css/bootstrap.custom.min.css">
+  <link rel="stylesheet" href="bootstrap-icons-1.13.1/bootstrap-icons.css">
+  <!-- Estilos personalizados -->
+  <link rel="stylesheet" href="css/plantillaPrincipal.css">
+</head>
+<body class="bg-light d-flex flex-column min-vh-100">
+
+  <!-- HEADER -->
+  <header class="bg-primary text-white py-3 d-flex align-items-center justify-content-between px-4">
+    <div class="d-flex align-items-center">
+      <button class="btn btn-outline-light d-lg-none me-3" id="toggleSidebar">
+        <i class="bi bi-list"></i>
+      </button>
+      <h1 class="h4 m-0">Alarma</h1>
+    </div>
+    <div class="d-flex align-items-center">
+      <h2 class="h5 m-0 me-2">Dashboard</h2>
+      <i class="bi bi-grid fs-5"></i>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="flex-fill">
+
+  <div class="d-flex flex-grow-1">
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100">
+      <a href="#" class="my-3"><i class="bi bi-house fs-4 p-4"></i></a>
+      <a href="#" class="my-3"><i class="bi bi-person-gear fs-4 p-4"></i></a>
+      <a href="#" class="my-3"><i class="bi bi-person fs-4 p-4"></i></a>
+      <a href="#" class="my-3"><i class="bi bi-telephone fs-4 p-4"></i></a>
+    </aside>
+
+    <!-- CONTENIDO CON CARD -->
+    <div class="flex-grow-1 ms-3">
+      <div class="container-fluid py-4">
+        <div class="row g-4 justify-content-center">
+
+          <!-- CARD DE REGISTRO -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card shadow-sm">
+              <div class="card-body">
+                <h4 class="text-center mb-4">Registrarse</h4>
+
+                <form>
+                  <div class="row mb-3">
+                    <div class="col">
+                      <label class="form-label fw-bold">Nombre</label>
+                      <input style="background-color: #ebeef0"  type="text" class="form-control" placeholder="usuario">
+                    </div>
+                    <div class="col">
+                      <label class="form-label fw-bold">Teléfono</label>
+                      <input style="background-color: #ebeef0" type="text" class="form-control" placeholder="11234523">
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label fw-bold">Email</label>
+                    <input style="background-color: #ebeef0" type="email" class="form-control" placeholder="emaildeejemplo1@gmail.com">
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label fw-bold">Fecha De Nacimiento</label>
+                    <input style="background-color: #ebeef0" type="text" class="form-control" placeholder="Día/Mes/Año">
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label fw-bold">DNI</label>
+                    <input style="background-color: #ebeef0" type="text" class="form-control" placeholder="DNI">
+                  </div>
+
+                  <!-- Contraseña -->
+                  <div class="mb-3 position-relative">
+                    <label class="form-label fw-bold">Contraseña</label>
+                    <input style="background-color: #ebeef0" type="password" id="password" class="form-control" placeholder="contraseña">
+                    <button style="margin-top: 15px;"  type="button" class="btn btn-link position-absolute top-50 end-0 translate-middle-y me-2 p-0 text-secondary" onclick="togglePassword('password', 'eye1')">
+                      <i class="bi bi-eye" id="eye1"  style="color: black;"></i>
+                    </button>
+                  </div>
+
+                  <!-- Confirmar contraseña -->
+                  <div class="mb-4 position-relative">
+                    <label class="form-label fw-bold">Confirmar Contraseña</label>
+                    <input style="background-color: #ebeef0" type="password" id="confirmPassword" class="form-control" placeholder="contraseña">
+                    <button style="margin-top: 15px;" type="button" class="btn btn-link position-absolute top-50 end-0 translate-middle-y me-2 p-0 text-secondary" onclick="togglePassword('confirmPassword', 'eye2')">
+                      <i class="bi bi-eye" id="eye2" style="color: black;"></i>
+                    </button>
+                  </div>
+
+                  <div class="d-grid">
+                    <button type="submit" class="btn btn-info fw-semibold">Registrarse</button>
+                  </div>
+                </form>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div> <!-- cierre del d-flex -->
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-primary text-white text-center py-2 mt-auto">
+    <small class="footer-text">2025 Escuela Técnica N°1 Gral. San Martín Inc. Todos los derechos reservados.</small>
+  </footer>
+
+  <!-- Bootstrap scripts -->
+  <script src="js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleSidebar');
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('show');
+    });
+
+    // Función mostrar/ocultar contraseñas
+    function togglePassword(inputId, eyeId) {
+      const input = document.getElementById(inputId);
+      const eye = document.getElementById(eyeId);
+
+      if (input.type === "password") {
+        input.type = "text";
+        eye.classList.replace("bi-eye", "bi-eye-slash");
+      } else {
+        input.type = "password";
+        eye.classList.replace("bi-eye-slash", "bi-eye");
+      }
+    }
+  </script>
+
+</body>
+</html>
