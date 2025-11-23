@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Recuperar Contraseña</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(to bottom right, #003973, #1CB5E0);
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .background-waves {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/waves.png');
+            background-size: cover;
+            z-index: -1;
+            opacity: 0.2;
+        }
+
+        .recovery-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 400px;
+            color: white;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .recovery-container h2 {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            background-color: white;
+            color: #333;
+            border: none;
+            margin-bottom: 15px;
+        }
+
+        .form-control::placeholder {
+            color: #999;
+        }
+
+        .btn-recovery {
+            width: 100%;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            font-weight: bold;
+            padding: 10px 0;
+            transition: 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn-recovery:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: #000;
+        }
+
+        .alert {
+            margin-top: 15px;
+            border-radius: 10px;
+        }
+
+        .back-to-login {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-to-login a {
+            color: #b0d4f1;
+            text-decoration: none;
+        }
+
+        .back-to-login a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Fondo tipo ondas -->
+    <div class="background-waves"></div>
+
+    <!-- Contenedor del formulario de recuperación -->
+    <div class="recovery-container">
+        <h2>Recuperar Contraseña</h2>
+        <form id="recuperarForm">
+            <div class="mb-3">
+                <label for="email" class="form-label">Correo Electrónico</label>
+                <input type="email" class="form-control" id="email" name="email" 
+                       placeholder="Ingresa tu correo electrónico" required>
+            </div>
+            <div id="mensajeError" class="alert alert-danger d-none"></div>
+            <div id="mensajeExito" class="alert alert-success d-none"></div>
+            <button type="submit" class="btn btn-recovery">Enviar enlace de recuperación</button>
+        </form>
+        <div class="back-to-login">
+            <a href="login.html">Volver al inicio de sesión</a>
+        </div>
+    </div>
+
+    <script>
+        // Generar la ruta correcta al backend
+        function getBackendPath() {
+            const protocol = window.location.protocol;
+            const hostname = window.location.hostname;
+            const port = window.location.port ? ':' + window.location.port : '';
+            
+            // Detectar si es localhost, 127.0.0.1 o IP local
+            if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname.startsWith('192.168')) {
+                // En localhost o IP local, usa /alarma_tec_1/back-end/
+                return protocol + '//' + hostname + port + '/alarma_tec_1/back-end/';
+            } else {
+                // En dominio remoto, ajusta según necesites
+                return protocol + '//' + hostname + port + '/alarma_tec_1/back-end/';
+            }
+        }
+
+        document.getElementById('recuperarForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const mensajeError = document.getElementById('mensajeError');
+            const mensajeExito = document.getElementById('mensajeExito');
+            
+            // Ocultar mensajes previos
+            mensajeError.classList.add('d-none');
+            mensajeExito.classList.add('d-none');
+
+            const backendUrl = getBackendPath() + 'recuperar_contra.php';
+            console.log('Enviando solicitud a:', backendUrl);
+            
+            fetch(backendUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: email })
+            })
+            .then(response => {
+                console.log('Respuesta recibida:', response);
+                return response.text().then(text => {
+                    console.log('Texto de respuesta:', text);
+                    try {
+                        const data = JSON.parse(text);
+                        console.log('JSON parseado:', data);
+                        if (data.error) {
+                            mensajeError.textContent = data.error;
+                            mensajeError.classList.remove('d-none');
+                        } else {
+                            mensajeExito.textContent = 'Se ha enviado un enlace de recuperación a tu correo electrónico.';
+                            mensajeExito.classList.remove('d-none');
+                            document.getElementById('recuperarForm').reset();
+                        }
+                        return data;
+                    } catch (e) {
+                        console.error('Error al parsear JSON:', text);
+                        throw new Error('La respuesta del servidor no es JSON válido');
+                    }
+                });
+            })
+            .catch(error => {
+                mensajeError.textContent = 'Ha ocurrido un error. Por favor, intenta más tarde.';
+                mensajeError.classList.remove('d-none');
+                console.error('Error detallado:', error);
+            });
+        });
+    </script>
+</body>
+</html>
