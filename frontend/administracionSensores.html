@@ -1,0 +1,792 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard - Alarma</title>
+
+  <!-- Bootstrap local -->
+  <link rel="stylesheet" href="css/bootstrap.custom.min.css">
+  <link rel="stylesheet" href="bootstrap-icons-1.13.1/bootstrap-icons.css">
+
+  <!-- Estilos personalizados -->
+  <link rel="stylesheet" href="css/plantillaPrincipal.css">
+  <link rel="stylesheet" href="css/estructuraDasboardSensores.css">
+
+  <style>
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      margin: 0;
+      padding: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .overlay.mostrar {
+      display: flex;
+    }
+
+    .popup {
+      display: none;
+    }
+
+    .popup.mostrar {
+      display: block;
+    }
+  </style>
+</head>
+
+<body class="bg-light d-flex flex-column min-vh-100">
+
+  <!-- HEADER -->
+  <header class="bg-primary text-white py-3 d-flex align-items-center justify-content-between px-4">
+    <div class="d-flex align-items-center">
+      <button class="btn btn-outline-light d-lg-none me-3" id="toggleSidebar">
+        <i class="bi bi-list"></i>
+      </button>
+      <h1 class="h4 m-0">Alarma</h1>
+    </div>
+    <div class="d-flex align-items-center">
+      <h2 class="h5 m-0 me-2">Dashboard</h2>
+      <i class="bi bi-grid fs-5"></i>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="flex-fill">
+    <div class="dashboard-layout">
+      
+      <!-- SIDEBAR -->
+      <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100">
+        <a href="administracionUsuarios.html" class="my-3"><i class="bi bi-house fs-4 p-4"></i></a>
+      <a href="dashboardEquipos.html" class="my-3"><i class="bi bi-grid fs-4 p-4"></i></a>
+      <a href="administracionRegistrar.html" class="my-3"><i class="bi bi-person-plus fs-4 p-4"></i></a>
+      <a href="estructuraAdministracionEquipos.html" class="my-3"><i class="bi bi-list fs-4 p-4"></i></a>
+      </aside>
+
+      <!-- CONTENEDOR DE CARDS -->
+      <div class="cards-section py-4 px-4">
+        <div class="container-fluid">
+          <div class="row g-3 card-container">
+
+            <!-- Overlay global -->
+            <div id="overlay" class="overlay">
+
+              <!-- Popup Editar -->
+              <div class="popup popup-editar card h-50" style="width: fit-content; margin: auto 0">
+                <div class="card-body fs-4">
+                  <div class="d-flex align-items-center px-4">
+                    <i class="bi bi-house fs-2 p-2 hide-mobile"></i>
+                    <h5 class="card-title mb-0">Editar zona</h5>
+                  </div>
+
+                  <div>
+                    <label><strong>Nombre:</strong><br>
+                      <input type="text" id="nuevoNombre" class="border-1 redondear-bordes-pequeño border-dark" placeholder="pepe">
+                    </label>
+                  </div>
+                  <div>
+                    <label><strong>Descripción:</strong><br>
+                      <input type="text" id="NuevaDescripcion" class="border-1 redondear-bordes-pequeño border-dark" placeholder="ingrese una descripción">
+                    </label>
+                  </div>
+                  <div class="d-flex gap-4 mt-4 justify-content-center">
+                    <button id="btnAcetarCambios" class="btn btn-light redondear-bordes border">Aceptar</button>
+                    <button id="btnCancelarCambios" class="btn bg-secondary redondear-bordes">Cancelar</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Popup Eliminar -->
+              <div class="popup popup-eliminar card h-50" style="width: fit-content; margin: auto 0">
+                <div class="card-body fs-4 text-center">
+                  <div class="d-flex align-items-center justify-content-center mb-3">
+                    <i class="bi bi-exclamation-triangle text-danger fs-2 p-2"></i>
+                    <h5 class="card-title mb-0 text-danger">¿Eliminar zona?</h5>
+                  </div>
+                  <p>Esta acción no se puede deshacer.</p>
+                  <div class="d-flex gap-4 mt-4 justify-content-center">
+                    <button id="btnConfirmarEliminar" class="btn btn-danger redondear-bordes">Eliminar</button>
+                    <button id="btnCancelarEliminar" class="btn bg-secondary redondear-bordes">Cancelar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const powerButtons = document.querySelectorAll('.power');
+
+    powerButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Buscamos la card contenedora del botón
+        const card = button.closest('.cambiarLuz');
+
+        // Alternamos entre las clases de luz
+        if (card.classList.contains('luzMala')) {
+          card.classList.remove('luzMala');
+          card.classList.add('luz');
+        } else {
+          card.classList.remove('luz');
+          card.classList.add('luzMala');
+        }
+      });
+    });
+  });
+</script>
+
+            <!-- CARD EJEMPLO -->
+            <div class="col-6">
+              <div class="card luz cambiarLuz">
+                <div class="card-body">
+                  <div class="d-flex gap-4 align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-house-door me-2 fs-5"></i>
+                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
+                    </div>
+
+                    <div class="text-muted d-flex align-items-center">
+                      <i class="bi bi-wifi-off me-2 fs-6"></i>
+                      <small>Sin acceso</small>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex gap-4">
+                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
+                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
+                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
+                    </div>
+                    <div class="d-flex align-items-center gap-4">
+                      <i class="bi bi-battery-full fs-5"></i>
+                      <button class="rounded-circle bg-secondary power">
+                        <i class="bi bi-power fs-5 rounded-circle"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="card luz cambiarLuz">
+                <div class="card-body">
+                  <div class="d-flex gap-4 align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-house-door me-2 fs-5"></i>
+                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
+                    </div>
+
+                    <div class="text-muted d-flex align-items-center">
+                      <i class="bi bi-wifi-off me-2 fs-6"></i>
+                      <small>Sin acceso</small>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex gap-4">
+                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
+                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
+                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
+                    </div>
+                    <div class="d-flex align-items-center gap-4">
+                      <i class="bi bi-battery-full fs-5"></i>
+                      <button class="rounded-circle bg-secondary power">
+                        <i class="bi bi-power fs-5 rounded-circle"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="card luz cambiarLuz">
+                <div class="card-body">
+                  <div class="d-flex gap-4 align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-house-door me-2 fs-5"></i>
+                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
+                    </div>
+
+                    <div class="text-muted d-flex align-items-center">
+                      <i class="bi bi-wifi-off me-2 fs-6"></i>
+                      <small>Sin acceso</small>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex gap-4">
+                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
+                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
+                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
+                    </div>
+                    <div class="d-flex align-items-center gap-4">
+                      <i class="bi bi-battery-full fs-5"></i>
+                      <button class="rounded-circle bg-secondary power">
+                        <i class="bi bi-power fs-5 rounded-circle"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="card luz cambiarLuz">
+                <div class="card-body">
+                  <div class="d-flex gap-4 align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-house-door me-2 fs-5"></i>
+                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
+                    </div>
+
+                    <div class="text-muted d-flex align-items-center">
+                      <i class="bi bi-wifi-off me-2 fs-6"></i>
+                      <small>Sin acceso</small>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex gap-4">
+                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
+                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
+                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
+                    </div>
+                    <div class="d-flex align-items-center gap-4">
+                      <i class="bi bi-battery-full fs-5"></i>
+                      <button class="rounded-circle bg-secondary power">
+                        <i class="bi bi-power fs-5 rounded-circle"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="card luz cambiarLuz">
+                <div class="card-body">
+                  <div class="d-flex gap-4 align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-house-door me-2 fs-5"></i>
+                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
+                    </div>
+
+                    <div class="text-muted d-flex align-items-center">
+                      <i class="bi bi-wifi-off me-2 fs-6"></i>
+                      <small>Sin acceso</small>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex gap-4">
+                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
+                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
+                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
+                    </div>
+                    <div class="d-flex align-items-center gap-4">
+                      <i class="bi bi-battery-full fs-5"></i>
+                      <button class="rounded-circle bg-secondary power">
+                        <i class="bi bi-power fs-5 rounded-circle"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="card luz cambiarLuz">
+                <div class="card-body">
+                  <div class="d-flex gap-4 align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-house-door me-2 fs-5"></i>
+                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
+                    </div>
+
+                    <div class="text-muted d-flex align-items-center">
+                      <i class="bi bi-wifi-off me-2 fs-6"></i>
+                      <small>Sin acceso</small>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex gap-4">
+                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
+                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
+                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
+                    </div>
+                    <div class="d-flex align-items-center gap-4">
+                      <i class="bi bi-battery-full fs-5"></i>
+                      <button class="rounded-circle bg-secondary power">
+                        <i class="bi bi-power fs-5 rounded-circle"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="card luz cambiarLuz">
+                <div class="card-body">
+                  <div class="d-flex gap-4 align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-house-door me-2 fs-5"></i>
+                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
+                    </div>
+
+                    <div class="text-muted d-flex align-items-center">
+                      <i class="bi bi-wifi-off me-2 fs-6"></i>
+                      <small>Sin acceso</small>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex gap-4">
+                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
+                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
+                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
+                    </div>
+                    <div class="d-flex align-items-center gap-4">
+                      <i class="bi bi-battery-full fs-5"></i>
+                      <button class="rounded-circle bg-secondary power">
+                        <i class="bi bi-power fs-5 rounded-circle"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="card luz cambiarLuz">
+                <div class="card-body">
+                  <div class="d-flex gap-4 align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-house-door me-2 fs-5"></i>
+                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
+                    </div>
+
+                    <div class="text-muted d-flex align-items-center">
+                      <i class="bi bi-wifi-off me-2 fs-6"></i>
+                      <small>Sin acceso</small>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex gap-4">
+                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
+                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
+                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
+                    </div>
+                    <div class="d-flex align-items-center gap-4">
+                      <i class="bi bi-battery-full fs-5"></i>
+                      <button class="rounded-circle bg-secondary power">
+                        <i class="bi bi-power fs-5 rounded-circle"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="card luz cambiarLuz">
+                <div class="card-body">
+                  <div class="d-flex gap-4 align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-house-door me-2 fs-5"></i>
+                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
+                    </div>
+
+                    <div class="text-muted d-flex align-items-center">
+                      <i class="bi bi-wifi-off me-2 fs-6"></i>
+                      <small>Sin acceso</small>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex gap-4">
+                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
+                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
+                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
+                    </div>
+                    <div class="d-flex align-items-center gap-4">
+                      <i class="bi bi-battery-full fs-5"></i>
+                      <button class="rounded-circle bg-secondary power">
+                        <i class="bi bi-power fs-5 rounded-circle"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="card luz cambiarLuz">
+                <div class="card-body">
+                  <div class="d-flex gap-4 align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-house-door me-2 fs-5"></i>
+                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
+                    </div>
+
+                    <div class="text-muted d-flex align-items-center">
+                      <i class="bi bi-wifi-off me-2 fs-6"></i>
+                      <small>Sin acceso</small>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex gap-4">
+                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
+                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
+                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
+                    </div>
+                    <div class="d-flex align-items-center gap-4">
+                      <i class="bi bi-battery-full fs-5"></i>
+                      <button class="rounded-circle bg-secondary power">
+                        <i class="bi bi-power fs-5 rounded-circle"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="card luz cambiarLuz">
+                <div class="card-body">
+                  <div class="d-flex gap-4 align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-house-door me-2 fs-5"></i>
+                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
+                    </div>
+
+                    <div class="text-muted d-flex align-items-center">
+                      <i class="bi bi-wifi-off me-2 fs-6"></i>
+                      <small>Sin acceso</small>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex gap-4">
+                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
+                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
+                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
+                    </div>
+                    <div class="d-flex align-items-center gap-4">
+                      <i class="bi bi-battery-full fs-5"></i>
+                      <button class="rounded-circle bg-secondary power">
+                        <i class="bi bi-power fs-5 rounded-circle"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="card luz cambiarLuz">
+                <div class="card-body">
+                  <div class="d-flex gap-4 align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-house-door me-2 fs-5"></i>
+                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
+                    </div>
+
+                    <div class="text-muted d-flex align-items-center">
+                      <i class="bi bi-wifi-off me-2 fs-6"></i>
+                      <small>Sin acceso</small>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex gap-4">
+                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
+                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
+                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
+                    </div>
+                    <div class="d-flex align-items-center gap-4">
+                      <i class="bi bi-battery-full fs-5"></i>
+                      <button class="rounded-circle bg-secondary power">
+                        <i class="bi bi-power fs-5 rounded-circle"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <div class="card luz cambiarLuz">
+                <div class="card-body">
+                  <div class="d-flex gap-4 align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-house-door me-2 fs-5"></i>
+                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
+                    </div>
+
+                    <div class="text-muted d-flex align-items-center">
+                      <i class="bi bi-wifi-off me-2 fs-6"></i>
+                      <small>Sin acceso</small>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex gap-4">
+                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
+                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
+                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
+                    </div>
+                    <div class="d-flex align-items-center gap-4">
+                      <i class="bi bi-battery-full fs-5"></i>
+                      <button class="rounded-circle bg-secondary power">
+                        <i class="bi bi-power fs-5 rounded-circle"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+
+<div class="activity-section py-4 px-3">
+  <div class="activity-container">
+    
+    <div class="activity-card borde">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Actividad</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">Fecha</small>  
+          <small class="text-muted">Hora</small>
+        </div>
+      </div>
+    
+    </div>
+
+      <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+
+        <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+
+        <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+
+        <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+
+        <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+
+        <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+
+        <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+
+        <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+
+        <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+
+        <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+
+        <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+
+        <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+  </div>
+</div>
+
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-primary text-white text-center py-2 mt-auto">
+    <small class="footer-text">2025 Escuela Técnica N°1 Gral. San Martín Inc. Todos los derechos reservados.</small>
+  </footer>
+
+  <!-- Bootstrap scripts -->
+  <script src="js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleSidebar');
+    toggleBtn.addEventListener('click', () => sidebar.classList.toggle('show'));
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const overlay = document.getElementById('overlay');
+      const popupEditar = document.querySelector('.popup-editar');
+      const popupEliminar = document.querySelector('.popup-eliminar');
+
+      const btnsEditar = document.querySelectorAll('.btnEditar');
+      const btnsEliminar = document.querySelectorAll('.btnEliminar');
+      const btnCancelarCambios = document.getElementById('btnCancelarCambios');
+      const btnAcetarCambios = document.getElementById('btnAcetarCambios');
+      const btnConfirmarEliminar = document.getElementById('btnConfirmarEliminar');
+      const btnCancelarEliminar = document.getElementById('btnCancelarEliminar');
+
+      const nuevoNombre = document.getElementById('nuevoNombre');
+      const NuevaDescripcion = document.getElementById('NuevaDescripcion');
+
+      let elementoAEliminar = null;
+
+      // Mostrar popup editar
+      btnsEditar.forEach(btn => {
+        btn.addEventListener('click', () => {
+          overlay.classList.add('mostrar');
+          popupEditar.classList.add('mostrar');
+        });
+      });
+
+      // Mostrar popup eliminar
+      btnsEliminar.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          elementoAEliminar = e.target.closest('.card');
+          overlay.classList.add('mostrar');
+          popupEliminar.classList.add('mostrar');
+        });
+      });
+
+      // Cancelar o aceptar editar
+      btnCancelarCambios.addEventListener('click', cerrarPopups);
+      btnAcetarCambios.addEventListener('click', cerrarPopups);
+
+      // Confirmar o cancelar eliminar
+      btnConfirmarEliminar.addEventListener('click', () => {
+        if (elementoAEliminar) elementoAEliminar.remove();
+        cerrarPopups();
+      });
+      btnCancelarEliminar.addEventListener('click', cerrarPopups);
+
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) cerrarPopups();
+      });
+
+      function cerrarPopups() {
+        overlay.classList.remove('mostrar');
+        popupEditar.classList.remove('mostrar');
+        popupEliminar.classList.remove('mostrar');
+        nuevoNombre.value = '';
+        NuevaDescripcion.value = '';
+      }
+    });
+  </script>
+</body>
+</html>

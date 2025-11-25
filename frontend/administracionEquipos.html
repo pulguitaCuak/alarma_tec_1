@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard - Alarma</title>
+  <!-- Bootstrap local -->
+  <link rel="stylesheet" href="css/bootstrap.custom.min.css">
+  <link rel="stylesheet" href="bootstrap-icons-1.13.1/bootstrap-icons.css">
+  <!-- Estilos personalizados -->
+  <link rel="stylesheet" href="css/plantillaPrincipal.css">
+<style>
+  body, html {
+  overflow-x: hidden;
+}
+
+small {
+  color: #666;
+}
+
+strong {
+  color: #303030;
+}
+
+.table-container {
+  width: calc(100vw - 100px); /* espacio total menos el sidebar */
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+
+
+/* --- MODO MÓVIL --- */
+@media (max-width: 768px) {
+  html, body {
+    overflow-x: hidden !important;
+    width: 100%;
+  }
+
+  .hide-mobile {
+    display: none !important;
+  }
+
+  .table-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .table-responsive {
+    overflow-x: visible !important;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 1rem;
+  }
+
+  /* Cada fila se ve como una card centrada en móvil */
+  .table tr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fff;
+    border-radius: 15px;
+    padding: 1.2rem 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin: 0 auto 1.2rem auto;
+    width: 90%;
+    max-width: 600px;
+  }
+
+  .table th,
+  .table td {
+    width: 100%;
+    text-align: center;
+    border: none;
+  }
+
+  .table th {
+    font-size: 1.3rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .table td small {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .table td:nth-child(3) .d-flex {
+    justify-content: center !important;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+}
+
+/* --- MODO ESCRITORIO --- */
+@media (min-width: 769px) {
+  .table td:nth-child(3) .d-flex {
+    justify-content: flex-end !important;
+    gap: 1rem;
+  }
+
+  /* Reset de filas en escritorio para que no se descentrén */
+  .table tr {
+    display: table-row !important;
+    flex-direction: initial !important;
+    align-items: initial !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    padding: initial !important;
+    box-shadow: none !important;
+  }
+
+  .table th,
+  .table td {
+    text-align: left !important;
+  }
+}
+    </style>
+
+
+</head>
+<body class="bg-light d-flex flex-column min-vh-100  overflow: hidden;">
+
+  <!-- HEADER -->
+  <header class="bg-primary text-white py-3 d-flex align-items-center justify-content-between px-4">
+    <div class="d-flex align-items-center">
+      <!-- Botón hamburguesa móvil -->
+      <button class="btn btn-outline-light d-lg-none me-3" id="toggleSidebar">
+        <i class="bi bi-list"></i>
+      </button>
+      <h1 class="h4 m-0">Alarma</h1>
+    </div>
+    <div class="d-flex align-items-center">
+      <h2 class="h5 m-0 me-2">Dashboard</h2>
+      <i class="bi bi-grid fs-5"></i>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="flex-fill">
+
+  <div class="d-flex flex-grow-1 min-vh-100">
+    <!-- SIDEBAR (oculta en móvil) -->
+    <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100">
+      <a href="administracionUsuarios.html" class="my-3"><i class="bi bi-house fs-4 p-4"></i></a>
+      <a href="dashboardEquipos.html" class="my-3"><i class="bi bi-grid fs-4 p-4"></i></a>
+      <a href="administracionRegistrar.html" class="my-3"><i class="bi bi-person-plus fs-4 p-4"></i></a>
+      <a href="estructuraAdministracionEquipos.html" class="my-3"><i class="bi bi-list fs-4 p-4"></i></a>
+    </aside>  
+
+    <!-- CONTENIDO CON CARDS -->
+    <div class="flex-grow-1">
+      <div class="d-flex row justify-content-center">
+        <div class="row g-3 justify-content-between">
+
+        <!--ENCONTRADOR-->
+            <form class="d-flex encontrador px-4 gap-4 align-middle">
+                <input class="form-control me-sm-2" type="search" placeholder="Search">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            </form>
+
+      <!-- CARD -->
+<style>
+  .overlay {
+    display: none;
+    padding: 0;
+    margin: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100vh;
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .overlay.mostrar {
+    display: flex;
+  }
+
+  .popup {
+    display: none;
+  }
+
+  .popup.mostrar {
+    display: block;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const overlay = document.getElementById('overlay');
+    const popupEditar = document.querySelector('.popup-editar');
+    const popupEliminar = document.querySelector('.popup-eliminar');
+
+    // Botones de edición
+    const btnModificar = document.getElementById('btnModificar');
+    const btnCancelarCambios = document.getElementById('btnCancelarCambios');
+    const btnAcetarCambios = document.getElementById('btnAcetarCambios');
+    const nuevoNombre = document.getElementById('nuevoNombre');
+    const NuevaDescripcion = document.getElementById('NuevaDescripcion');
+
+    // Botones de eliminación
+    const btnsEliminar = document.querySelectorAll('.btn-eliminar');
+    const btnConfirmarEliminar = document.getElementById('btnConfirmarEliminar');
+    const btnCancelarEliminar = document.getElementById('btnCancelarEliminar');
+
+    let elementoAEliminar = null; // Guardamos el elemento temporalmente
+
+    // Mostrar popup de editar
+    btnModificar.addEventListener('click', function () {
+      overlay.classList.add('mostrar');
+      popupEditar.classList.add('mostrar');
+    });
+ 
+    // Cerrar popup al hacer clic fuera
+    overlay.addEventListener('click', function (event) {
+      if (event.target === overlay) {
+        cerrarPopups();
+      }
+    });
+
+    // Cancelar edición
+    btnCancelarCambios.addEventListener('click', function () {
+      cerrarPopups();
+      limpiarCampos();
+    });
+
+    // Aceptar cambios
+    btnAcetarCambios.addEventListener('click', function () {
+      cerrarPopups();
+      limpiarCampos();
+      // aquí iría tu lógica para guardar cambios
+    });
+
+    // Mostrar popup de eliminar
+    btnsEliminar.forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        elementoAEliminar = e.target.closest('tr'); // fila a eliminar
+        overlay.classList.add('mostrar');
+        popupEliminar.classList.add('mostrar');
+      });
+    });
+
+    // Confirmar eliminación
+    btnConfirmarEliminar.addEventListener('click', function () {
+      if (elementoAEliminar) {
+        elementoAEliminar.remove();
+        elementoAEliminar = null;
+      }
+      cerrarPopups();
+    });
+
+    // Cancelar eliminación
+    btnCancelarEliminar.addEventListener('click', function () {
+      cerrarPopups();
+      elementoAEliminar = null;
+    });
+
+    // Funciones auxiliares
+    function cerrarPopups() {
+      overlay.classList.remove('mostrar');
+      popupEditar.classList.remove('mostrar');
+      popupEliminar.classList.remove('mostrar');
+    }
+
+    function limpiarCampos() {
+      nuevoNombre.value = '';
+      NuevaDescripcion.value = '';
+    }
+  });
+</script>
+
+<!-- Overlay global -->
+<div id="overlay" class="overlay">
+
+  <!-- Popup Editar -->
+  <div class="popup popup-editar card h-50" style="width: fit-content; margin: auto 0">
+    <div class="card-body fs-4">
+      <div class="d-flex align-items-center px-4">
+        <i class="bi bi-house fs-2 p-2 hide-mobile"></i>
+        <h5 class="card-title mb-0">Editar equipo</h5>
+      </div>
+
+      <div>
+        <label><strong>Nombre:</strong> <br>
+          <input type="text" id="nuevoNombre" class="border-1 redondear-bordes-pequeño border-dark" placeholder="pepe">
+        </label>
+      </div>
+      <div>
+        <label><strong>Descripción:</strong> <br>
+          <input type="text" id="NuevaDescripcion" class="border-1 redondear-bordes-pequeño border-dark" placeholder="ingrese una descripción">
+        </label>
+      </div>
+      <div class="d-flex gap-4 mt-4 justify-content-center">
+        <button id="btnAcetarCambios" class="btn btn-light redondear-bordes border flex-grow-1 flex-md-grow-0">Aceptar</button>
+        <button id="btnCancelarCambios" class="btn bg-secondary redondear-bordes flex-grow-1 flex-md-grow-0">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup Eliminar -->
+  <div class="popup popup-eliminar card h-50" style="width: fit-content; margin: auto 0">
+    <div class="card-body fs-4 text-center">
+      <div class="d-flex align-items-center justify-content-center mb-3">
+        <i class="bi bi-exclamation-triangle text-danger fs-2 p-2"></i>
+        <h5 class="card-title mb-0 text-danger">¿Eliminar equipo?</h5>
+      </div>
+      <p>Esta acción no se puede deshacer.</p>
+      <div class="d-flex gap-4 mt-4 justify-content-center">
+        <button id="btnConfirmarEliminar" class="btn btn-danger redondear-bordes flex-grow-1 flex-md-grow-0">Eliminar</button>
+        <button id="btnCancelarEliminar" class="btn bg-secondary redondear-bordes flex-grow-1 flex-md-grow-0">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Tabla -->
+<div class="table-container mt-4">
+  <div class="table-responsive">
+    <table class="table">
+      <tbody>
+        
+             
+        <tr valign="middle">
+          <th scope="row" class="fs-4">
+            <i class="bi bi-house fs-2 p-2 hide-mobile"></i>
+            Mi casa
+          </th>
+          <td class="fs-4 text-center align-middle"><small class="fs-6">Equipo</small></td>
+          <td class="fs-4">
+            <div class="d-flex flex-wrap gap-2 w-100">
+              <button class="btn btn-danger text-body redondear-bordes flex-grow-1 flex-md-grow-0 btn-eliminar">Eliminar</button>
+              <button id="btnModificar" class="btn btn-light redondear-bordes border flex-grow-1 flex-md-grow-0">Modificar</button>
+              <a href="estructuraAdministracionZonas.html" class="btn bg-secondary redondear-bordes flex-grow-1 flex-md-grow-0">Entrar</a>
+            </div>
+          </td>
+        </tr>
+        
+        
+
+                </tbody>
+                </table>
+            </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-primary text-white text-center py-2 mt-auto">
+  <small class="footer-text">2025 Escuela Técnica N°1 Gral. San Martín Inc. Todos los derechos reservados.</small>
+</footer>
+
+
+  <!-- Bootstrap scripts -->
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script> 
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleSidebar');
+
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('show');
+    });
+  </script>
+</body>
+</html>
