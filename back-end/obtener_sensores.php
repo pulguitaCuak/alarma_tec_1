@@ -17,9 +17,22 @@ $id_zona = intval($_GET['id_zona']);
 
 try{
     $stmt = $pdo->prepare("
-        SELECT zs.id_zona_sensor, s.id_sensor, s.nombre, zs.estado AS estado_asignacion, s.estado AS estado_sensor
+        SELECT 
+            zs.id_zona_sensor, 
+            zs.id_zona,
+            s.id_sensor, 
+            s.nombre, 
+            s.descripcion,
+            s.id_tipo_sensor,
+            ts.nombre as tipo_sensor,
+            ts.descripcion as descripcion_tipo,
+            zs.estado AS estado_asignacion, 
+            s.estado AS estado_sensor,
+            s.fecha_instalacion,
+            zs.fecha_asignacion
         FROM zona_sensor zs
         INNER JOIN sensores s ON zs.id_sensor = s.id_sensor
+        LEFT JOIN tipo_sensor ts ON s.id_tipo_sensor = ts.id_tipo_sensor
         WHERE zs.id_zona = ? AND s.estado = 1
         ORDER BY s.id_sensor ASC
     ");
