@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $_SESSION["apellido"] = $user["apellido"];
                 $_SESSION["cargo"] = $user["id_cargo"];
 
-                header("Location: ../frontend/dashboardEquipos.php");
+                header("Location: ../frontend/dashboardEquipos.html");
                 exit;
             } else {
                 echo "<script>alert('Contraseña incorrecta.'); window.history.back();</script>";
