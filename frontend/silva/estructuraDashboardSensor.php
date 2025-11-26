@@ -5,7 +5,7 @@ if (!isset($_SESSION["id_user"])) {
     exit;
 }
 
-require_once "../back-end/db.php";
+require_once "../../back-end/db.php";
 
 if (!isset($_GET['id_zona'])) {
     die("Falta id_zona en la URL");
@@ -23,11 +23,11 @@ $id_equipo = isset($_GET['id_equipo']) ? intval($_GET['id_equipo']) : 0;
   <title>Dashboard - Sensores</title>
 
   <!-- Bootstrap local -->
-  <link rel="stylesheet" href="css/bootstrap.custom.min.css">
-  <link rel="stylesheet" href="bootstrap-icons-1.13.1/bootstrap-icons.css">
+  <link rel="stylesheet" href="/alarma_tec_1/frontend/css/bootstrap.custom.min.css">
+  <link rel="stylesheet" href="/alarma_tec_1/frontend/bootstrap-icons-1.13.1/bootstrap-icons.css">
   <!-- Estilos del dashboard principal -->
-  <link rel="stylesheet" href="css/plantillaPrincipal.css">
-  <link rel="stylesheet" href="css/estructuraDasboardSensores.css">
+  <link rel="stylesheet" href="/alarma_tec_1/frontend/css/plantillaPrincipal.css">
+  <link rel="stylesheet" href="/alarma_tec_1/frontend/css/estructuraDasboardSensores.css">
 
   <style>
     .blur-active main,
@@ -196,7 +196,7 @@ $id_equipo = isset($_GET['id_equipo']) ? intval($_GET['id_equipo']) : 0;
   </div>
 
   <!-- Bootstrap scripts -->
-  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="/alarma_tec_1/frontend/js/bootstrap.bundle.js"></script>
 
   <script>
     const sidebar = document.getElementById('sidebar');
@@ -225,7 +225,7 @@ $id_equipo = isset($_GET['id_equipo']) ? intval($_GET['id_equipo']) : 0;
     // Función: Cargar sensores dinámicamente
     async function cargarSensores() {
       try {
-        const res = await fetch(`../back-end/obtener_sensores.php?id_zona=${idZona}`);
+        const res = await fetch(`/alarma_tec_1/back-end/obtener_sensores.php?id_zona=${idZona}`);
         const data = await res.json();
 
         if (!data || data.length === 0) {
@@ -291,7 +291,7 @@ $id_equipo = isset($_GET['id_equipo']) ? intval($_GET['id_equipo']) : 0;
         btn.addEventListener('click', async () => {
           const id = btn.dataset.id;
           try {
-            const res = await fetch('../back-end/archivosensor.php', {
+            const res = await fetch('/alarma_tec_1/back-end/archivosensor.php', {
               method: 'POST',
               headers: {'Content-Type': 'application/json'},
               body: JSON.stringify({ id_zona_sensor: id })
@@ -412,7 +412,7 @@ $id_equipo = isset($_GET['id_equipo']) ? intval($_GET['id_equipo']) : 0;
         formData.append('id_tipo_sensor', tipo);
         formData.append('estado', estado);
 
-        const response = await fetch('../back-end/actualizar_sensor.php', {
+        const response = await fetch('/alarma_tec_1/back-end/actualizar_sensor.php', {
           method: 'POST',
           body: formData
         });

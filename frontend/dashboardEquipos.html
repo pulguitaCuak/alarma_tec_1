@@ -4,15 +4,60 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dashboard - Alarma</title>
-  <link rel="stylesheet" href="css/dashboardEquipos.css">
+  <link rel="stylesheet" href="/alarma_tec_1/frontend/css/dashboardEquipos.css">
   <!-- Bootstrap local -->
-  <link rel="stylesheet" href="css/bootstrap.custom.min.css">
-  <link rel="stylesheet" href="bootstrap-icons-1.13.1/bootstrap-icons.css">
+  <link rel="stylesheet" href="/alarma_tec_1/frontend/css/bootstrap.custom.min.css">
+  <link rel="stylesheet" href="/alarma_tec_1/frontend/bootstrap-icons-1.13.1/bootstrap-icons.css">
   <!-- Estilos personalizados -->
-  <link rel="stylesheet" href="css/plantillaPrincipal.css">
+  <link rel="stylesheet" href="/alarma_tec_1/frontend/css/plantillaPrincipal.css">
 
   <!-- ====== ESTILOS MODAL (idéntico al anterior, con blur y diseño limpio) ====== -->
-  
+  <style>
+    .blur-active main,
+    .blur-active header,
+    .blur-active footer,
+    .blur-active aside {
+      filter: blur(5px);
+      pointer-events: none;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.4);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1050;
+    }
+
+    .modal-content-custom {
+      background-color: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      width: 90%;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .modal-content-custom i {
+      font-size: 40px;
+      color: #0d6efd;
+      margin-bottom: 10px;
+    }
+
+    .modal-content-custom h5 {
+      margin-bottom: 15px;
+    }
+
+    .modal-content-custom .btn {
+      min-width: 100px;
+    }
+  </style>
 </head>
 <body class="bg-light d-flex flex-column min-vh-100">
 
@@ -46,169 +91,8 @@
     <!-- CONTENIDO CON CARDS -->
     <div class="flex-grow-1 ms-3">
       <div class="container-fluid py-4">
-        <div class="row g-4 justify-content-center">
-
-          <!-- CARD -->
-          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="card h-100">
-              <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                  <i class="bi bi-house-door me-2 fs-5"></i>
-                  <h5 class="card-title mb-0">Mi Casa</h5>
-                </div>
-                <div class="d-flex align-items-center text-muted">
-                  <i class="bi bi-wifi-off me-2 fs-5"></i>
-                  <small>Sin acceso</small>
-                </div>
-                <p class="card-text">Alguna especie de descripción que no me imagino ahora mismo.</p>
-                <div class="d-flex gap-2">
-                  <button class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</button>
-                  <button class="btn btn-outline-secondary btn-sm btn-editar"><i class="bi bi-pencil me-1"></i>Editar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-           <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="card h-100">
-              <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                  <i class="bi bi-house-door me-2 fs-5"></i>
-                  <h5 class="card-title mb-0">Mi Casa</h5>
-                </div>
-                <div class="d-flex align-items-center text-muted">
-                  <i class="bi bi-wifi-off me-2 fs-5"></i>
-                  <small>Sin acceso</small>
-                </div>
-                <p class="card-text">Alguna especie de descripción que no me imagino ahora mismo.</p>
-                <div class="d-flex gap-2">
-                  <button class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</button>
-                  <button class="btn btn-outline-secondary btn-sm btn-editar"><i class="bi bi-pencil me-1"></i>Editar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-           <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="card h-100">
-              <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                  <i class="bi bi-house-door me-2 fs-5"></i>
-                  <h5 class="card-title mb-0">Mi Casa</h5>
-                </div>
-                <div class="d-flex align-items-center text-muted">
-                  <i class="bi bi-wifi-off me-2 fs-5"></i>
-                  <small>Sin acceso</small>
-                </div>
-                <p class="card-text">Alguna especie de descripción que no me imagino ahora mismo.</p>
-                <div class="d-flex gap-2">
-                  <button class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</button>
-                  <button class="btn btn-outline-secondary btn-sm btn-editar"><i class="bi bi-pencil me-1"></i>Editar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-           <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="card h-100">
-              <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                  <i class="bi bi-house-door me-2 fs-5"></i>
-                  <h5 class="card-title mb-0">Mi Casa</h5>
-                </div>
-                <div class="d-flex align-items-center text-muted">
-                  <i class="bi bi-wifi-off me-2 fs-5"></i>
-                  <small>Sin acceso</small>
-                </div>
-                <p class="card-text">Alguna especie de descripción que no me imagino ahora mismo.</p>
-                <div class="d-flex gap-2">
-                  <button class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</button>
-                  <button class="btn btn-outline-secondary btn-sm btn-editar"><i class="bi bi-pencil me-1"></i>Editar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-           <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="card h-100">
-              <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                  <i class="bi bi-house-door me-2 fs-5"></i>
-                  <h5 class="card-title mb-0">Mi Casa</h5>
-                </div>
-                <div class="d-flex align-items-center text-muted">
-                  <i class="bi bi-wifi-off me-2 fs-5"></i>
-                  <small>Sin acceso</small>
-                </div>
-                <p class="card-text">Alguna especie de descripción que no me imagino ahora mismo.</p>
-                <div class="d-flex gap-2">
-                  <button class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</button>
-                  <button class="btn btn-outline-secondary btn-sm btn-editar"><i class="bi bi-pencil me-1"></i>Editar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-           <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="card h-100">
-              <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                  <i class="bi bi-house-door me-2 fs-5"></i>
-                  <h5 class="card-title mb-0">Mi Casa</h5>
-                </div>
-                <div class="d-flex align-items-center text-muted">
-                  <i class="bi bi-wifi-off me-2 fs-5"></i>
-                  <small>Sin acceso</small>
-                </div>
-                <p class="card-text">Alguna especie de descripción que no me imagino ahora mismo.</p>
-                <div class="d-flex gap-2">
-                  <button class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</button>
-                  <button class="btn btn-outline-secondary btn-sm btn-editar"><i class="bi bi-pencil me-1"></i>Editar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-           <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="card h-100">
-              <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                  <i class="bi bi-house-door me-2 fs-5"></i>
-                  <h5 class="card-title mb-0">Mi Casa</h5>
-                </div>
-                <div class="d-flex align-items-center text-muted">
-                  <i class="bi bi-wifi-off me-2 fs-5"></i>
-                  <small>Sin acceso</small>
-                </div>
-                <p class="card-text">Alguna especie de descripción que no me imagino ahora mismo.</p>
-                <div class="d-flex gap-2">
-                  <button class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</button>
-                  <button class="btn btn-outline-secondary btn-sm btn-editar"><i class="bi bi-pencil me-1"></i>Editar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-           <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="card h-100">
-              <div class="card-body">
-                <div class="d-flex align-items-center mb-2">
-                  <i class="bi bi-house-door me-2 fs-5"></i>
-                  <h5 class="card-title mb-0">Mi Casa</h5>
-                </div>
-                <div class="d-flex align-items-center text-muted">
-                  <i class="bi bi-wifi-off me-2 fs-5"></i>
-                  <small>Sin acceso</small>
-                </div>
-                <p class="card-text">Alguna especie de descripción que no me imagino ahora mismo.</p>
-                <div class="d-flex gap-2">
-                  <button class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</button>
-                  <button class="btn btn-outline-secondary btn-sm">Editar</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
+        <div class="row g-4 justify-content-center" id="equiposContainer">
+          <div class="text-center text-muted">Cargando equipos...</div>
         </div>
       </div>
     </div>
@@ -248,7 +132,7 @@
   </div>
 
   <!-- Bootstrap scripts -->
-  <script src="js/bootstrap.bundle.js"></script>
+  <script src="/alarma_tec_1/frontend/js/bootstrap.bundle.js"></script>
 
   <script>
     const sidebar = document.getElementById('sidebar');
@@ -256,6 +140,80 @@
     toggleBtn.addEventListener('click', () => {
       sidebar.classList.toggle('show');
     });
+
+    const equiposContainer = document.getElementById('equiposContainer');
+
+    // Cargar equipos dinámicamente
+    async function cargarEquipos() {
+      try {
+        const res = await fetch('/alarma_tec_1/back-end/obtener_equipos.php');
+        const data = await res.json();
+
+        if (!data || data.length === 0) {
+          equiposContainer.innerHTML = '<p class="text-muted text-center">No hay equipos disponibles.</p>';
+          return;
+        }
+
+        equiposContainer.innerHTML = '';
+
+        data.forEach(equipo => {
+          const col = document.createElement('div');
+          col.className = 'col-12 col-sm-6 col-md-4 col-lg-3';
+
+          col.innerHTML = `
+            <div class="card h-100" data-id-equipo="${equipo.id_equipo}">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                  <i class="bi bi-house-door me-2 fs-5"></i>
+                  <h5 class="card-title mb-0">${equipo.nombre}</h5>
+                </div>
+                <div class="d-flex align-items-center text-muted">
+                  <i class="bi ${equipo.estado == 1 ? 'bi-wifi' : 'bi-wifi-off'} me-2 fs-5"></i>
+                  <small>${equipo.estado == 1 ? 'Conectado' : 'Desconectado'}</small>
+                </div>
+                <p class="card-text">${equipo.descripcion || 'Sin descripción'}</p>
+                <div class="d-flex gap-2">
+                  <button class="btn btn-secondary bg-secondary text-body btn-sm btn-entrar" data-id="${equipo.id_equipo}">Entrar</button>
+                  <button class="btn btn-outline-secondary btn-sm btn-editar"><i class="bi bi-pencil me-1"></i>Editar</button>
+                </div>
+              </div>
+            </div>
+          `;
+
+          equiposContainer.appendChild(col);
+        });
+
+        agregarEventos();
+
+      } catch (err) {
+        console.error(err);
+        equiposContainer.innerHTML = '<p class="text-danger text-center">Error al cargar equipos.</p>';
+      }
+    }
+
+    // Agregar eventos
+    function agregarEventos() {
+      // Botón entrar
+      document.querySelectorAll('.btn-entrar').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const idEquipo = btn.dataset.id;
+          window.location.href = `silva/estructuraDashboardZonas.php?id_equipo=${idEquipo}`;
+        });
+      });
+
+      // Botón editar
+      document.querySelectorAll('.btn-editar').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const card = btn.closest('.card');
+          const idEquipo = card.dataset.idEquipo;
+          const nombre = card.querySelector('.card-title').textContent.trim();
+          const descripcion = card.querySelector('.card-text').textContent.trim();
+          abrirModalEditar(idEquipo, nombre, descripcion, card);
+        });
+      });
+    }
 
     // === LÓGICA DEL MODAL EDITAR ===
     const modalOverlay = document.getElementById('modalOverlay');
@@ -266,29 +224,25 @@
     const newDescriptionInput = document.getElementById('newDescription');
 
     let selectedCard = null;
+    let selectedEquipoId = null;
 
-    // Abrir modal al hacer clic en botón Editar
-    document.querySelectorAll('.btn-editar').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        selectedCard = btn.closest('.card');
-        const title = selectedCard.querySelector('.card-title').textContent.trim();
-        const description = selectedCard.querySelector('.card-text') ? selectedCard.querySelector('.card-text').textContent.trim() : '';
+    function abrirModalEditar(idEquipo, nombre, descripcion, card) {
+      selectedEquipoId = idEquipo;
+      selectedCard = card;
+      oldNameInput.value = nombre;
+      newNameInput.value = '';
+      newDescriptionInput.value = descripcion;
 
-        oldNameInput.value = title;
-        newNameInput.value = '';
-        newDescriptionInput.value = description;
-
-        document.body.classList.add('blur-active');
-        modalOverlay.style.display = 'flex';
-      });
-    });
+      document.body.classList.add('blur-active');
+      modalOverlay.style.display = 'flex';
+    }
 
     // Cerrar modal
     function closeEditModal() {
       modalOverlay.style.display = 'none';
       document.body.classList.remove('blur-active');
       selectedCard = null;
+      selectedEquipoId = null;
     }
     cancelEdit.addEventListener('click', closeEditModal);
     modalOverlay.addEventListener('click', (e) => {
@@ -296,18 +250,53 @@
     });
 
     // Guardar cambios
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const newName = newNameInput.value.trim();
       const newDesc = newDescriptionInput.value.trim();
 
-      if (selectedCard) {
-        if (newName) selectedCard.querySelector('.card-title').textContent = newName;
-        if (newDesc) selectedCard.querySelector('.card-text').textContent = newDesc;
+      if (!newName && !newDesc) {
+        alert('Por favor ingrese al menos un nombre o descripción');
+        return;
       }
 
-      closeEditModal();
+      try {
+        const formData = new FormData();
+        formData.append('id_equipo', selectedEquipoId);
+        
+        if (newName) {
+          formData.append('nombre', newName);
+        }
+        if (newDesc) {
+          formData.append('descripcion', newDesc);
+        }
+
+        const response = await fetch('/alarma_tec_1/back-end/actualizar_equipo.php', {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.ok) {
+          // Actualizar la tarjeta en el frontend
+          if (newName) {
+            selectedCard.querySelector('.card-title').textContent = newName;
+          }
+          if (newDesc) {
+            selectedCard.querySelector('.card-text').textContent = newDesc;
+          }
+          closeEditModal();
+        } else {
+          alert('Error: ' + result.mensaje);
+        }
+      } catch (error) {
+        console.error('Error al guardar:', error);
+        alert('Error al guardar los cambios');
+      }
     });
+
+    cargarEquipos();
   </script>
 
 </body>

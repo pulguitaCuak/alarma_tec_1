@@ -5,7 +5,7 @@ if (!isset($_SESSION["id_user"])) {
     exit;
 }
 
-require_once "../back-end/db.php"; // Conexión PDO
+require_once "../../back-end/db.php"; // Conexión PDO
 
 if (!isset($_GET['id_equipo'])) {
     die("Falta id_equipo en la URL");
@@ -20,8 +20,8 @@ $id_equipo = intval($_GET['id_equipo']);
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard - Zonas</title>
-<link rel="stylesheet" href="css/bootstrap.custom.min.css">
-<link rel="stylesheet" href="bootstrap-icons-1.13.1/bootstrap-icons.css">
+<link rel="stylesheet" href="/alarma_tec_1/frontend/css/bootstrap.custom.min.css">
+<link rel="stylesheet" href="/alarma_tec_1/frontend/bootstrap-icons-1.13.1/bootstrap-icons.css">
 <style>
     body { min-height: 100vh; display: flex; flex-direction: column; }
     .sidebar { width: 80px; min-height: 100vh; }
@@ -142,14 +142,14 @@ $id_equipo = intval($_GET['id_equipo']);
   </div>
 </div>
 
-<script src="js/bootstrap.bundle.min.js"></script>
+<script src="/alarma_tec_1/frontend/js/bootstrap.bundle.js"></script>
 <script>
 const zonasContainer = document.getElementById('zonasContainer');
 const idEquipo = <?php echo $id_equipo; ?>;
 
 async function cargarZonas() {
     try {
-        const res = await fetch(`../back-end/obtener_zonas.php?id_equipo=${idEquipo}`);
+        const res = await fetch(`/alarma_tec_1/back-end/obtener_zonas.php?id_equipo=${idEquipo}`);
         const data = await res.json();
 
         if (!data || data.length === 0) {
@@ -248,7 +248,7 @@ form.addEventListener('submit', async (e) => {
             formData.append('estado_zona', newState);
         }
 
-        const response = await fetch('../back-end/actualizar_zona.php', {
+        const response = await fetch('/alarma_tec_1/back-end/actualizar_zona.php', {
             method: 'POST',
             body: formData
         });
