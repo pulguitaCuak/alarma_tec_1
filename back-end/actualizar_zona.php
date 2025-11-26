@@ -10,9 +10,20 @@ require_once 'db.php';
 
 $id_zona = $_POST['id_zona'] ?? 0;
 $nombre_zona = $_POST['nombre_zona'] ?? '';
-$estado_zona = $_POST['estado_zona'] ?? '';
+$accion = $_POST['accion'] ?? 'actualizar'; // 'actualizar' o 'eliminar'
 
 try {
+    // Si la acción es eliminar, marcar como eliminado (soft delete - estado = 2)
+    if ($accion === 'eliminar') {
+        $query = "UPDATE zonas SET estado = 2 WHERE id_zona = ?";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([$id_zona]);
+        
+        echo json_encode(["ok" => true, "mensaje" => "Zona eliminada correctamente"]);
+        exit;
+    }
+
+    // De lo contrario, actualizar
     $updates = [];
     $params = [];
 
@@ -21,10 +32,6 @@ try {
         $updates[] = "descripcion = ?";
         $params[] = $nombre_zona;
     }
-
-    // Nota: El estado se calcula dinámicamente en la consulta de obtener_zonas.php
-    // basado en el estado de los sensores, así que aquí no lo actualizamos directamente
-    // Si necesitas un campo de estado separado, deberías agregar una columna a la tabla
 
     if (empty($updates)) {
         echo json_encode(["ok" => false, "mensaje" => "No hay datos para actualizar"]);
@@ -43,3 +50,4 @@ try {
     http_response_code(500);
     echo json_encode(["ok" => false, "mensaje" => "Error: " . $e->getMessage()]);
 }
+?>

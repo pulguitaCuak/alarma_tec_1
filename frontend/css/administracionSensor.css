@@ -1,27 +1,131 @@
+/* === Estructura principal del dashboard === */
+main {
+    overflow-x: hidden;
+}
+
+/* Distribución de columnas: cards (izquierda) y actividad (derecha) */
+.dashboard-layout {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+@media (min-width: 992px) {
+    .dashboard-layout {
+        flex-direction: row;
+        width: 100%;
+    }
+
+    .dashboard-layout .cards-section {
+        flex: 0 0 65%;
+        max-width: 65%;
+        padding-right: 1rem;
+    }
+
+    .dashboard-layout .activity-section {
+        flex: 0 0 30%;
+        max-width: 30%;
+        margin-left: auto;
+    }
+}
+
+/* === Secciones === */
+.cards-section {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.activity-section {
+    flex: 0 0 30%;
+    max-width: 30%;
+    margin-left: auto;
+    padding-right: 1rem;
+}
+
+@media (max-width: 991px) {
+    .activity-section {
+        flex: 0 0 100%;
+        max-width: 100%;
+        margin-left: 0;
+        margin-top: 1rem;
+    }
+}
+
+/* === Contenedor de actividades === */
+.activity-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.activity-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    width: 100%;
+}
+
+/* === Overlay para modales === */
 .overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      margin: 0;
-      padding: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      background-color: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(4px);
-      z-index: 999;
-      justify-content: center;
-      align-items: center;
-    }
+    display: none;
+    position: fixed;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    justify-content: center;
+    align-items: center;
+}
 
-    .overlay.mostrar {
-      display: flex;
-    }
+.overlay.mostrar {
+    display: flex;
+}
 
-    .popup {
-      display: none;
-    }
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    max-width: 500px;
+    width: 90%;
+}
 
-    .popup.mostrar {
-      display: block;
-    }
+.popup.mostrar {
+    display: block;
+}
+
+.popup-content {
+    padding: 2rem;
+}
+
+.popup-content h3 {
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.popup-content form {
+    margin-top: 1.5rem;
+}
+
+.popup-content .form-group {
+    margin-bottom: 1rem;
+}
+
+.popup-content .form-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}

@@ -8,26 +8,55 @@ if (!isset($_SESSION["id_user"])) {
 
 require_once 'db.php';
 
-$id_zona_sensor = $_POST['id_zona_sensor'] ?? 0;
 $id_sensor = $_POST['id_sensor'] ?? 0;
 $nombre = $_POST['nombre'] ?? '';
 $descripcion = $_POST['descripcion'] ?? '';
-$id_tipo_sensor = $_POST['id_tipo_sensor'] ?? 0;
 $estado = $_POST['estado'] ?? '';
+$accion = $_POST['accion'] ?? 'actualizar'; // 'actualizar' o 'eliminar'
 
 try {
-    if (!$id_zona_sensor || !$id_sensor || !$nombre || $id_tipo_sensor === '' || $estado === '') {
-        echo json_encode(["ok" => false, "mensaje" => "Faltan datos requeridos"]);
+    // Si la acción es eliminar, marcar como eliminado (soft delete - estado = 2)
+    if ($accion === 'eliminar') {
+        $query = "UPDATE sensores SET estado = 2 WHERE id_sensor = ?";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([$id_sensor]);
+        
+        echo json_encode(["ok" => true, "mensaje" => "Sensor eliminado correctamente"]);
         exit;
     }
 
-    // Actualizar datos en la tabla sensores
-    $stmt = $pdo->prepare("UPDATE sensores SET nombre = ?, descripcion = ?, id_tipo_sensor = ? WHERE id_sensor = ?");
-    $stmt->execute([$nombre, $descripcion, $id_tipo_sensor, $id_sensor]);
+    // De lo contrario, actualizar
+    $updates = [];
+    $params = [];
 
-    // Actualizar estado en la tabla zona_sensor
-    $stmt = $pdo->prepare("UPDATE zona_sensor SET estado = ? WHERE id_zona_sensor = ?");
-    $stmt->execute([$estado, $id_zona_sensor]);
+    // Actualizar nombre si se proporciona
+    if ($nombre !== '') {
+        $updates[] = "nombre = ?";
+        $params[] = $nombre;
+    }
+
+    // Actualizar descripción si se proporciona
+    if ($descripcion !== '') {
+        $updates[] = "descripcion = ?";
+        $params[] = $descripcion;
+    }
+
+    // Actualizar estado si se proporciona
+    if ($estado !== '') {
+        $updates[] = "estado = ?";
+        $params[] = intval($estado);
+    }
+
+    if (empty($updates)) {
+        echo json_encode(["ok" => false, "mensaje" => "No hay datos para actualizar"]);
+        exit;
+    }
+
+    $params[] = $id_sensor;
+    $query = "UPDATE sensores SET " . implode(", ", $updates) . " WHERE id_sensor = ?";
+
+    $stmt = $pdo->prepare($query);
+    $stmt->execute($params);
 
     echo json_encode(["ok" => true, "mensaje" => "Sensor actualizado correctamente"]);
 
@@ -35,4 +64,4 @@ try {
     http_response_code(500);
     echo json_encode(["ok" => false, "mensaje" => "Error: " . $e->getMessage()]);
 }
-
+?>
