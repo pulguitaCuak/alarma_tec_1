@@ -11,8 +11,20 @@ require_once 'db.php';
 $id_equipo = $_POST['id_equipo'] ?? 0;
 $nombre = $_POST['nombre'] ?? '';
 $descripcion = $_POST['descripcion'] ?? '';
+$accion = $_POST['accion'] ?? 'actualizar'; // 'actualizar' o 'eliminar'
 
 try {
+    // Si la acción es eliminar, marcar como eliminado (soft delete - estado = 2)
+    if ($accion === 'eliminar') {
+        $query = "UPDATE equipo SET estado = 2 WHERE id_equipo = ?";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([$id_equipo]);
+        
+        echo json_encode(["ok" => true, "mensaje" => "Equipo eliminado correctamente"]);
+        exit;
+    }
+
+    // De lo contrario, actualizar
     $updates = [];
     $params = [];
 

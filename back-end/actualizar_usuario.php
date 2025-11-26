@@ -29,3 +29,4 @@ try {
 } catch (Exception $e) {
   echo json_encode(["ok" => false, "mensaje" => "Error: " . $e->getMessage()]);
 }
+?>

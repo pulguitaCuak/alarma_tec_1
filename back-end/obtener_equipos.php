@@ -17,6 +17,7 @@ try {
             estado, 
             descripcion
         FROM equipo
+        WHERE estado != 2
         ORDER BY id_equipo ASC
     ";
 

@@ -5,10 +5,73 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Administración - Alarma</title>
   <!-- Bootstrap local -->
-  <link rel="stylesheet" href="css/bootstrap.custom.min.css">
-  <link rel="stylesheet" href="bootstrap-icons-1.13.1/bootstrap-icons.css">
+  <link rel="stylesheet" href="/alarma_tec_1/frontend/css/bootstrap.custom.min.css">
+  <link rel="stylesheet" href="/alarma_tec_1/frontend/bootstrap-icons-1.13.1/bootstrap-icons.css">
   <!-- Estilos personalizados -->
-  <link rel="stylesheet" href="css/plantillaPrincipal.css">
+  <link rel="stylesheet" href="/alarma_tec_1/frontend/css/plantillaPrincipal.css">
+  <style>
+    .state-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .state-active {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .state-inactive {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      max-width: 500px;
+    }
+
+    .modal-content h5 {
+      margin-bottom: 1.5rem;
+      font-weight: bold;
+    }
+
+    .blur-active {
+      filter: blur(5px);
+      pointer-events: none;
+    }
+
+    .blur-active main,
+    .blur-active header,
+    .blur-active footer,
+    .blur-active aside {
+      filter: blur(5px);
+      pointer-events: none;
+    }
+  </style>
 </head>
 <body class="bg-light d-flex flex-column min-vh-100">
 
@@ -19,7 +82,7 @@
       <button class="btn btn-outline-light d-lg-none me-3" id="toggleSidebar">
         <i class="bi bi-list"></i>
       </button>
-      <h1 class="h4 m-0"><a href="index.html" class="navbar-brand">Alarma</a></h1>
+      <h1 class="h4 m-0"><a href="/alarma_tec_1/frontend/index.html" class="navbar-brand">Alarma</a></h1>
     </div>
     <div class="d-flex align-items-center">
       <h2 class="h5 m-0 me-2">Administración</h2>
@@ -33,10 +96,10 @@
   <div class="d-flex flex-grow-1">
     <!-- SIDEBAR (oculta en móvil) -->
     <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100">
-      <a href="administracionUsuarios.html" class="my-3"><i class="bi bi-house fs-4 p-4"></i></a>
-      <a href="dashboardEquipos.html" class="my-3"><i class="bi bi-grid fs-4 p-4"></i></a>
-      <a href="administracionRegistrar.html" class="my-3"><i class="bi bi-person-plus fs-4 p-4"></i></a>
-      <a href="estructuraAdministracionEquipos.html" class="my-3"><i class="bi bi-list fs-4 p-4"></i></a>
+      <a href="/alarma_tec_1/frontend/administracionUsuarios.html" class="my-3"><i class="bi bi-house fs-4 p-4"></i></a>
+      <a href="/alarma_tec_1/frontend/dashboardEquipos.html" class="my-3"><i class="bi bi-grid fs-4 p-4"></i></a>
+      <a href="/alarma_tec_1/frontend/administracionRegistrar.html" class="my-3"><i class="bi bi-person-plus fs-4 p-4"></i></a>
+      <a href="/alarma_tec_1/frontend/administracionEquipos.html" class="my-3"><i class="bi bi-list fs-4 p-4"></i></a>
     </aside>
 
     <!-- CONTENIDO CON USUARIOS -->
@@ -44,7 +107,7 @@
       <div class="container-fluid py-4">
 
         <div class="d-flex align-items-center mb-3">
-          <input type="text" class="form-control me-2" placeholder="Value">
+          <input type="text" class="form-control me-2" id="searchInput" placeholder="Buscar usuario...">
 
           <!-- Activador del menú -->
           <div class="dropdown">
@@ -53,100 +116,29 @@
             </a>
 
             <ul class="dropdown-menu">
-              <li><h4 class="dropdown-header text-body">Rol</h4></li>
+              <li><h6 class="dropdown-header text-body">Filtrar por Estado</h6></li>
               <li><hr class="dropdown-divider"></li>
-              <li class="p-1"><select class="form-select text-dark" id="exampleSelect1">
-                    <option>Todos</option>
-                    <option>Administrador</option>
-                    <option>Usuario</option>
-                  </select>
+              <li class="p-2">
+                <select class="form-select form-select-sm" id="filterEstado">
+                  <option value="">Todos</option>
+                  <option value="1">Activo</option>
+                  <option value="2">Inactivo</option>
+                  <option value="3">Pendiente</option>
+                  <option value="4">Suspendido</option>
+                </select>
               </li>
-              
             </ul>
           </div>
 
         </div>
 
         <!-- Lista de usuarios -->
-        <div class="list-group shadow-sm">
-          <!-- Usuario -->
-          <div class="list-group-item d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center">
-              <i class="bi bi-person fs-2 me-3"></i>
-              <div>
-                <strong>Nombre de Usuario</strong><br>
-                <small class="text-muted">Rol del Usuario</small>
-              </div>
-            </div>
-            <div>
-              <button class="btn btn-danger btn-sm me-2">Eliminar</button>
-              <button class="btn btn-outline-secondary btn-sm me-2">Modificar</button>
-              <a href="administracionAccederUsuario.html" class="btn btn-info btn-sm text-white">Ver Info.</a>
+        <div class="list-group shadow-sm" id="usuariosContainer">
+          <div class="text-center py-4">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Cargando...</span>
             </div>
           </div>
-
-          <!-- Copiá más bloques para más usuarios -->
-          <div class="list-group-item d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center">
-              <i class="bi bi-person fs-2 me-3"></i>
-              <div>
-                <strong>Nombre de Usuario</strong><br>
-                <small class="text-muted">Rol del Usuario</small>
-              </div>
-            </div>
-            <div>
-              <button class="btn btn-danger btn-sm me-2">Eliminar</button>
-              <button class="btn btn-outline-secondary btn-sm me-2">Modificar</button>
-              <a href="administracionAccederUsuario.html" class="btn btn-info btn-sm text-white">Ver Info.</a>
-            </div>
-          </div>
-
-          <div class="list-group-item d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center">
-              <i class="bi bi-person fs-2 me-3"></i>
-              <div>
-                <strong>Nombre de Usuario</strong><br>
-                <small class="text-muted">Rol del Usuario</small>
-              </div>
-            </div>
-            <div>
-              <button class="btn btn-danger btn-sm me-2">Eliminar</button>
-              <button class="btn btn-outline-secondary btn-sm me-2">Modificar</button>
-              <a href="administracionAccederUsuario.html" class="btn btn-info btn-sm text-white">Ver Info.</a>
-            </div>
-          </div>
-
-          <div class="list-group-item d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center">
-              <i class="bi bi-person fs-2 me-3"></i>
-              <div>
-                <strong>Nombre de Usuario</strong><br>
-                <small class="text-muted">Rol del Usuario</small>
-              </div>
-            </div>
-            <div>
-              <button class="btn btn-danger btn-sm me-2">Eliminar</button>
-              <button class="btn btn-outline-secondary btn-sm me-2">Modificar</button>
-              <a href="administracionAccederUsuario.html" class="btn btn-info btn-sm text-white">Ver Info.</a>
-            </div>
-          </div>
-
-          <div class="list-group-item d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center">
-              <i class="bi bi-person fs-2 me-3"></i>
-              <div>
-                <strong>Nombre de Usuario</strong><br>
-                <small class="text-muted">Rol del Usuario</small>
-              </div>
-            </div>
-            <div>
-              <button class="btn btn-danger btn-sm me-2">Eliminar</button>
-              <button class="btn btn-outline-secondary btn-sm me-2">Modificar</button>
-              <a href="administracionAccederUsuario.html" class="btn btn-info btn-sm text-white">Ver Info.</a>
-            </div>
-          </div>
-          
-
         </div>
       </div>
     </div>
@@ -158,18 +150,241 @@
   <small class="footer-text">2025 Escuela Técnica N°1 Gral. San Martín Inc. Todos los derechos reservados.</small>
 </footer>
 
+  <!-- Modal de Edición -->
+  <div id="modalOverlay" class="modal-overlay">
+    <div class="modal-content">
+      <h5>Editar Usuario</h5>
+      <form id="editForm">
+        <input type="hidden" id="editId">
+        
+        <div class="mb-3">
+          <label for="editNombre" class="form-label">Nombre</label>
+          <input type="text" class="form-control" id="editNombre" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="editApellido" class="form-label">Apellido</label>
+          <input type="text" class="form-control" id="editApellido" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="editCargo" class="form-label">Cargo</label>
+          <select class="form-select" id="editCargo" required>
+            <option value="">Seleccionar cargo...</option>
+            <option value="Administrador">Administrador</option>
+            <option value="Técnico">Técnico</option>
+            <option value="Cliente">Cliente</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="editEstado" class="form-label">Estado</label>
+          <select class="form-select" id="editEstado" required>
+            <option value="1">Activo</option>
+            <option value="2">Inactivo</option>
+            <option value="3">Pendiente</option>
+            <option value="4">Suspendido</option>
+          </select>
+        </div>
+
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-primary flex-grow-1">Guardar</button>
+          <button type="button" class="btn btn-secondary flex-grow-1" id="cancelEdit">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
 
   <!-- Bootstrap scripts -->
-  <script src="js/bootstrap.bundle.js"></script>
+  <script src="/alarma_tec_1/frontend/js/bootstrap.bundle.js"></script>
   <script>
-    
-
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('toggleSidebar');
 
     toggleBtn.addEventListener('click', () => {
       sidebar.classList.toggle('show');
     });
+
+    const usuariosContainer = document.getElementById('usuariosContainer');
+    const searchInput = document.getElementById('searchInput');
+    const filterEstado = document.getElementById('filterEstado');
+    const modalOverlay = document.getElementById('modalOverlay');
+    const editForm = document.getElementById('editForm');
+    const cancelEdit = document.getElementById('cancelEdit');
+    const editId = document.getElementById('editId');
+    const editNombre = document.getElementById('editNombre');
+    const editApellido = document.getElementById('editApellido');
+    const editCargo = document.getElementById('editCargo');
+    const editEstado = document.getElementById('editEstado');
+
+    let todosUsuarios = [];
+
+    // Cargar usuarios dinámicamente
+    async function cargarUsuarios() {
+      try {
+        const res = await fetch('/alarma_tec_1/back-end/obtener_usuarios.php');
+        const data = await res.json();
+
+        if (!data || data.length === 0) {
+          usuariosContainer.innerHTML = '<p class="text-muted text-center py-4">No hay usuarios disponibles.</p>';
+          return;
+        }
+
+        todosUsuarios = data;
+        mostrarUsuarios(data);
+
+      } catch (err) {
+        console.error('Error:', err);
+        usuariosContainer.innerHTML = '<p class="text-danger text-center py-4">Error al cargar usuarios.</p>';
+      }
+    }
+
+    function mostrarUsuarios(usuarios) {
+      usuariosContainer.innerHTML = '';
+
+      if (usuarios.length === 0) {
+        usuariosContainer.innerHTML = '<p class="text-muted text-center py-4">No hay resultados.</p>';
+        return;
+      }
+
+      usuarios.forEach(usuario => {
+        const estadoClass = usuario.estado == 1 ? 'state-active' : 'state-inactive';
+        const estadoText = usuario.estado == 1 ? 'Activo' : (usuario.estado == 2 ? 'Inactivo' : (usuario.estado == 3 ? 'Pendiente' : 'Suspendido'));
+
+        const item = document.createElement('div');
+        item.className = 'list-group-item d-flex justify-content-between align-items-center';
+        item.innerHTML = `
+          <div class="d-flex align-items-center">
+            <i class="bi bi-person fs-2 me-3"></i>
+            <div>
+              <strong>${usuario.nombre} ${usuario.apellido}</strong><br>
+              <small class="text-muted">${usuario.cargo || 'N/A'}</small>
+            </div>
+          </div>
+          <div class="d-flex gap-2 align-items-center">
+            <span class="state-badge ${estadoClass}">${estadoText}</span>
+            <button class="btn btn-outline-secondary btn-sm" onclick="editarUsuario(${usuario.id_user})">Modificar</button>
+            <button class="btn btn-danger btn-sm" onclick="eliminarUsuario(${usuario.id_user}, '${usuario.nombre} ${usuario.apellido}')">Eliminar</button>
+            <a href="/alarma_tec_1/frontend/administracionAccederUsuario.html?id=${usuario.id_user}" class="btn btn-info btn-sm text-white">Ver Info.</a>
+          </div>
+        `;
+
+        usuariosContainer.appendChild(item);
+      });
+    }
+
+    // Buscar y filtrar
+    function filtrarUsuarios() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const filterValue = filterEstado.value;
+
+      const usuariosFiltrados = todosUsuarios.filter(usuario => {
+        const coincideTexto = usuario.nombre.toLowerCase().includes(searchTerm) || 
+                             usuario.apellido.toLowerCase().includes(searchTerm);
+        const coincideEstado = filterValue === '' || usuario.estado == filterValue;
+        return coincideTexto && coincideEstado;
+      });
+
+      mostrarUsuarios(usuariosFiltrados);
+    }
+
+    searchInput.addEventListener('input', filtrarUsuarios);
+    filterEstado.addEventListener('change', filtrarUsuarios);
+
+    function editarUsuario(id, nombre) {
+      const usuario = todosUsuarios.find(u => u.id_user == id);
+      if (!usuario) return;
+
+      editId.value = usuario.id_user;
+      editNombre.value = usuario.nombre;
+      editApellido.value = usuario.apellido;
+      editCargo.value = usuario.cargo || '';
+      editEstado.value = usuario.estado;
+
+      document.querySelector('main').classList.add('blur-active');
+      document.querySelector('header').classList.add('blur-active');
+      document.querySelector('footer').classList.add('blur-active');
+      document.querySelector('aside').classList.add('blur-active');
+      modalOverlay.classList.add('active');
+    }
+
+    cancelEdit.addEventListener('click', () => {
+      modalOverlay.classList.remove('active');
+      document.querySelector('main').classList.remove('blur-active');
+      document.querySelector('header').classList.remove('blur-active');
+      document.querySelector('footer').classList.remove('blur-active');
+      document.querySelector('aside').classList.remove('blur-active');
+      editForm.reset();
+    });
+
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) {
+        cancelEdit.click();
+      }
+    });
+
+    editForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      try {
+        const formData = new FormData();
+        formData.append('editId', editId.value);
+        formData.append('editNombre', editNombre.value);
+        formData.append('editApellido', editApellido.value);
+        formData.append('editCargo', editCargo.value);
+        formData.append('editEstado', editEstado.value);
+
+        const response = await fetch('/alarma_tec_1/back-end/actualizar_usuario.php', {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.ok) {
+          alert('Usuario actualizado correctamente');
+          cancelEdit.click();
+          cargarUsuarios();
+        } else {
+          alert('Error: ' + result.mensaje);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error al actualizar usuario');
+      }
+    });
+
+    async function eliminarUsuario(id, nombre) {
+      if (confirm(`¿Estás seguro de que quieres eliminar a ${nombre}?`)) {
+        try {
+          const formData = new FormData();
+          formData.append('id_user', id);
+
+          const response = await fetch('/alarma_tec_1/back-end/eliminar_usuario.php', {
+            method: 'POST',
+            body: formData
+          });
+
+          const result = await response.json();
+
+          if (result.ok) {
+            alert('Usuario marcado como inactivo correctamente');
+            searchInput.value = '';
+            filterEstado.value = '';
+            cargarUsuarios();
+          } else {
+            alert('Error: ' + result.mensaje);
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Error al eliminar usuario');
+        }
+      }
+    }
+
+    // Cargar usuarios al iniciar
+    cargarUsuarios();
   </script>
 </body>
 </html>

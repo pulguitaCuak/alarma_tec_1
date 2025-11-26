@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dashboard - Alarma</title>
   <!-- Bootstrap local -->
-  <link rel="stylesheet" href="css/bootstrap.custom.min.css">
-  <link rel="stylesheet" href="bootstrap-icons-1.13.1/bootstrap-icons.css">
+  <link rel="stylesheet" href="/alarma_tec_1/frontend/css/bootstrap.custom.min.css">
+  <link rel="stylesheet" href="/alarma_tec_1/frontend/bootstrap-icons-1.13.1/bootstrap-icons.css">
   <!-- Estilos personalizados -->
-  <link rel="stylesheet" href="css/plantillaPrincipal.css">
-  <link rel="stylesheet" href="css/administracionEquipos.css">
+  <link rel="stylesheet" href="/alarma_tec_1/frontend/css/plantillaPrincipal.css">
+  <link rel="stylesheet" href="/alarma_tec_1/frontend/css/administracionEquipos.css">
 </head>
 <body class="bg-light d-flex flex-column min-vh-100  overflow: hidden;">
 
@@ -20,7 +20,7 @@
       <button class="btn btn-outline-light d-lg-none me-3" id="toggleSidebar">
         <i class="bi bi-list"></i>
       </button>
-      <h1 class="h4 m-0"><a href="index.html" class="navbar-brand">Alarma</a></h1>
+      <h1 class="h4 m-0"><a href="/alarma_tec_1/frontend/index.html" class="navbar-brand">Alarma</a></h1>
     </div>
     <div class="d-flex align-items-center">
       <h2 class="h5 m-0 me-2">Dashboard</h2>
@@ -34,10 +34,10 @@
   <div class="d-flex flex-grow-1 min-vh-100">
     <!-- SIDEBAR (oculta en móvil) -->
     <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100">
-      <a href="administracionUsuarios.html" class="my-3"><i class="bi bi-house fs-4 p-4"></i></a>
-      <a href="dashboardEquipos.html" class="my-3"><i class="bi bi-grid fs-4 p-4"></i></a>
-      <a href="administracionRegistrar.html" class="my-3"><i class="bi bi-person-plus fs-4 p-4"></i></a>
-      <a href="estructuraAdministracionEquipos.html" class="my-3"><i class="bi bi-list fs-4 p-4"></i></a>
+      <a href="/alarma_tec_1/frontend/administracionUsuarios.html" class="my-3"><i class="bi bi-house fs-4 p-4"></i></a>
+      <a href="/alarma_tec_1/frontend/dashboardEquipos.html" class="my-3"><i class="bi bi-grid fs-4 p-4"></i></a>
+      <a href="/alarma_tec_1/frontend/administracionRegistrar.html" class="my-3"><i class="bi bi-person-plus fs-4 p-4"></i></a>
+      <a href="/alarma_tec_1/frontend/administracionEquipos.html" class="my-3"><i class="bi bi-list fs-4 p-4"></i></a>
     </aside>  
 
     <!-- CONTENIDO CON CARDS -->
@@ -47,168 +47,26 @@
 
         <!--ENCONTRADOR-->
             <form class="d-flex encontrador px-4 gap-4 align-middle">
-                <input class="form-control me-sm-2" type="search" placeholder="Search">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                <input class="form-control me-sm-2" type="search" id="searchEquipo" placeholder="Buscar equipo...">
+                <button class="btn btn-secondary my-2 my-sm-0" type="button" id="btnBuscar">Buscar</button>
             </form>
 
-      <!-- CARD -->
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const overlay = document.getElementById('overlay');
-    const popupEditar = document.querySelector('.popup-editar');
-    const popupEliminar = document.querySelector('.popup-eliminar');
-
-    // Botones de edición
-    const btnModificar = document.getElementById('btnModificar');
-    const btnCancelarCambios = document.getElementById('btnCancelarCambios');
-    const btnAcetarCambios = document.getElementById('btnAcetarCambios');
-    const nuevoNombre = document.getElementById('nuevoNombre');
-    const NuevaDescripcion = document.getElementById('NuevaDescripcion');
-
-    // Botones de eliminación
-    const btnsEliminar = document.querySelectorAll('.btn-eliminar');
-    const btnConfirmarEliminar = document.getElementById('btnConfirmarEliminar');
-    const btnCancelarEliminar = document.getElementById('btnCancelarEliminar');
-
-    let elementoAEliminar = null; // Guardamos el elemento temporalmente
-
-    // Mostrar popup de editar
-    btnModificar.addEventListener('click', function () {
-      overlay.classList.add('mostrar');
-      popupEditar.classList.add('mostrar');
-    });
- 
-    // Cerrar popup al hacer clic fuera
-    overlay.addEventListener('click', function (event) {
-      if (event.target === overlay) {
-        cerrarPopups();
-      }
-    });
-
-    // Cancelar edición
-    btnCancelarCambios.addEventListener('click', function () {
-      cerrarPopups();
-      limpiarCampos();
-    });
-
-    // Aceptar cambios
-    btnAcetarCambios.addEventListener('click', function () {
-      cerrarPopups();
-      limpiarCampos();
-      // aquí iría tu lógica para guardar cambios
-    });
-
-    // Mostrar popup de eliminar
-    btnsEliminar.forEach(btn => {
-      btn.addEventListener('click', function (e) {
-        elementoAEliminar = e.target.closest('tr'); // fila a eliminar
-        overlay.classList.add('mostrar');
-        popupEliminar.classList.add('mostrar');
-      });
-    });
-
-    // Confirmar eliminación
-    btnConfirmarEliminar.addEventListener('click', function () {
-      if (elementoAEliminar) {
-        elementoAEliminar.remove();
-        elementoAEliminar = null;
-      }
-      cerrarPopups();
-    });
-
-    // Cancelar eliminación
-    btnCancelarEliminar.addEventListener('click', function () {
-      cerrarPopups();
-      elementoAEliminar = null;
-    });
-
-    // Funciones auxiliares
-    function cerrarPopups() {
-      overlay.classList.remove('mostrar');
-      popupEditar.classList.remove('mostrar');
-      popupEliminar.classList.remove('mostrar');
-    }
-
-    function limpiarCampos() {
-      nuevoNombre.value = '';
-      NuevaDescripcion.value = '';
-    }
-  });
-</script>
-
-<!-- Overlay global -->
-<div id="overlay" class="overlay">
-
-  <!-- Popup Editar -->
-  <div class="popup popup-editar card h-50" style="width: fit-content; margin: auto 0">
-    <div class="card-body fs-4">
-      <div class="d-flex align-items-center px-4">
-        <i class="bi bi-house fs-2 p-2 hide-mobile"></i>
-        <h5 class="card-title mb-0">Editar equipo</h5>
+      <!-- TABLA DE EQUIPOS -->
+      <div class="table-container mt-4">
+        <div class="table-responsive">
+          <table class="table" id="equiposTable">
+            <tbody id="equiposTableBody">
+              <tr>
+                <td colspan="3" class="text-center">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-
-      <div>
-        <label><strong>Nombre:</strong> <br>
-          <input type="text" id="nuevoNombre" class="border-1 redondear-bordes-pequeño border-dark" placeholder="pepe">
-        </label>
-      </div>
-      <div>
-        <label><strong>Descripción:</strong> <br>
-          <input type="text" id="NuevaDescripcion" class="border-1 redondear-bordes-pequeño border-dark" placeholder="ingrese una descripción">
-        </label>
-      </div>
-      <div class="d-flex gap-4 mt-4 justify-content-center">
-        <button id="btnAcetarCambios" class="btn btn-light redondear-bordes border flex-grow-1 flex-md-grow-0">Aceptar</button>
-        <button id="btnCancelarCambios" class="btn bg-secondary redondear-bordes flex-grow-1 flex-md-grow-0">Cancelar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Popup Eliminar -->
-  <div class="popup popup-eliminar card h-50" style="width: fit-content; margin: auto 0">
-    <div class="card-body fs-4 text-center">
-      <div class="d-flex align-items-center justify-content-center mb-3">
-        <i class="bi bi-exclamation-triangle text-danger fs-2 p-2"></i>
-        <h5 class="card-title mb-0 text-danger">¿Eliminar equipo?</h5>
-      </div>
-      <p>Esta acción no se puede deshacer.</p>
-      <div class="d-flex gap-4 mt-4 justify-content-center">
-        <button id="btnConfirmarEliminar" class="btn btn-danger redondear-bordes flex-grow-1 flex-md-grow-0">Eliminar</button>
-        <button id="btnCancelarEliminar" class="btn bg-secondary redondear-bordes flex-grow-1 flex-md-grow-0">Cancelar</button>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<!-- Tabla -->
-<div class="table-container mt-4">
-  <div class="table-responsive">
-    <table class="table">
-      <tbody>
-        
-             
-        <tr valign="middle">
-          <th scope="row" class="fs-4">
-            <i class="bi bi-house fs-2 p-2 hide-mobile"></i>
-            Mi casa
-          </th>
-          <td class="fs-4 text-center align-middle"><small class="fs-6">Equipo</small></td>
-          <td class="fs-4">
-            <div class="d-flex flex-wrap gap-2 w-100">
-              <button class="btn btn-danger text-body redondear-bordes flex-grow-1 flex-md-grow-0 btn-eliminar">Eliminar</button>
-              <button id="btnModificar" class="btn btn-light redondear-bordes border flex-grow-1 flex-md-grow-0">Modificar</button>
-              <a href="estructuraAdministracionZonas.html" class="btn bg-secondary redondear-bordes flex-grow-1 flex-md-grow-0">Entrar</a>
-            </div>
-          </td>
-        </tr>
-        
-        
-
-                </tbody>
-                </table>
-            </div>
-            </div>
 
           </div>
         </div>
@@ -223,14 +81,226 @@
 </footer>
 
 
+  <!-- OVERLAY Y MODALES -->
+  <div id="overlay" class="overlay"></div>
+
+  <!-- Modal Editar Equipo -->
+  <div class="popup-editar popup">
+    <div class="popup-content">
+      <h3>Modificar Equipo</h3>
+      <form>
+        <div class="form-group mb-3">
+          <label for="nuevoNombre" class="form-label">Nombre</label>
+          <input type="text" class="form-control" id="nuevoNombre" placeholder="Nombre del equipo">
+        </div>
+        <div class="form-group mb-3">
+          <label for="NuevaDescripcion" class="form-label">Descripción</label>
+          <input type="text" class="form-control" id="NuevaDescripcion" placeholder="Descripción del equipo">
+        </div>
+        <div class="d-flex gap-2">
+          <button type="button" class="btn btn-primary" id="btnAcetarCambios">Aceptar</button>
+          <button type="button" class="btn btn-secondary" id="btnCancelarCambios">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Eliminar Equipo -->
+  <div class="popup-eliminar popup">
+    <div class="popup-content">
+      <h3>¿Deseas eliminar este equipo?</h3>
+      <p class="text-muted">Esta acción no se puede deshacer</p>
+      <div class="d-flex gap-2">
+        <button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Eliminar</button>
+        <button type="button" class="btn btn-secondary" id="btnCancelarEliminar">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Bootstrap scripts -->
-  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="/alarma_tec_1/frontend/js/bootstrap.bundle.js"></script>
   <script> 
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('toggleSidebar');
+    const equiposTableBody = document.getElementById('equiposTableBody');
+    const searchInput = document.getElementById('searchEquipo');
+    const btnBuscar = document.getElementById('btnBuscar');
 
     toggleBtn.addEventListener('click', () => {
       sidebar.classList.toggle('show');
+    });
+
+    let todosEquipos = [];
+
+    // Cargar equipos al iniciar
+    cargarEquipos();
+
+    async function cargarEquipos() {
+      try {
+        const res = await fetch('/alarma_tec_1/back-end/obtener_equipos.php');
+        const data = await res.json();
+
+        if (!data || data.length === 0) {
+          equiposTableBody.innerHTML = '<tr><td colspan="3" class="text-center text-muted">No hay equipos disponibles</td></tr>';
+          return;
+        }
+
+        todosEquipos = data;
+        mostrarEquipos(data);
+
+      } catch (err) {
+        console.error('Error:', err);
+        equiposTableBody.innerHTML = '<tr><td colspan="3" class="text-center text-danger">Error al cargar equipos</td></tr>';
+      }
+    }
+
+    function mostrarEquipos(equipos) {
+      equiposTableBody.innerHTML = '';
+
+      if (equipos.length === 0) {
+        equiposTableBody.innerHTML = '<tr><td colspan="3" class="text-center text-muted">No hay resultados</td></tr>';
+        return;
+      }
+
+      equipos.forEach(equipo => {
+        const row = document.createElement('tr');
+        row.setAttribute('valign', 'middle');
+        row.dataset.id = equipo.id_equipo;
+        row.dataset.nombre = equipo.nombre;
+        row.dataset.descripcion = equipo.descripcion;
+
+        row.innerHTML = `
+          <th scope="row" class="fs-4">
+            <i class="bi bi-house fs-2 p-2 hide-mobile"></i>
+            ${equipo.nombre}
+          </th>
+          <td class="fs-4 text-center align-middle"><small class="fs-6">${equipo.descripcion || 'Sin descripción'}</small></td>
+          <td class="fs-4">
+            <div class="d-flex flex-wrap gap-2 w-100">
+              <button class="btn btn-danger text-body redondear-bordes flex-grow-1 flex-md-grow-0 btn-eliminar" onclick="abrirPopupEliminar(${equipo.id_equipo})">Eliminar</button>
+              <button class="btn btn-light redondear-bordes border flex-grow-1 flex-md-grow-0 btn-modificar" onclick="abrirPopupEditar(${equipo.id_equipo}, '${equipo.nombre}', '${equipo.descripcion}')">Modificar</button>
+              <a href="/alarma_tec_1/frontend/silva/estructuraDashboardZonas.php?id_equipo=${equipo.id_equipo}" class="btn bg-secondary redondear-bordes flex-grow-1 flex-md-grow-0">Entrar</a>
+            </div>
+          </td>
+        `;
+
+        equiposTableBody.appendChild(row);
+      });
+    }
+
+    // Buscar equipos
+    function filtrarEquipos() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const equiposFiltrados = todosEquipos.filter(equipo => 
+        equipo.nombre.toLowerCase().includes(searchTerm) || 
+        (equipo.descripcion && equipo.descripcion.toLowerCase().includes(searchTerm))
+      );
+      mostrarEquipos(equiposFiltrados);
+    }
+
+    searchInput.addEventListener('input', filtrarEquipos);
+    btnBuscar.addEventListener('click', (e) => {
+      e.preventDefault();
+      filtrarEquipos();
+    });
+
+    // Variables globales para el popup
+    let equipoSeleccionado = null;
+
+    function abrirPopupEditar(id, nombre, descripcion) {
+      equipoSeleccionado = { id, nombre, descripcion };
+      document.getElementById('nuevoNombre').value = nombre;
+      document.getElementById('NuevaDescripcion').value = descripcion || '';
+      document.getElementById('overlay').classList.add('mostrar');
+      document.querySelector('.popup-editar').classList.add('mostrar');
+    }
+
+    function abrirPopupEliminar(id) {
+      equipoSeleccionado = { id };
+      document.getElementById('overlay').classList.add('mostrar');
+      document.querySelector('.popup-eliminar').classList.add('mostrar');
+    }
+
+    function cerrarPopups() {
+      document.getElementById('overlay').classList.remove('mostrar');
+      document.querySelector('.popup-editar').classList.remove('mostrar');
+      document.querySelector('.popup-eliminar').classList.remove('mostrar');
+      equipoSeleccionado = null;
+    }
+
+    // Aceptar cambios
+    document.getElementById('btnAcetarCambios').addEventListener('click', async () => {
+      if (!equipoSeleccionado) return;
+
+      const nuevoNombre = document.getElementById('nuevoNombre').value;
+      const nuevaDesc = document.getElementById('NuevaDescripcion').value;
+
+      try {
+        const formData = new FormData();
+        formData.append('id_equipo', equipoSeleccionado.id);
+        if (nuevoNombre) formData.append('nombre', nuevoNombre);
+        if (nuevaDesc) formData.append('descripcion', nuevaDesc);
+
+        const response = await fetch('/alarma_tec_1/back-end/actualizar_equipo.php', {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.ok) {
+          alert('Equipo actualizado correctamente');
+          cerrarPopups();
+          cargarEquipos();
+        } else {
+          alert('Error: ' + result.mensaje);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error al actualizar equipo');
+      }
+    });
+
+    // Cancelar edición
+    document.getElementById('btnCancelarCambios').addEventListener('click', cerrarPopups);
+
+    // Confirmar eliminación
+    document.getElementById('btnConfirmarEliminar').addEventListener('click', async () => {
+      if (!equipoSeleccionado) return;
+
+      try {
+        const formData = new FormData();
+        formData.append('id_equipo', equipoSeleccionado.id);
+        formData.append('accion', 'eliminar');
+
+        const response = await fetch('/alarma_tec_1/back-end/actualizar_equipo.php', {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.ok) {
+          alert('Equipo eliminado correctamente');
+          cerrarPopups();
+          cargarEquipos();
+        } else {
+          alert('Error: ' + result.mensaje);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error al eliminar equipo');
+      }
+    });
+
+    // Cancelar eliminación
+    document.getElementById('btnCancelarEliminar').addEventListener('click', cerrarPopups);
+
+    // Cerrar popup al hacer clic en el overlay
+    document.getElementById('overlay').addEventListener('click', (e) => {
+      if (e.target.id === 'overlay') {
+        cerrarPopups();
+      }
     });
   </script>
 </body>
