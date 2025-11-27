@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="css/plantillaPrincipal.css">
   <link rel="stylesheet" href="css/dashboardZonas.css">
 
-  <!-- === Estilos del modal === -->
 </head>
 
 <body class="bg-light d-flex flex-column min-vh-100">
@@ -41,105 +40,13 @@
       <a href="dashboardSoporte.html" class="my-3"><i class="bi bi-telephone fs-4 p-4"></i></a>
     </aside>
 
-
-    <!-- CONTENIDO -->
+    <!-- CONTENIDO DINÁMICO -->
     <div class="flex-grow-1 ms-3">
       <div class="container-fluid py-4">
-        <div class="row g-4 justify-content-center">
-          
-          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="card luzMala">
-              <div class="card-body">
-                <div class="d-flex gap-4 align-items-center mb-3">
-                  <div class="d-flex align-items-center">
-                    <i class="bi bi-house-door me-2 fs-5"></i>
-                    <h5 class="card-title mb-0">Zona 1</h5>
-                  </div>
-                  <div class="text-muted d-flex align-items-center">
-                    <i class="bi bi-wifi-off me-2 fs-6"></i>
-                    <small>Sin acceso</small>
-                  </div>
-                </div>
-                <p class="card-text">Alguna especie de descripción que no me imagino ahora mismo.</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="d-flex gap-4">
-                    <button class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</button>
-                    <button class="btn btn-outline-secondary btn-sm edit-btn">Editar</button>
-                  </div>
-                  <div class="d-flex align-items-center gap-4">
-                    <i class="bi bi-battery-full fs-5"></i>
-                    <button class="rounded-circle bg-secondary">
-                      <i class="bi bi-power fs-5 rounded-circle"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-              <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="card luzMala">
-              <div class="card-body">
-                <div class="d-flex gap-4 align-items-center mb-3">
-                  <div class="d-flex align-items-center">
-                    <i class="bi bi-house-door me-2 fs-5"></i>
-                    <h5 class="card-title mb-0">Zona 2</h5>
-                  </div>
-                  <div class="text-muted d-flex align-items-center">
-                    <i class="bi bi-wifi-off me-2 fs-6"></i>
-                    <small>Sin acceso</small>
-                  </div>
-                </div>
-                <p class="card-text">Alguna especie de descripción que no me imagino ahora mismo.</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="d-flex gap-4">
-                    <button class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</button>
-                    <button class="btn btn-outline-secondary btn-sm edit-btn">Editar</button>
-                  </div>
-                  <div class="d-flex align-items-center gap-4">
-                    <i class="bi bi-battery-full fs-5"></i>
-                    <button class="rounded-circle bg-secondary">
-                      <i class="bi bi-power fs-5 rounded-circle"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-              <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-            <div class="card luzMala">
-              <div class="card-body">
-                <div class="d-flex gap-4 align-items-center mb-3">
-                  <div class="d-flex align-items-center">
-                    <i class="bi bi-house-door me-2 fs-5"></i>
-                    <h5 class="card-title mb-0">Zona 3</h5>
-                  </div>
-                  <div class="text-muted d-flex align-items-center">
-                    <i class="bi bi-wifi-off me-2 fs-6"></i>
-                    <small>Sin acceso</small>
-                  </div>
-                </div>
-                <p class="card-text">Alguna especie de descripción que no me imagino ahora mismo.</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="d-flex gap-4">
-                    <button class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</button>
-                    <button class="btn btn-outline-secondary btn-sm edit-btn">Editar</button>
-                  </div>
-                  <div class="d-flex align-items-center gap-4">
-                    <i class="bi bi-battery-full fs-5"></i>
-                    <button class="rounded-circle bg-secondary">
-                      <i class="bi bi-power fs-5 rounded-circle"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          
-
+        
+        
+        <div class="row g-4 justify-content-center" id="zonasContainer">
+          <div class="text-center text-muted">Cargando zonas...</div>
         </div>
       </div>
     </div>
@@ -151,28 +58,29 @@
     <small class="footer-text">2025 Escuela Técnica N°1 Gral. San Martín Inc. Todos los derechos reservados.</small>
   </footer>
 
-  <!-- === MODAL PARA EDITAR === -->
+  <!-- MODAL PARA EDITAR -->
   <div id="editModal" class="modal-overlay">
     <div class="modal-content-custom">
       <div class="modal-header-custom">
-  <i class="bi bi-columns-gap" style="color: black;"></i>
+        <i class="bi bi-columns-gap me-2 fs-1" style="color: black;"></i>
         <h5>Editar zona</h5>
       </div>
       <form id="editForm">
-        <div class="mb-3">
-          <label class="form-label">Nombre actual</label>
+        <input type="hidden" id="currentZoneId">
+        <div class="mb-3 text-start">
+          <label class="form-label fw-bold">Nombre actual</label>
           <input type="text" style="border: solid 1px;" id="currentZoneName" class="form-control" readonly>
         </div>
-        <div class="mb-3">
-          <label class="form-label">Nuevo nombre</label>
+        <div class="mb-3 text-start">
+          <label class="form-label fw-bold">Nuevo nombre</label>
           <input style="border: solid 1px;" type="text" id="newZoneName" class="form-control" placeholder="Escribe el nuevo nombre">
         </div>
-        <div class="mb-3">
-          <label class="form-label">Descripción</label>
-          <textarea id="zoneDescription" style="border: solid 1px;" class="form-control" rows="3" required></textarea>
+        <div class="mb-3 text-start">
+          <label class="form-label fw-bold">Nueva descripción</label>
+          <textarea id="zoneDescription" style="border: solid 1px;" class="form-control" rows="3" placeholder="Ingrese la nueva descripción"></textarea>
         </div>
         <div class="d-flex justify-content-end gap-2">
-          <button type="button" style="margin-right: 50px;" class="btn btn-primary"  id="cancelEdit">Cancelar</button>
+          <button type="button" style="margin-right: 50px;" class="btn btn-primary" id="cancelEdit">Cancelar</button>
           <button type="submit" class="btn btn-secondary bg-secondary text-body btn-sm" style="margin-right: 75px;">Guardar</button>
         </div>
       </form>
@@ -181,57 +89,6 @@
 
   <!-- Bootstrap scripts -->
   <script src="js/bootstrap.bundle.min.js"></script>
-  <script>
-    // Sidebar toggle
-    const sidebar = document.getElementById('sidebar');
-    const toggleBtn = document.getElementById('toggleSidebar');
-    toggleBtn.addEventListener('click', () => sidebar.classList.toggle('show'));
-
-    // === Editar zona ===
-    const modal = document.getElementById('editModal');
-    const cancelEdit = document.getElementById('cancelEdit');
-    const form = document.getElementById('editForm');
-    const currentName = document.getElementById('currentZoneName');
-    const newName = document.getElementById('newZoneName');
-    const descInput = document.getElementById('zoneDescription');
-    let selectedCard = null;
-
-    // Abrir modal con datos actuales
-    document.querySelectorAll('.edit-btn').forEach(btn => {
-      btn.addEventListener('click', e => {
-        selectedCard = e.target.closest('.card');
-        const title = selectedCard.querySelector('.card-title').textContent.trim();
-        const desc = selectedCard.querySelector('.card-text').textContent.trim();
-        currentName.value = title;
-        newName.value = '';
-        descInput.value = desc;
-        modal.style.display = 'flex';
-      });
-    });
-
-    // Cerrar modal
-    const closeModal = () => {
-      modal.style.display = 'none';
-      selectedCard = null;
-    };
-    cancelEdit.addEventListener('click', closeModal);
-    modal.addEventListener('click', e => {
-      if (e.target === modal) closeModal();
-    });
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && modal.style.display === 'flex') closeModal();
-    });
-
-    // Guardar cambios
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      if (selectedCard) {
-        const nameToSet = newName.value.trim() || currentName.value.trim();
-        selectedCard.querySelector('.card-title').textContent = nameToSet;
-        selectedCard.querySelector('.card-text').textContent = descInput.value.trim();
-      }
-      closeModal();
-    });
-  </script>
+  <script src="js/dashboardZonas.js"></script>
 </body>
 </html>
