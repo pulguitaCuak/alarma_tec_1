@@ -3,296 +3,363 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Detalle Sensor - Alarma</title>
-  <link rel="stylesheet" href="/alarma_tec_1/frontend/css/bootstrap.custom.min.css">
-  <link rel="stylesheet" href="/alarma_tec_1/frontend/bootstrap-icons-1.13.1/bootstrap-icons.css">
-  <link rel="stylesheet" href="/alarma_tec_1/frontend/css/plantillaPrincipal.css">
-  <link rel="stylesheet" href="/alarma_tec_1/frontend/css/administracionSensor.css">
+  <title>Dashboard - Alarma</title>
+
+  <!-- Bootstrap local -->
+  <link rel="stylesheet" href="css/bootstrap.custom.min.css">
+  <link rel="stylesheet" href="bootstrap-icons-1.13.1/bootstrap-icons.css">
+
+  <!-- Estilos personalizados -->
+  <link rel="stylesheet" href="css/plantillaPrincipal.css">
+  <link rel="stylesheet" href="css/estructuraDasboardSensores.css">
+  <link rel="stylesheet" href="css/administracionSensor.css">
+  
 </head>
 
 <body class="bg-light d-flex flex-column min-vh-100">
+
+  <!-- HEADER -->
   <header class="bg-primary text-white py-3 d-flex align-items-center justify-content-between px-4">
     <div class="d-flex align-items-center">
       <button class="btn btn-outline-light d-lg-none me-3" id="toggleSidebar">
         <i class="bi bi-list"></i>
       </button>
-      <h1 class="h4 m-0"><a href="/alarma_tec_1/frontend/index.html" class="navbar-brand">Alarma</a></h1>
+      <h1 class="h4 m-0"><a href="index.html" class="navbar-brand">Alarma</a></h1>
     </div>
     <div class="d-flex align-items-center">
-      <h2 class="h5 m-0 me-2">Detalle del Sensor</h2>
-      <i class="bi bi-speedometer2 fs-5"></i>
+      <h2 class="h5 m-0 me-2">Dashboard</h2>
+      <i class="bi bi-grid fs-5"></i>
     </div>
   </header>
 
+  <!-- MAIN -->
   <main class="flex-fill">
     <div class="dashboard-layout">
+      
+      <!-- SIDEBAR -->
       <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100">
-        <a href="/alarma_tec_1/frontend/administracionUsuarios.html" class="my-3"><i class="bi bi-house fs-4 p-4"></i></a>
-        <a href="/alarma_tec_1/frontend/dashboardEquipos.html" class="my-3"><i class="bi bi-grid fs-4 p-4"></i></a>
-        <a href="/alarma_tec_1/frontend/administracionRegistrar.html" class="my-3"><i class="bi bi-person-plus fs-4 p-4"></i></a>
-        <a href="/alarma_tec_1/frontend/administracionSensores.html" class="my-3"><i class="bi bi-list fs-4 p-4"></i></a>
+       <a href="administracionUsuarios.html" class="my-3"><i class="bi bi-house fs-4 p-4"></i></a>
+      <a href="dashboardEquipos.html" class="my-3"><i class="bi bi-grid fs-4 p-4"></i></a>
+      <a href="administracionRegistrar.html" class="my-3"><i class="bi bi-person-plus fs-4 p-4"></i></a>
+      <a href="estructuraAdministracionEquipos.html" class="my-3"><i class="bi bi-list fs-4 p-4"></i></a>
       </aside>
 
+      <!-- CONTENEDOR DE CARDS -->
       <div class="cards-section py-4 px-4">
         <div class="container-fluid">
-          <div class="card mb-4" id="sensorCard">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-6">
-                  <h3 id="sensorNombre" class="card-title mb-3">--</h3>
-                  <div class="mb-3"><strong>ID:</strong> <span id="sensorId">--</span></div>
-                  <div class="mb-3"><strong>Estado:</strong> <span id="sensorEstado" class="badge bg-success">--</span></div>
-                  <div class="mb-3"><strong>Tipo de Sensor:</strong> <span id="sensorTipo">--</span></div>
+          <div class="row g-3 card-container">
+
+            <!-- Overlay global -->
+            <div id="overlay" class="overlay">
+
+              <!-- Popup Editar -->
+              <div class="popup popup-editar card h-50" style="width: fit-content; margin: auto 0">
+                <div class="card-body fs-4">
+                  <div class="d-flex align-items-center px-4">
+                    <i class="bi bi-house fs-2 p-2 hide-mobile"></i>
+                    <h5 class="card-title mb-0">Editar zona</h5>
+                  </div>
+
+                  <div>
+                    <label><strong>Nombre:</strong><br>
+                      <input type="text" id="nuevoNombre" class="border-1 redondear-bordes-pequeño border-dark" placeholder="pepe">
+                    </label>
+                  </div>
+                  <div>
+                    <label><strong>Descripción:</strong><br>
+                      <input type="text" id="NuevaDescripcion" class="border-1 redondear-bordes-pequeño border-dark" placeholder="ingrese una descripción">
+                    </label>
+                  </div>
+                  <div class="d-flex gap-4 mt-4 justify-content-center">
+                    <button id="btnAcetarCambios" class="btn btn-light redondear-bordes border">Aceptar</button>
+                    <button id="btnCancelarCambios" class="btn bg-secondary redondear-bordes">Cancelar</button>
+                  </div>
                 </div>
-                <div class="col-md-6">
-                  <div class="d-flex gap-3 justify-content-end">
-                    <button class="btn btn-primary" id="btnEditar"><i class="bi bi-pencil me-2"></i>Editar</button>
-                    <button class="btn btn-danger" id="btnEliminar"><i class="bi bi-trash me-2"></i>Eliminar</button>
-                    <a href="/alarma_tec_1/frontend/administracionSensores.html" class="btn btn-secondary"><i class="bi bi-arrow-left me-2"></i>Volver</a>
+              </div>
+
+              <!-- Popup Eliminar -->
+              <div class="popup popup-eliminar card h-50" style="width: fit-content; margin: auto 0">
+                <div class="card-body fs-4 text-center">
+                  <div class="d-flex align-items-center justify-content-center mb-3">
+                    <i class="bi bi-exclamation-triangle text-danger fs-2 p-2"></i>
+                    <h5 class="card-title mb-0 text-danger">¿Eliminar zona?</h5>
+                  </div>
+                  <p>Esta acción no se puede deshacer.</p>
+                  <div class="d-flex gap-4 mt-4 justify-content-center">
+                    <button id="btnConfirmarEliminar" class="btn btn-danger redondear-bordes">Eliminar</button>
+                    <button id="btnCancelarEliminar" class="btn bg-secondary redondear-bordes">Cancelar</button>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+            <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const powerButtons = document.querySelectorAll('.power');
 
-          <div class="card mb-4">
-            <div class="card-header">
-              <h5 class="mb-0">Control del Sensor</h5>
-            </div>
-            <div class="card-body">
-              <div class="d-flex align-items-center gap-4">
-                <div>
-                  <p class="mb-1"><strong>Estado Actual:</strong></p>
-                  <span id="estadoActual" class="badge bg-success fs-6">Activo</span>
+    powerButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Buscamos la card contenedora del botón
+        const card = button.closest('.cambiarLuz');
+
+        // Alternamos entre las clases de luz
+        if (card.classList.contains('luzMala')) {
+          card.classList.remove('luzMala');
+          card.classList.add('luz');
+        } else {
+          card.classList.remove('luz');
+          card.classList.add('luzMala');
+        }
+      });
+    });
+  });
+</script>
+
+            <!-- CARD EJEMPLO -->
+            <div class="col-6">
+              <div class="card luz cambiarLuz">
+                <div class="card-body">
+                  <div class="d-flex gap-4 align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-house-door me-2 fs-5"></i>
+                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
+                    </div>
+
+                    <div class="text-muted d-flex align-items-center">
+                      <i class="bi bi-wifi-off me-2 fs-6"></i>
+                      <small>Sin acceso</small>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex gap-4">
+                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
+                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
+                    </div>
+                    <div class="d-flex align-items-center gap-4">
+                      <i class="bi bi-battery-full fs-5"></i>
+                      <button class="rounded-circle bg-secondary power">
+                        <i class="bi bi-power fs-5 rounded-circle"></i>
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <button class="btn btn-lg rounded-circle bg-secondary" id="btnPower"><i class="bi bi-power fs-4"></i></button>
               </div>
             </div>
+
+
           </div>
         </div>
       </div>
 
-      <div class="activity-section py-4 px-3">
-        <div class="activity-container">
-          <div class="activity-card borde">
-            <div class="d-flex justify-content-between">
-              <h6 class="mb-1">Actividad del Sensor</h6>
-              <div class="d-flex gap-4">
-                <small class="mb-1">Fecha</small>  
-                <small class="text-muted">Hora</small>
-              </div>
-            </div>
-          </div>
-          <div id="actividadContainer">
-            <div class="activity-card">
-              <small class="text-muted">No hay actividad registrada</small>
-            </div>
-          </div>
+<div class="activity-section py-4 px-3">
+  <div class="activity-container">
+    
+    <div class="activity-card borde">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Actividad</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">Fecha</small>  
+          <small class="text-muted">Hora</small>
         </div>
       </div>
+    
+    </div>
+
+      <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+
+        <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+
+        <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+
+        <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+
+        <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+
+        <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+
+        <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+
+        <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+
+        <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+
+        <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+
+        <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+
+        <div class="activity-card">
+      <div class="d-flex justify-content-between">
+        <h6 class="mb-1">Puerta abierta</h6>
+        <div class="d-flex gap-4">
+          <small class="mb-1">19/8/2021</small>  
+          <small class="text-muted">14:32</small>
+        </div>
+      </div>
+      <small class="text-muted">Sensor entrada</small>
+    </div>
+  </div>
+</div>
+
+
     </div>
   </main>
 
+  <!-- FOOTER -->
   <footer class="bg-primary text-white text-center py-2 mt-auto">
     <small class="footer-text">2025 Escuela Técnica N°1 Gral. San Martín Inc. Todos los derechos reservados.</small>
   </footer>
 
-  <div id="overlay" class="overlay"></div>
+  <!-- Bootstrap scripts -->
+  <script src="js/bootstrap.bundle.min.js"></script>
 
-  <div class="popup-editar popup">
-    <div class="popup-content">
-      <h3>Modificar Sensor</h3>
-      <form>
-        <div class="form-group mb-3">
-          <label for="nuevoNombre" class="form-label">Nombre</label>
-          <input type="text" class="form-control" id="nuevoNombre" placeholder="Nombre del sensor">
-        </div>
-        <div class="form-group mb-3">
-          <label for="nuevaDescripcion" class="form-label">Descripción</label>
-          <textarea class="form-control" id="nuevaDescripcion" placeholder="Descripción del sensor" rows="3"></textarea>
-        </div>
-        <div class="form-group mb-3">
-          <label for="nuevoTipo" class="form-label">Tipo de Sensor</label>
-          <input type="text" class="form-control" id="nuevoTipo" placeholder="Tipo de sensor" disabled>
-        </div>
-        <div class="d-flex gap-2">
-          <button type="button" class="btn btn-primary" id="btnAcetarCambios">Aceptar</button>
-          <button type="button" class="btn btn-secondary" id="btnCancelarCambios">Cancelar</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <div class="popup-eliminar popup">
-    <div class="popup-content">
-      <h3>¿Deseas eliminar este sensor?</h3>
-      <p class="text-muted">Esta acción no se puede deshacer</p>
-      <div class="d-flex gap-2">
-        <button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Eliminar</button>
-        <button type="button" class="btn btn-secondary" id="btnCancelarEliminar">Cancelar</button>
-      </div>
-    </div>
-  </div>
-
-  <script src="/alarma_tec_1/frontend/js/bootstrap.bundle.js"></script>
   <script>
-    let sensorActual = null;
-    let idSensor = null;
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleSidebar');
+    toggleBtn.addEventListener('click', () => sidebar.classList.toggle('show'));
 
-    document.addEventListener('DOMContentLoaded', function() {
-      console.log('=== DOM Cargado ===');
-      
-      const sidebar = document.getElementById('sidebar');
-      const toggleBtn = document.getElementById('toggleSidebar');
+    document.addEventListener('DOMContentLoaded', () => {
       const overlay = document.getElementById('overlay');
       const popupEditar = document.querySelector('.popup-editar');
       const popupEliminar = document.querySelector('.popup-eliminar');
-      
-      toggleBtn.addEventListener('click', () => sidebar.classList.toggle('show'));
 
-      const params = new URLSearchParams(window.location.search);
-      idSensor = params.get('id');
-      console.log('ID Sensor:', idSensor);
+      const btnsEditar = document.querySelectorAll('.btnEditar');
+      const btnsEliminar = document.querySelectorAll('.btnEliminar');
+      const btnCancelarCambios = document.getElementById('btnCancelarCambios');
+      const btnAcetarCambios = document.getElementById('btnAcetarCambios');
+      const btnConfirmarEliminar = document.getElementById('btnConfirmarEliminar');
+      const btnCancelarEliminar = document.getElementById('btnCancelarEliminar');
 
-      if (idSensor) {
-        cargarSensor();
-      } else {
-        document.getElementById('sensorCard').innerHTML = '<div class="alert alert-info">No se especificó ID. Use: ?id=1</div>';
-      }
+      const nuevoNombre = document.getElementById('nuevoNombre');
+      const NuevaDescripcion = document.getElementById('NuevaDescripcion');
 
-      async function cargarSensor() {
-        try {
-          console.log('Cargando sensor:', idSensor);
-          const url = `/alarma_tec_1/back-end/obtener_sensor.php?id=${idSensor}`;
-          console.log('URL:', url);
-          const res = await fetch(url);
-          const data = await res.json();
-          console.log('Respuesta:', data);
+      let elementoAEliminar = null;
 
-          if (data && data.length > 0) {
-            sensorActual = data[0];
-            mostrarSensor();
-          } else {
-            document.getElementById('sensorCard').innerHTML = '<div class="alert alert-warning">No encontrado</div>';
-          }
-        } catch (err) {
-          console.error('Error:', err);
-          document.getElementById('sensorCard').innerHTML = '<div class="alert alert-danger">Error: ' + err + '</div>';
-        }
-      }
-
-      function mostrarSensor() {
-        console.log('Mostrar sensor:', sensorActual);
-        document.getElementById('sensorId').textContent = sensorActual.id_sensor;
-        document.getElementById('sensorNombre').textContent = sensorActual.nombre;
-        document.getElementById('sensorTipo').textContent = sensorActual.tipo_sensor || 'Desconocido';
-        
-        const estado = sensorActual.estado === 1 ? 'Activo' : 'Inactivo';
-        const badge = sensorActual.estado === 1 ? 'bg-success' : 'bg-danger';
-        document.getElementById('sensorEstado').textContent = estado;
-        document.getElementById('sensorEstado').className = 'badge ' + badge;
-        document.getElementById('estadoActual').textContent = estado;
-        document.getElementById('estadoActual').className = 'badge ' + badge + ' fs-6';
-      }
-
-      document.getElementById('btnEditar').addEventListener('click', () => {
-        document.getElementById('nuevoNombre').value = sensorActual.nombre;
-        document.getElementById('nuevaDescripcion').value = sensorActual.descripcion || '';
-        document.getElementById('nuevoTipo').value = sensorActual.tipo_sensor || 'Desconocido';
-        overlay.classList.add('mostrar');
-        popupEditar.classList.add('mostrar');
+      // Mostrar popup editar
+      btnsEditar.forEach(btn => {
+        btn.addEventListener('click', () => {
+          overlay.classList.add('mostrar');
+          popupEditar.classList.add('mostrar');
+        });
       });
 
-      document.getElementById('btnEliminar').addEventListener('click', () => {
-        overlay.classList.add('mostrar');
-        popupEliminar.classList.add('mostrar');
+      // Mostrar popup eliminar
+      btnsEliminar.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          elementoAEliminar = e.target.closest('.card');
+          overlay.classList.add('mostrar');
+          popupEliminar.classList.add('mostrar');
+        });
       });
 
-      document.getElementById('btnAcetarCambios').addEventListener('click', async () => {
-        const nuevoNombre = document.getElementById('nuevoNombre').value;
-        const nuevaDescripcion = document.getElementById('nuevaDescripcion').value;
-        try {
-          const formData = new FormData();
-          formData.append('id_sensor', sensorActual.id_sensor);
-          if (nuevoNombre) formData.append('nombre', nuevoNombre);
-          if (nuevaDescripcion) formData.append('descripcion', nuevaDescripcion);
-          const response = await fetch('/alarma_tec_1/back-end/actualizar_sensor.php', { method: 'POST', body: formData });
-          const result = await response.json();
-          if (result.ok) {
-            alert('Actualizado');
-            cerrarPopups();
-            cargarSensor();
-          } else {
-            alert('Error: ' + result.mensaje);
-          }
-        } catch (error) {
-          alert('Error: ' + error);
-        }
+      // Cancelar o aceptar editar
+      btnCancelarCambios.addEventListener('click', cerrarPopups);
+      btnAcetarCambios.addEventListener('click', cerrarPopups);
+
+      // Confirmar o cancelar eliminar
+      btnConfirmarEliminar.addEventListener('click', () => {
+        if (elementoAEliminar) elementoAEliminar.remove();
+        cerrarPopups();
       });
-
-      document.getElementById('btnCancelarCambios').addEventListener('click', cerrarPopups);
-
-      document.getElementById('btnConfirmarEliminar').addEventListener('click', async () => {
-        try {
-          const formData = new FormData();
-          formData.append('id_sensor', sensorActual.id_sensor);
-          formData.append('accion', 'eliminar');
-          const response = await fetch('/alarma_tec_1/back-end/actualizar_sensor.php', { method: 'POST', body: formData });
-          const result = await response.json();
-          if (result.ok) {
-            alert('Eliminado');
-            window.location.href = '/alarma_tec_1/frontend/administracionSensores.html';
-          } else {
-            alert('Error: ' + result.mensaje);
-          }
-        } catch (error) {
-          alert('Error: ' + error);
-        }
-      });
-
-      document.getElementById('btnCancelarEliminar').addEventListener('click', cerrarPopups);
-
-      document.getElementById('btnPower').addEventListener('click', async () => {
-        const btn = document.getElementById('btnPower');
-        const spanActual = document.getElementById('estadoActual');
-        const spanEstado = document.getElementById('sensorEstado');
-        
-        // Mapear: Activo = 1, Inactivo = 2 (IDs de la tabla estado)
-        const nuevoEstado = spanActual.textContent === 'Activo' ? 2 : 1;
-        const nuevoTexto = nuevoEstado === 1 ? 'Activo' : 'Inactivo';
-        const newBadge = nuevoEstado === 1 ? 'bg-success' : 'bg-danger';
-        
-        // Actualizar UI inmediatamente
-        spanActual.textContent = nuevoTexto;
-        spanActual.className = 'badge ' + newBadge + ' fs-6';
-        spanEstado.textContent = nuevoTexto;
-        spanEstado.className = 'badge ' + newBadge;
-        
-        if (nuevoEstado === 2) {
-          btn.classList.remove('bg-secondary');
-          btn.classList.add('bg-danger');
-        } else {
-          btn.classList.remove('bg-danger');
-          btn.classList.add('bg-secondary');
-        }
-        
-        // Guardar en BD
-        try {
-          const formData = new FormData();
-          formData.append('id_sensor', sensorActual.id_sensor);
-          formData.append('estado', nuevoEstado);
-          const response = await fetch('/alarma_tec_1/back-end/actualizar_sensor.php', { method: 'POST', body: formData });
-          const result = await response.json();
-          if (result.ok) {
-            sensorActual.estado = nuevoEstado;
-            console.log('Estado actualizado en BD');
-          } else {
-            alert('Error al guardar estado: ' + result.mensaje);
-          }
-        } catch (error) {
-          alert('Error al guardar: ' + error);
-        }
-      });
+      btnCancelarEliminar.addEventListener('click', cerrarPopups);
 
       overlay.addEventListener('click', (e) => {
         if (e.target === overlay) cerrarPopups();
@@ -302,6 +369,8 @@
         overlay.classList.remove('mostrar');
         popupEditar.classList.remove('mostrar');
         popupEliminar.classList.remove('mostrar');
+        nuevoNombre.value = '';
+        NuevaDescripcion.value = '';
       }
     });
   </script>

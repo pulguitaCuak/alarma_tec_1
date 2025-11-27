@@ -1,4 +1,9 @@
-    /* === Ajustes responsive y estructura === */
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* === Ajustes responsive y estructura === */
     main {
       overflow-x: hidden;
     }
@@ -8,8 +13,9 @@
     /* Distribución de columnas: cards (izquierda) y actividad (derecha) */
     .dashboard-layout {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       flex-grow: 1;
+      
     }
 
     @media (min-width: 992px) {
@@ -76,27 +82,41 @@
     }
 /* --- CONTENEDOR DE ACTIVIDADES --- */
 .activity-section {
-  flex: 0 0 30%;
-  max-width: 30%;
-  margin-left: auto;
-  padding-right: 1rem;
+  width: fit-content !important;
+  margin: 0;
+  padding: 1rem 0 0 4rem !important;
+  font-weight:bolder ;
+  font-size: 1rem;
 }
-
+.cards-section{
+  margin: 1rem 0 0 0 !important;
+  padding: 0 !important;
+  
+}
+/* MOBILE: apilamos todo para que no desaparezca nada */
 @media (max-width: 991px) {
-  .activity-section {
-    flex: 0 0 100%;
-    max-width: 100%;
-    margin-left: 0;
-    margin-top: 1rem;
+  .dashboard-layout {
+    flex-direction: column;
   }
-}
+
+  .dashboard-layout .cards-section,
+  .dashboard-layout .activity-section {
+    max-width: 100%;
+    width: 100%;
+    margin: 1rem 100% 0 0; 
+  }
+
+  .activity-section {
+    margin: 1rem 3rem 0 0; /* separacion visual */
+    
+  }}
 
 /* --- CONTENEDOR INTERNO CON LAS CARDS DE ACTIVIDAD --- */
 .activity-container {
   display: flex;
   flex-direction: column;
   gap: 1rem; /* espacio entre las cards */
-  width: 100%;
+  width: fit-content;
   max-width: 100%;
   overflow: hidden; /* evita que se salga hacia la derecha */
 }

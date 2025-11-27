@@ -1,59 +1,30 @@
 .overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    margin: 0;
-    padding: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
-    z-index: 999;
-    justify-content: center;
-    align-items: center;
-}
+      display: none;
+      position: fixed;
+      top: 0;
+      margin: 0;
+      padding: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+    }
 
-.overlay.mostrar {
-    display: flex;
-}
+    .overlay.mostrar {
+      display: flex;
+    }
 
-.popup {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
-    max-width: 500px;
-    width: 90%;
-}
+    .popup {
+      display: none;
+    }
 
-.popup.mostrar {
-    display: block;
-}
-
-.popup-content {
-    padding: 2rem;
-}
-
-.popup-content h3 {
-    margin-bottom: 1rem;
-    font-weight: 600;
-}
-
-.popup-content form {
-    margin-top: 1.5rem;
-}
-
-.popup-content .form-group {
-    margin-bottom: 1rem;
-}
-
-.popup-content .form-label {
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-}
+    .popup.mostrar {
+      display: block;
+    }
+    .bi-power {
+     padding: 0.4rem;
+    }
