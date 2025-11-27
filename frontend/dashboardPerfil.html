@@ -53,32 +53,32 @@
               <div class="card-body">
                 <div class="d-flex align-items-center mb-2">
                   <i class="bi bi-person me-2 fs-2"></i>
-                  <h5 class="card-title mb-0">salchichitagamer777amolosneg <br>
-                    <small class="fs-6">Rol:Administrador</small>
+                  <h5 class="card-title mb-0"><span id="nombreUsuario">Cargando...</span> <br>
+                    <small class="fs-6" id="cargoUsuario">Rol: Cargando...</small>
                   </h5>
         
                   
                 </div>
                 <div class="d-flex align-items-center text-muted">
-                    <h6 class="card-title mb-1"><strong>ID:</strong> <small>1234</small></h6>
+                    <h6 class="card-title mb-1"><strong>ID:</strong> <small id="idUsuario">-</small></h6>
                 </div>
                 <div>
-                     <h6 class="card-title mb-1"><strong>Fecha de Creacion:</strong> <small>1234</small></h6>
+                     <h6 class="card-title mb-1"><strong>Fecha de Creacion:</strong> <small id="fechaCreacion">-</small></h6>
                 </div>
                  <div>
-                     <h6 class="card-title mb-1"><strong> Edad:</strong>  <small>1234</small></h6>
+                     <h6 class="card-title mb-1"><strong>Estado:</strong>  <small id="edadUsuario">-</small></h6>
+                </div>
+                 <div id="dniDiv">
+                     <h6 class="card-title mb-1"><strong>DNI:</strong>  <small id="dniUsuario">-</small></h6>
+                </div>
+                 <div id="telefonoDiv">
+                     <h6 class="card-title mb-1"><strong>Telefono:</strong>  <small id="telefonoUsuario">-</small></h6>
                 </div>
                  <div>
-                     <h6 class="card-title mb-1"><strong>DNI:</strong>  <small>1234</small></h6>
+                     <h6 class="card-title mb-1"><strong>Email:</strong>  <small id="emailUsuario">-</small></h6>
                 </div>
                  <div>
-                     <h6 class="card-title mb-1"><strong>Telefono:</strong>  <small>1234</small></h6>
-                </div>
-                 <div>
-                     <h6 class="card-title mb-1"><strong>Email:</strong>  <small>1234</small></h6>
-                </div>
-                 <div>
-                     <h6 class="card-title mb-1"><strong>Cantidad de Equipos:</strong>  <small>1234</small></h6>
+                     <h6 class="card-title mb-1"><strong>Cantidad de Equipos:</strong>  <small id="cantidadEquipos">-</small></h6>
                 </div>
                 <div class="d-flex gap-2">
                 </div>
@@ -106,14 +106,78 @@
 
 
   <!-- Bootstrap scripts -->
-  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="js/bootstrap.bundle.js"></script>
   <script> 
+    // Sidebar toggle
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('toggleSidebar');
 
     toggleBtn.addEventListener('click', () => {
       sidebar.classList.toggle('show');
     });
+
+    // Cargar datos del usuario
+    async function cargarPerfilUsuario() {
+      try {
+        // Obtener el ID del usuario de la sesión
+        const responseSession = await fetch('../back-end/get_session_user.php');
+        const sessionData = await responseSession.json();
+        
+        if (!sessionData.id_user) {
+          window.location.href = 'login.html';
+          return;
+        }
+
+        // Obtener datos completos del usuario
+        const response = await fetch(`../back-end/obtener_usuario.php?id=${sessionData.id_user}`);
+        const usuario = await response.json();
+
+        if (usuario.error) {
+          console.error('Error:', usuario.error);
+          alert('Error al cargar el perfil: ' + usuario.error);
+          return;
+        }
+
+        if (usuario && usuario.id_user) {
+          // Llenar nombre y apellido
+          document.getElementById('nombreUsuario').textContent = `${usuario.nombre} ${usuario.apellido}`;
+          
+          // Llenar cargo
+          document.getElementById('cargoUsuario').textContent = `Rol: ${usuario.cargo || 'N/A'}`;
+          
+          // Llenar ID
+          document.getElementById('idUsuario').textContent = usuario.id_user;
+          
+          // Llenar fecha de creación
+          if (usuario.fecha_creacion) {
+            const fecha = new Date(usuario.fecha_creacion);
+            document.getElementById('fechaCreacion').textContent = fecha.toLocaleDateString('es-AR');
+          }
+          
+          // Llenar estado
+          document.getElementById('edadUsuario').textContent = usuario.estado_descripcion || 'N/A';
+          
+          // Llenar mail
+          document.getElementById('emailUsuario').textContent = usuario.mail || 'N/A';
+          
+          // Ocultar campos que no existen en la BD
+          document.getElementById('dniDiv').style.display = 'none';
+          document.getElementById('telefonoDiv').style.display = 'none';
+          
+          // Llenar cantidad de equipos
+          document.getElementById('cantidadEquipos').textContent = usuario.cantidad_equipos || 0;
+        } else {
+          console.error('No se pudieron cargar los datos del usuario');
+          alert('No se pudieron cargar los datos del usuario');
+        }
+      } catch (error) {
+        console.error('Error al cargar el perfil:', error);
+        alert('Error al cargar el perfil. Verifica la consola para más detalles.');
+      }
+    }
+
+    // Cargar perfil cuando se carga la página
+    document.addEventListener('DOMContentLoaded', cargarPerfilUsuario);
   </script>
 </body>
 </html>

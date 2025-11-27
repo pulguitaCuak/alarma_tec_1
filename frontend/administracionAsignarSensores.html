@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Asignar Equipos - Alarma</title>
+  <title>Asignar Sensores - Alarma</title>
   <!-- Bootstrap local -->
   <link rel="stylesheet" href="css/bootstrap.custom.min.css">
   <link rel="stylesheet" href="bootstrap-icons-1.13.1/bootstrap-icons.css">
   <!-- Estilos personalizados -->
   <link rel="stylesheet" href="css/plantillaPrincipal.css">
   <style>
-    .equipo-item {
+    .sensor-item {
       cursor: pointer;
       transition: background-color 0.2s;
     }
-    .equipo-item:hover {
+    .sensor-item:hover {
       background-color: #f8f9fa;
     }
-    .equipo-item.asignado {
+    .sensor-item.asignado {
       background-color: #d1ecf1;
     }
   </style>
@@ -51,17 +51,17 @@
       <a href="administracionAsignarEquipos.html" class="my-3"><i class="bi bi-list fs-4 p-4"></i></a>
     </aside>
 
-    <!-- CONTENIDO CON USUARIOS -->
+    <!-- CONTENIDO CON ZONAS -->
     <div class="flex-grow-1 ms-3">
       <div class="container-fluid py-4">
 
-        <h3 class="mb-4">Asignar Equipos a Usuarios</h3>
+        <h3 class="mb-4">Asignar Sensores a Zonas</h3>
 
         <div class="d-flex align-items-end mb-4 gap-2">
             <div class="flex-grow-1">
-              <label for="usuarioSelect" class="form-label">Seleccionar Usuario</label>
-              <select class="form-select" id="usuarioSelect">
-                <option value="">-- Cargando usuarios --</option>
+              <label for="zonaSelect" class="form-label">Seleccionar Zona</label>
+              <select class="form-select" id="zonaSelect">
+                <option value="">-- Cargando zonas --</option>
               </select>
             </div>
             <button type="button" class="btn btn-success" id="btnGuardarCambios" style="display:none;">
@@ -69,13 +69,13 @@
             </button>
         </div>
 
-        <!-- Lista de equipos disponibles -->
+        <!-- Lista de sensores disponibles -->
         <div class="card">
           <div class="card-header">
-            <h5 class="mb-0">Equipos Disponibles</h5>
+            <h5 class="mb-0">Sensores Disponibles</h5>
           </div>
-          <div class="list-group list-group-flush" id="equiposList">
-            <div class="list-group-item text-muted">Selecciona un usuario para ver los equipos</div>
+          <div class="list-group list-group-flush" id="sensoresList">
+            <div class="list-group-item text-muted">Selecciona una zona para ver los sensores</div>
           </div>
         </div>
       </div>
@@ -92,99 +92,99 @@
   <!-- Bootstrap scripts -->
   <script src="js/bootstrap.bundle.js"></script>
   <script>
-    let usuarioActual = null;
-    let equiposAsignados = new Set();
+    let zonaActual = null;
+    let sensoresAsignados = new Set();
     let cambiosPendientes = {};
 
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('toggleSidebar');
-    const usuarioSelect = document.getElementById('usuarioSelect');
-    const equiposList = document.getElementById('equiposList');
+    const zonaSelect = document.getElementById('zonaSelect');
+    const sensoresList = document.getElementById('sensoresList');
     const btnGuardarCambios = document.getElementById('btnGuardarCambios');
 
     toggleBtn.addEventListener('click', () => {
       sidebar.classList.toggle('show');
     });
 
-    // Cargar usuarios al iniciar
-    async function cargarUsuarios() {
+    // Cargar zonas al iniciar
+    async function cargarZonas() {
       try {
-        const res = await fetch('/alarma_tec_1/back-end/obtener_usuarios.php');
-        const usuarios = await res.json();
+        const res = await fetch('/alarma_tec_1/back-end/obtener_todas_zonas.php');
+        const zonas = await res.json();
         
-        usuarioSelect.innerHTML = '<option value="">-- Selecciona un usuario --</option>';
-        usuarios.forEach(u => {
+        zonaSelect.innerHTML = '<option value="">-- Selecciona una zona --</option>';
+        zonas.forEach(z => {
           const option = document.createElement('option');
-          option.value = u.id_user;
-          option.textContent = `${u.nombre} ${u.apellido}`;
-          usuarioSelect.appendChild(option);
+          option.value = z.id_zona;
+          option.textContent = z.descripcion || 'Zona ' + z.id_zona;
+          zonaSelect.appendChild(option);
         });
       } catch (err) {
-        console.error('Error cargando usuarios:', err);
-        usuarioSelect.innerHTML = '<option value="">Error al cargar usuarios</option>';
+        console.error('Error cargando zonas:', err);
+        zonaSelect.innerHTML = '<option value="">Error al cargar zonas</option>';
       }
     }
 
-    // Cargar equipos y asignaciones cuando se selecciona un usuario
-    usuarioSelect.addEventListener('change', async () => {
-      const idUsuario = usuarioSelect.value;
-      if (!idUsuario) {
-        equiposList.innerHTML = '<div class="list-group-item text-muted">Selecciona un usuario para ver los equipos</div>';
+    // Cargar sensores cuando se selecciona una zona
+    zonaSelect.addEventListener('change', async () => {
+      const idZona = zonaSelect.value;
+      if (!idZona) {
+        sensoresList.innerHTML = '<div class="list-group-item text-muted">Selecciona una zona para ver los sensores</div>';
         btnGuardarCambios.style.display = 'none';
         return;
       }
 
-      usuarioActual = idUsuario;
-      equiposAsignados.clear();
+      zonaActual = idZona;
+      sensoresAsignados.clear();
       cambiosPendientes = {};
-      await cargarEquipos(idUsuario);
+      await cargarSensores(idZona);
     });
 
-    // Cargar todos los equipos y marcar cuáles están asignados
-    async function cargarEquipos(idUsuario) {
+    // Cargar todos los sensores y marcar cuáles están asignados
+    async function cargarSensores(idZona) {
       try {
-        const [equiposRes, asignadosRes] = await Promise.all([
-          fetch('/alarma_tec_1/back-end/obtener_equipos.php'),
-          fetch(`/alarma_tec_1/back-end/obtener_equipos_usuario.php?id=${idUsuario}`)
+        const [sensoresRes, asignadosRes] = await Promise.all([
+          fetch('/alarma_tec_1/back-end/obtener_todos_sensores.php'),
+          fetch(`/alarma_tec_1/back-end/obtener_sensores_zona.php?id_zona=${idZona}`)
         ]);
 
-        const equipos = await equiposRes.json();
+        const sensores = await sensoresRes.json();
         const asignados = await asignadosRes.json();
 
-        // Guardar IDs de equipos asignados
-        asignados.forEach(e => equiposAsignados.add(e.id_equipo));
+        // Guardar IDs de sensores asignados
+        asignados.forEach(s => sensoresAsignados.add(s.id_sensor));
 
-        // Renderizar equipos
-        equiposList.innerHTML = '';
-        equipos.forEach(equipo => {
-          const isAsignado = equiposAsignados.has(equipo.id_equipo);
+        // Renderizar sensores
+        sensoresList.innerHTML = '';
+        sensores.forEach(sensor => {
+          const isAsignado = sensoresAsignados.has(sensor.id_sensor);
           const item = document.createElement('div');
-          item.className = `list-group-item d-flex justify-content-between align-items-center equipo-item ${isAsignado ? 'asignado' : ''}`;
-          item.dataset.equipoId = equipo.id_equipo;
+          item.className = `list-group-item d-flex justify-content-between align-items-center sensor-item ${isAsignado ? 'asignado' : ''}`;
+          item.dataset.sensorId = sensor.id_sensor;
 
           item.innerHTML = `
             <div class="d-flex align-items-center flex-grow-1">
-              <i class="bi bi-hdd-rack fs-4 me-3"></i>
+              <i class="bi bi-wifi fs-4 me-3"></i>
               <div>
-                <strong>${equipo.nombre}</strong><br>
-                <small class="text-muted">${equipo.descripcion || 'Sin descripción'}</small>
+                <strong>${sensor.nombre}</strong><br>
+                <small class="text-muted">${sensor.descripcion || 'Sin descripción'}</small>
               </div>
             </div>
             <div class="form-check">
-              <input class="form-check-input equipo-checkbox" type="checkbox" ${isAsignado ? 'checked' : ''}>
+              <input class="form-check-input sensor-checkbox" type="checkbox" ${isAsignado ? 'checked' : ''}>
             </div>
           `;
 
-          const checkbox = item.querySelector('.equipo-checkbox');
+          const checkbox = item.querySelector('.sensor-checkbox');
           checkbox.addEventListener('change', () => {
             const isNowChecked = checkbox.checked;
-            const wasAssigned = equiposAsignados.has(equipo.id_equipo);
+            const wasAssigned = sensoresAsignados.has(sensor.id_sensor);
 
             // Registrar cambio
             if (isNowChecked !== wasAssigned) {
-              cambiosPendientes[equipo.id_equipo] = isNowChecked;
+              cambiosPendientes[sensor.id_sensor] = isNowChecked;
             } else {
-              delete cambiosPendientes[equipo.id_equipo];
+              delete cambiosPendientes[sensor.id_sensor];
             }
 
             // Actualizar UI y mostrar botón guardar
@@ -192,13 +192,13 @@
             btnGuardarCambios.style.display = Object.keys(cambiosPendientes).length > 0 ? 'block' : 'none';
           });
 
-          equiposList.appendChild(item);
+          sensoresList.appendChild(item);
         });
 
         btnGuardarCambios.style.display = 'none';
       } catch (err) {
-        console.error('Error cargando equipos:', err);
-        equiposList.innerHTML = '<div class="list-group-item text-danger">Error al cargar equipos</div>';
+        console.error('Error cargando sensores:', err);
+        sensoresList.innerHTML = '<div class="list-group-item text-danger">Error al cargar sensores</div>';
       }
     }
 
@@ -209,10 +209,10 @@
         btnGuardarCambios.textContent = 'Guardando...';
 
         const formData = new FormData();
-        formData.append('id_usuario', usuarioActual);
+        formData.append('id_zona', zonaActual);
         formData.append('cambios', JSON.stringify(cambiosPendientes));
 
-        const res = await fetch('/alarma_tec_1/back-end/asignar_equipos.php', {
+        const res = await fetch('/alarma_tec_1/back-end/asignar_sensores.php', {
           method: 'POST',
           body: formData
         });
@@ -222,12 +222,12 @@
         if (result.ok) {
           alert('Cambios guardados correctamente');
           
-          // Actualizar equiposAsignados con los nuevos cambios
-          for (const [id_equipo, asignado] of Object.entries(cambiosPendientes)) {
+          // Actualizar sensoresAsignados con los nuevos cambios
+          for (const [id_sensor, asignado] of Object.entries(cambiosPendientes)) {
             if (asignado) {
-              equiposAsignados.add(parseInt(id_equipo));
+              sensoresAsignados.add(parseInt(id_sensor));
             } else {
-              equiposAsignados.delete(parseInt(id_equipo));
+              sensoresAsignados.delete(parseInt(id_sensor));
             }
           }
           
@@ -235,11 +235,11 @@
           btnGuardarCambios.style.display = 'none';
           
           // Actualizar UI sin recargar
-          const items = document.querySelectorAll('.equipo-item');
+          const items = document.querySelectorAll('.sensor-item');
           items.forEach(item => {
-            const equipoId = parseInt(item.dataset.equipoId);
-            const checkbox = item.querySelector('.equipo-checkbox');
-            const isAssigned = equiposAsignados.has(equipoId);
+            const sensorId = parseInt(item.dataset.sensorId);
+            const checkbox = item.querySelector('.sensor-checkbox');
+            const isAssigned = sensoresAsignados.has(sensorId);
             checkbox.checked = isAssigned;
             item.classList.toggle('asignado', isAssigned);
           });
@@ -255,7 +255,7 @@
     });
 
     // Iniciar al cargar la página
-    document.addEventListener('DOMContentLoaded', cargarUsuarios);
+    document.addEventListener('DOMContentLoaded', cargarZonas);
   </script>
 </body>
 </html>

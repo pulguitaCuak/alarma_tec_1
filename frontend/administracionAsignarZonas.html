@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Asignar Equipos - Alarma</title>
+  <title>Asignar Zonas - Alarma</title>
   <!-- Bootstrap local -->
   <link rel="stylesheet" href="css/bootstrap.custom.min.css">
   <link rel="stylesheet" href="bootstrap-icons-1.13.1/bootstrap-icons.css">
   <!-- Estilos personalizados -->
   <link rel="stylesheet" href="css/plantillaPrincipal.css">
   <style>
-    .equipo-item {
+    .zona-item {
       cursor: pointer;
       transition: background-color 0.2s;
     }
-    .equipo-item:hover {
+    .zona-item:hover {
       background-color: #f8f9fa;
     }
-    .equipo-item.asignado {
+    .zona-item.asignada {
       background-color: #d1ecf1;
     }
   </style>
@@ -51,17 +51,17 @@
       <a href="administracionAsignarEquipos.html" class="my-3"><i class="bi bi-list fs-4 p-4"></i></a>
     </aside>
 
-    <!-- CONTENIDO CON USUARIOS -->
+    <!-- CONTENIDO CON EQUIPOS -->
     <div class="flex-grow-1 ms-3">
       <div class="container-fluid py-4">
 
-        <h3 class="mb-4">Asignar Equipos a Usuarios</h3>
+        <h3 class="mb-4">Asignar Zonas a Equipos</h3>
 
         <div class="d-flex align-items-end mb-4 gap-2">
             <div class="flex-grow-1">
-              <label for="usuarioSelect" class="form-label">Seleccionar Usuario</label>
-              <select class="form-select" id="usuarioSelect">
-                <option value="">-- Cargando usuarios --</option>
+              <label for="equipoSelect" class="form-label">Seleccionar Equipo</label>
+              <select class="form-select" id="equipoSelect">
+                <option value="">-- Cargando equipos --</option>
               </select>
             </div>
             <button type="button" class="btn btn-success" id="btnGuardarCambios" style="display:none;">
@@ -69,13 +69,13 @@
             </button>
         </div>
 
-        <!-- Lista de equipos disponibles -->
+        <!-- Lista de zonas disponibles -->
         <div class="card">
           <div class="card-header">
-            <h5 class="mb-0">Equipos Disponibles</h5>
+            <h5 class="mb-0">Zonas Disponibles</h5>
           </div>
-          <div class="list-group list-group-flush" id="equiposList">
-            <div class="list-group-item text-muted">Selecciona un usuario para ver los equipos</div>
+          <div class="list-group list-group-flush" id="zonasList">
+            <div class="list-group-item text-muted">Selecciona un equipo para ver las zonas</div>
           </div>
         </div>
       </div>
@@ -92,113 +92,113 @@
   <!-- Bootstrap scripts -->
   <script src="js/bootstrap.bundle.js"></script>
   <script>
-    let usuarioActual = null;
-    let equiposAsignados = new Set();
+    let equipoActual = null;
+    let zonasAsignadas = new Set();
     let cambiosPendientes = {};
 
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('toggleSidebar');
-    const usuarioSelect = document.getElementById('usuarioSelect');
-    const equiposList = document.getElementById('equiposList');
+    const equipoSelect = document.getElementById('equipoSelect');
+    const zonasList = document.getElementById('zonasList');
     const btnGuardarCambios = document.getElementById('btnGuardarCambios');
 
     toggleBtn.addEventListener('click', () => {
       sidebar.classList.toggle('show');
     });
 
-    // Cargar usuarios al iniciar
-    async function cargarUsuarios() {
+    // Cargar equipos al iniciar
+    async function cargarEquipos() {
       try {
-        const res = await fetch('/alarma_tec_1/back-end/obtener_usuarios.php');
-        const usuarios = await res.json();
+        const res = await fetch('/alarma_tec_1/back-end/obtener_equipos.php');
+        const equipos = await res.json();
         
-        usuarioSelect.innerHTML = '<option value="">-- Selecciona un usuario --</option>';
-        usuarios.forEach(u => {
+        equipoSelect.innerHTML = '<option value="">-- Selecciona un equipo --</option>';
+        equipos.forEach(e => {
           const option = document.createElement('option');
-          option.value = u.id_user;
-          option.textContent = `${u.nombre} ${u.apellido}`;
-          usuarioSelect.appendChild(option);
+          option.value = e.id_equipo;
+          option.textContent = e.nombre;
+          equipoSelect.appendChild(option);
         });
       } catch (err) {
-        console.error('Error cargando usuarios:', err);
-        usuarioSelect.innerHTML = '<option value="">Error al cargar usuarios</option>';
+        console.error('Error cargando equipos:', err);
+        equipoSelect.innerHTML = '<option value="">Error al cargar equipos</option>';
       }
     }
 
-    // Cargar equipos y asignaciones cuando se selecciona un usuario
-    usuarioSelect.addEventListener('change', async () => {
-      const idUsuario = usuarioSelect.value;
-      if (!idUsuario) {
-        equiposList.innerHTML = '<div class="list-group-item text-muted">Selecciona un usuario para ver los equipos</div>';
+    // Cargar zonas cuando se selecciona un equipo
+    equipoSelect.addEventListener('change', async () => {
+      const idEquipo = equipoSelect.value;
+      if (!idEquipo) {
+        zonasList.innerHTML = '<div class="list-group-item text-muted">Selecciona un equipo para ver las zonas</div>';
         btnGuardarCambios.style.display = 'none';
         return;
       }
 
-      usuarioActual = idUsuario;
-      equiposAsignados.clear();
+      equipoActual = idEquipo;
+      zonasAsignadas.clear();
       cambiosPendientes = {};
-      await cargarEquipos(idUsuario);
+      await cargarZonas(idEquipo);
     });
 
-    // Cargar todos los equipos y marcar cuáles están asignados
-    async function cargarEquipos(idUsuario) {
+    // Cargar todas las zonas y marcar cuáles están asignadas
+    async function cargarZonas(idEquipo) {
       try {
-        const [equiposRes, asignadosRes] = await Promise.all([
-          fetch('/alarma_tec_1/back-end/obtener_equipos.php'),
-          fetch(`/alarma_tec_1/back-end/obtener_equipos_usuario.php?id=${idUsuario}`)
+        const [zonasRes, asignadasRes] = await Promise.all([
+          fetch('/alarma_tec_1/back-end/obtener_todas_zonas.php'),
+          fetch(`/alarma_tec_1/back-end/obtener_zonas.php?id_equipo=${idEquipo}`)
         ]);
 
-        const equipos = await equiposRes.json();
-        const asignados = await asignadosRes.json();
+        const zonas = await zonasRes.json();
+        const asignadas = await asignadasRes.json();
 
-        // Guardar IDs de equipos asignados
-        asignados.forEach(e => equiposAsignados.add(e.id_equipo));
+        // Guardar IDs de zonas asignadas
+        asignadas.forEach(z => zonasAsignadas.add(z.id_zona));
 
-        // Renderizar equipos
-        equiposList.innerHTML = '';
-        equipos.forEach(equipo => {
-          const isAsignado = equiposAsignados.has(equipo.id_equipo);
+        // Renderizar zonas
+        zonasList.innerHTML = '';
+        zonas.forEach(zona => {
+          const isAsignada = zonasAsignadas.has(zona.id_zona);
           const item = document.createElement('div');
-          item.className = `list-group-item d-flex justify-content-between align-items-center equipo-item ${isAsignado ? 'asignado' : ''}`;
-          item.dataset.equipoId = equipo.id_equipo;
+          item.className = `list-group-item d-flex justify-content-between align-items-center zona-item ${isAsignada ? 'asignada' : ''}`;
+          item.dataset.zonaId = zona.id_zona;
 
           item.innerHTML = `
             <div class="d-flex align-items-center flex-grow-1">
-              <i class="bi bi-hdd-rack fs-4 me-3"></i>
+              <i class="bi bi-map fs-4 me-3"></i>
               <div>
-                <strong>${equipo.nombre}</strong><br>
-                <small class="text-muted">${equipo.descripcion || 'Sin descripción'}</small>
+                <strong>${zona.descripcion || 'Zona ' + zona.id_zona}</strong><br>
+                <small class="text-muted">ID: ${zona.id_zona}</small>
               </div>
             </div>
             <div class="form-check">
-              <input class="form-check-input equipo-checkbox" type="checkbox" ${isAsignado ? 'checked' : ''}>
+              <input class="form-check-input zona-checkbox" type="checkbox" ${isAsignada ? 'checked' : ''}>
             </div>
           `;
 
-          const checkbox = item.querySelector('.equipo-checkbox');
+          const checkbox = item.querySelector('.zona-checkbox');
           checkbox.addEventListener('change', () => {
             const isNowChecked = checkbox.checked;
-            const wasAssigned = equiposAsignados.has(equipo.id_equipo);
+            const wasAssigned = zonasAsignadas.has(zona.id_zona);
 
             // Registrar cambio
             if (isNowChecked !== wasAssigned) {
-              cambiosPendientes[equipo.id_equipo] = isNowChecked;
+              cambiosPendientes[zona.id_zona] = isNowChecked;
             } else {
-              delete cambiosPendientes[equipo.id_equipo];
+              delete cambiosPendientes[zona.id_zona];
             }
 
             // Actualizar UI y mostrar botón guardar
-            item.classList.toggle('asignado', isNowChecked);
+            item.classList.toggle('asignada', isNowChecked);
             btnGuardarCambios.style.display = Object.keys(cambiosPendientes).length > 0 ? 'block' : 'none';
           });
 
-          equiposList.appendChild(item);
+          zonasList.appendChild(item);
         });
 
         btnGuardarCambios.style.display = 'none';
       } catch (err) {
-        console.error('Error cargando equipos:', err);
-        equiposList.innerHTML = '<div class="list-group-item text-danger">Error al cargar equipos</div>';
+        console.error('Error cargando zonas:', err);
+        zonasList.innerHTML = '<div class="list-group-item text-danger">Error al cargar zonas</div>';
       }
     }
 
@@ -209,10 +209,10 @@
         btnGuardarCambios.textContent = 'Guardando...';
 
         const formData = new FormData();
-        formData.append('id_usuario', usuarioActual);
+        formData.append('id_equipo', equipoActual);
         formData.append('cambios', JSON.stringify(cambiosPendientes));
 
-        const res = await fetch('/alarma_tec_1/back-end/asignar_equipos.php', {
+        const res = await fetch('/alarma_tec_1/back-end/asignar_zonas.php', {
           method: 'POST',
           body: formData
         });
@@ -223,11 +223,11 @@
           alert('Cambios guardados correctamente');
           
           // Actualizar equiposAsignados con los nuevos cambios
-          for (const [id_equipo, asignado] of Object.entries(cambiosPendientes)) {
+          for (const [id_zona, asignado] of Object.entries(cambiosPendientes)) {
             if (asignado) {
-              equiposAsignados.add(parseInt(id_equipo));
+              zonasAsignadas.add(parseInt(id_zona));
             } else {
-              equiposAsignados.delete(parseInt(id_equipo));
+              zonasAsignadas.delete(parseInt(id_zona));
             }
           }
           
@@ -235,13 +235,13 @@
           btnGuardarCambios.style.display = 'none';
           
           // Actualizar UI sin recargar
-          const items = document.querySelectorAll('.equipo-item');
+          const items = document.querySelectorAll('.zona-item');
           items.forEach(item => {
-            const equipoId = parseInt(item.dataset.equipoId);
-            const checkbox = item.querySelector('.equipo-checkbox');
-            const isAssigned = equiposAsignados.has(equipoId);
+            const zonaId = parseInt(item.dataset.zonaId);
+            const checkbox = item.querySelector('.zona-checkbox');
+            const isAssigned = zonasAsignadas.has(zonaId);
             checkbox.checked = isAssigned;
-            item.classList.toggle('asignado', isAssigned);
+            item.classList.toggle('asignada', isAssigned);
           });
         } else {
           alert('Error: ' + result.mensaje);
@@ -255,7 +255,7 @@
     });
 
     // Iniciar al cargar la página
-    document.addEventListener('DOMContentLoaded', cargarUsuarios);
+    document.addEventListener('DOMContentLoaded', cargarEquipos);
   </script>
 </body>
 </html>
