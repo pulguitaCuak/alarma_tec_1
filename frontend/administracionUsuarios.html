@@ -241,6 +241,14 @@
       }
     }
 
+    function puedoModificarUsuario(idCargoUsuario) {
+      // Admin (1) puede modificar a todos
+      if (currentCargo === 1) return true;
+      // Técnico (2) solo puede modificar a Clientes (3)
+      if (currentCargo === 2) return idCargoUsuario === 3;
+      return false;
+    }
+
     function mostrarUsuarios(usuarios) {
       usuariosContainer.innerHTML = '';
 
@@ -252,6 +260,7 @@
       usuarios.forEach(usuario => {
         const estadoClass = usuario.estado == 1 ? 'state-active' : 'state-inactive';
         const estadoText = usuario.estado == 1 ? 'Activo' : (usuario.estado == 2 ? 'Inactivo' : (usuario.estado == 3 ? 'Pendiente' : 'Suspendido'));
+        const puedeModificar = puedoModificarUsuario(usuario.id_cargo);
 
         const item = document.createElement('div');
         item.className = 'list-group-item d-flex justify-content-between align-items-center';
@@ -265,11 +274,11 @@
           </div>
           <div class="d-flex gap-2 align-items-center">
             <span class="state-badge ${estadoClass}">${estadoText}</span>
-            <button class="btn btn-outline-secondary btn-sm" onclick="editarUsuario(${usuario.id_user})">Modificar</button>
+            <button class="btn btn-outline-secondary btn-sm" onclick="editarUsuario(${usuario.id_user})" ${puedeModificar ? '' : 'disabled'}>Modificar</button>
             ${
               usuario.estado == 1
-                ? `<button class="btn btn-danger btn-sm" onclick="eliminarUsuario(${usuario.id_user}, '${usuario.nombre} ${usuario.apellido}')">Dar de baja</button>`
-                : `<button class="btn btn-success btn-sm" onclick="darDeAltaUsuario(${usuario.id_user}, '${usuario.nombre} ${usuario.apellido}')">Dar de alta</button>`
+                ? `<button class="btn btn-danger btn-sm" onclick="eliminarUsuario(${usuario.id_user}, '${usuario.nombre} ${usuario.apellido}')" ${puedeModificar ? '' : 'disabled'}>Dar de baja</button>`
+                : `<button class="btn btn-success btn-sm" onclick="darDeAltaUsuario(${usuario.id_user}, '${usuario.nombre} ${usuario.apellido}')" ${puedeModificar ? '' : 'disabled'}>Dar de alta</button>`
             }
             ${
               // Botón para eliminar permanentemente (solo disponible para administradores)
