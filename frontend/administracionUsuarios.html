@@ -219,6 +219,7 @@
     const editEstado = document.getElementById('editEstado');
 
     let todosUsuarios = [];
+    let currentCargo = null; // cargo del usuario en sesión
 
     // Cargar usuarios dinámicamente
     async function cargarUsuarios() {
@@ -265,7 +266,17 @@
           <div class="d-flex gap-2 align-items-center">
             <span class="state-badge ${estadoClass}">${estadoText}</span>
             <button class="btn btn-outline-secondary btn-sm" onclick="editarUsuario(${usuario.id_user})">Modificar</button>
-            <button class="btn btn-danger btn-sm" onclick="eliminarUsuario(${usuario.id_user}, '${usuario.nombre} ${usuario.apellido}')">Eliminar</button>
+            ${
+              usuario.estado == 1
+                ? `<button class="btn btn-danger btn-sm" onclick="eliminarUsuario(${usuario.id_user}, '${usuario.nombre} ${usuario.apellido}')">Dar de baja</button>`
+                : `<button class="btn btn-success btn-sm" onclick="darDeAltaUsuario(${usuario.id_user}, '${usuario.nombre} ${usuario.apellido}')">Dar de alta</button>`
+            }
+            ${
+              // Botón para eliminar permanentemente (solo disponible para administradores)
+              currentCargo == 1
+                ? `<button class="btn btn-outline-danger btn-sm" onclick="borrarUsuario(${usuario.id_user}, '${usuario.nombre} ${usuario.apellido}')">Eliminar</button>`
+                : ''
+            }
             <a href="/alarma_tec_1/frontend/administracionAccederUsuario.html?id=${usuario.id_user}" class="btn btn-info btn-sm text-white">Ver Info.</a>
           </div>
         `;
@@ -383,8 +394,84 @@
       }
     }
 
-    // Cargar usuarios al iniciar
-    cargarUsuarios();
+    async function darDeAltaUsuario(id, nombre) {
+      if (confirm(`¿Estás seguro de que quieres dar de alta a ${nombre}?`)) {
+        try {
+          const response = await fetch('/alarma_tec_1/back-end/dar_de_alta.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id_user: id })
+          });
+
+          const result = await response.json();
+
+          // Accept both {status:'success'} and {ok:true} shapes
+          if (result.status === 'success' || result.ok === true) {
+            alert('Usuario dado de alta correctamente');
+            searchInput.value = '';
+            filterEstado.value = '';
+            cargarUsuarios();
+          } else {
+            alert('Error: ' + (result.message || result.mensaje || 'Error al dar de alta')); 
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Error al dar de alta usuario');
+        }
+      }
+    }
+
+    async function borrarUsuario(id, nombre) {
+      // Verificar permiso en el cliente (solo visual) antes de enviar
+      if (currentCargo != 1) {
+        alert('Acceso denegado: solo administradores pueden eliminar usuarios permanentemente.');
+        return;
+      }
+
+      if (confirm(`¿Estás seguro de que quieres eliminar permanentemente a ${nombre}? Esta acción no se puede deshacer.`)) {
+        try {
+          const response = await fetch('/alarma_tec_1/back-end/borrar_usuario.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id_user: id })
+          });
+
+          const result = await response.json();
+
+          if (result.ok) {
+            alert('Usuario eliminado permanentemente.');
+            searchInput.value = '';
+            filterEstado.value = '';
+            cargarUsuarios();
+          } else {
+            alert('Error: ' + (result.mensaje || 'Error al eliminar usuario.'));
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Error al eliminar usuario');
+        }
+      }
+    }
+
+    async function init() {
+      try {
+        const resSession = await fetch('/alarma_tec_1/back-end/get_session_user.php');
+        const sessionData = await resSession.json();
+        currentCargo = sessionData.cargo ?? null;
+      } catch (err) {
+        console.error('Error al obtener sesión', err);
+        currentCargo = null;
+      }
+
+      cargarUsuarios();
+    }
+
+    // Cargar usuarios y obtener sesión antes
+    init();
   </script>
 </body>
 </html>
