@@ -64,7 +64,7 @@ async function cargarZonas() {
                     <div class="card-body">
                         <div class="d-flex gap-4 align-items-center mb-3">
                             <div class="d-flex align-items-center">
-                                <i class="bi bi-house-door me-2 fs-5"></i>
+                                <i class="bi bi-columns-gap me-2 fs-5"></i>
                                 <h5 class="card-title mb-0">${zona.nombre_zona}</h5>
                             </div>
                             <div class="d-flex align-items-center ${estadoColor}">
