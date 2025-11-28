@@ -79,6 +79,7 @@
               </button>
             </form>
 
+<<<<<<< HEAD
             <!-- Primer dropdown -->
             <div class="btn-group" role="group">
               <button type="button" class="btn btn-primary">Nombre de usuario</button>
@@ -93,6 +94,147 @@
               <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                 <a class="dropdown-item" href="#">yapuritag</a>
                 <a class="dropdown-item" href="#">brunofem</a>
+=======
+    <!-- Buscador -->
+    <form class="d-flex flex-row flex-md-row gap-2 w-100 w-md-75 px-md-3">
+      <input class="form-control" type="search" placeholder="Buscar..." />
+      <button class="btn btn-secondary" type="submit">
+        <i class="bi bi-search fs-6"></i>
+      </button>
+    </form>
+<!-- Primer dropdown -->
+
+    
+
+    <!-- Segundo dropdown -->
+    <div class="btn-group" role="group">
+      <button type="button" class="btn btn-primary">Ver todos...</button>
+      <button
+        id="btnGroupDrop2"
+        type="button"
+        class="btn btn-primary dropdown-toggle"
+        data-bs-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false">
+      </button>
+      <div class="dropdown-menu" aria-labelledby="btnGroupDrop2">
+        <a class="dropdown-item" href="administracionEquipos.html">Equipos</a>
+        <a class="dropdown-item" href="administracionSensores.html">Zonas</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+      </div>
+
+      <div class="dashboard-layout">
+      
+      
+
+      
+      <!-- CONTENEDOR DE CARDS -->
+      
+      <div class="cards-section py-4">
+        <div class="container-fluid">
+          <div class="row g-3 card-container">
+
+            <!-- Overlay global -->
+            <div id="overlay" class="overlay">
+
+              <!-- Popup Editar -->
+              <div class="popup popup-editar card h-50" style="width: fit-content; margin: auto 0">
+                <div class="card-body fs-4">
+                  <div class="d-flex align-items-center px-4">
+                    <i class="bi bi-house fs-2 p-2 hide-mobile"></i>
+                    <h5 class="card-title mb-0">Editar zona</h5>
+                  </div>
+
+                  <div>
+                    <label><strong>Nombre:</strong><br>
+                      <input type="text" id="nuevoNombre" class="border-1 redondear-bordes-pequeño border-dark" placeholder="pepe">
+                    </label>
+                  </div>
+                  <div>
+                    <label><strong>Descripción:</strong><br>
+                      <input type="text" id="NuevaDescripcion" class="border-1 redondear-bordes-pequeño border-dark" placeholder="ingrese una descripción">
+                    </label>
+                  </div>
+                  <div class="d-flex gap-4 mt-4 justify-content-center">
+                    <button id="btnAcetarCambios" class="btn btn-light redondear-bordes border">Aceptar</button>
+                    <button id="btnCancelarCambios" class="btn bg-secondary redondear-bordes">Cancelar</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Popup Eliminar -->
+              <div class="popup popup-eliminar card h-50" style="width: fit-content; margin: auto 0">
+                <div class="card-body fs-4 text-center">
+                  <div class="d-flex align-items-center justify-content-center mb-3">
+                    <i class="bi bi-exclamation-triangle text-danger fs-2 p-2"></i>
+                    <h5 class="card-title mb-0 text-danger">¿Eliminar zona?</h5>
+                  </div>
+                  <p>Esta acción no se puede deshacer.</p>
+                  <div class="d-flex gap-4 mt-4 justify-content-center">
+                    <button id="btnConfirmarEliminar" class="btn btn-danger redondear-bordes">Eliminar</button>
+                    <button id="btnCancelarEliminar" class="btn bg-secondary redondear-bordes">Cancelar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const powerButtons = document.querySelectorAll('.power');
+
+    powerButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Buscamos la card contenedora del botón
+        const card = button.closest('.cambiarLuz');
+
+        // Alternamos entre las clases de luz
+        if (card.classList.contains('luzMala')) {
+          card.classList.remove('luzMala');
+          card.classList.add('luz');
+        } else {
+          card.classList.remove('luz');
+          card.classList.add('luzMala');
+        }
+      });
+    });
+  });
+</script>
+
+            <!-- CARD EJEMPLO -->
+            <div class="col-6">
+              <div class="card luz cambiarLuz">
+                <div class="card-body">
+                  <div class="d-flex gap-4 align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-house-door me-2 fs-5"></i>
+                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
+                    </div>
+
+                    <div class="text-muted d-flex align-items-center">
+                      <i class="bi bi-wifi-off me-2 fs-6"></i>
+                      <small>Sin acceso</small>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center gap-1">
+                    <div class="d-flex gap-2">
+                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
+                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
+                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
+                    </div>
+                    <div class="d-flex align-items-center gap-4">
+                      <i class="bi bi-battery-full fs-5"></i>
+                      <button class="rounded-circle bg-secondary power">
+                        <i class="bi bi-power fs-5 rounded-circle"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+>>>>>>> e8379111072d4c27c2ea7fa203b774eb613e15f9
               </div>
             </div>
 
