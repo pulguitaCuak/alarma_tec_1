@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dashboard - Alarma</title>
+  <title>Dashboard - Sensor</title>
 
   <!-- Bootstrap local -->
   <link rel="stylesheet" href="css/bootstrap.custom.min.css">
@@ -19,7 +19,6 @@
   <!-- HEADER -->
   <header class="bg-primary text-white py-3 d-flex align-items-center justify-content-between px-4">
     <div class="d-flex align-items-center">
-      <!-- Botón hamburguesa móvil -->
       <button class="btn btn-outline-light d-lg-none me-3" id="toggleSidebar">
         <i class="bi bi-list"></i>
       </button>
@@ -35,113 +34,50 @@
   <main class="flex-fill">
     <div class="dashboard-layout">
       
-       <!-- SIDEBAR (oculta en móvil) -->
-    <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100">
-      <a href="dashboardEquipos.html" class="my-3"><i class="bi bi-house fs-4 p-4"></i></a>
-      <a href="administracionUsuarios.html" class="my-3"><i class="bi bi-person-gear fs-4 p-4"></i></a>
-      <a href="dashboardPerfil.html" class="my-3"><i class="bi bi-person fs-4 p-4"></i></a>
-      <a href="dashboardSoporte.html" class="my-3"><i class="bi bi-telephone fs-4 p-4"></i></a>
-    </aside>
+      <!-- SIDEBAR -->
+      <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100">
+        <a href="dashboardEquipos.html" class="my-3"><i class="bi bi-house fs-4 p-4"></i></a>
+        <a href="administracionUsuarios.html" class="my-3"><i class="bi bi-person-gear fs-4 p-4"></i></a>
+        <a href="dashboardPerfil.html" class="my-3"><i class="bi bi-person fs-4 p-4"></i></a>
+        <a href="dashboardSoporte.html" class="my-3"><i class="bi bi-telephone fs-4 p-4"></i></a>
+      </aside>
 
-      <!-- CONTENEDOR DE CARDS -->
+      <!-- CONTENEDOR PRINCIPAL DEL SENSOR -->
       <div class="cards-section py-4 px-4">
         <div class="container-fluid">
-          <div class="row g-3 card-container">
-
-            <!-- CARD EJEMPLO -->
-            <div class="col-6">
-              <div class="card luzMala">
-                <div class="card-body">
-                  <div class="d-flex gap-4 align-items-center mb-3">
-                    
-                    <div class="d-flex align-items-center">
-                      <i class="bi bi-house-door me-2 fs-5"></i>
-                      <h5 class="card-title mb-0">Mi Casa</h5>
-                    </div>
-
-                    <div class="text-muted d-flex align-items-center">
-                      <i class="bi bi-wifi-off me-2 fs-6"></i>
-                      <small>Sin acceso</small>
-                    </div>
-                  
+          
+          <!-- Card del Sensor -->
+          <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+              <div id="sensorContainer">
+                <div class="text-center text-muted">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando sensor...</span>
                   </div>
-
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="d-flex gap-4">
-                      <button class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</button>
-                      <button class="btn btn-outline-secondary btn-sm">Editar</button>
-                    </div>
-                    <div class="d-flex align-items-center gap-4">
-                      <i class="bi bi-battery-full fs-5"></i>
-                      <button class="rounded-circle bg-secondary">
-                        <i class="bi bi-power fs-5 rounded-circle"></i>
-                      </button>
-                    </div>
-                  </div>
+                  <p class="mt-2">Cargando información del sensor...</p>
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
       </div>
 
-   <!-- CONTENEDOR DE ACTIVIDAD -->
-<div class="activity-section py-4 px-3">
-  <div class="activity-container">
-    
-    <div class="activity-card borde">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Actividad</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">Fecha</small>  
-          <small class="text-muted">Hora</small>
+      <!-- CONTENEDOR DE ACTIVIDAD -->
+      <div class="activity-section py-4 px-3">
+        <div class="activity-container" id="actividadesContainer">
+          <div class="activity-card borde">
+            <div class="d-flex justify-content-between">
+              <h6 class="mb-1">Actividad Reciente</h6>
+              <div class="d-flex gap-4">
+                <small class="mb-1">Fecha</small>  
+                <small class="text-muted">Hora</small>
+              </div>
+            </div>
+          </div>
+          <!-- Las actividades se cargarán dinámicamente aquí -->
         </div>
       </div>
-    
     </div>
-
-      <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-
-  </div>
-</div>
-
-     
-    
-  </div>
   </main>
 
   <!-- FOOTER -->
