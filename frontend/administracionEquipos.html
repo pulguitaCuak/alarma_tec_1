@@ -37,7 +37,7 @@
       <a href="administracionUsuarios.html" class="my-3"><i class="bi bi-house fs-4 p-4"></i></a>
       <a href="dashboardEquipos.html" class="my-3"><i class="bi bi-grid fs-4 p-4"></i></a>
       <a href="administracionRegistrar.html" class="my-3"><i class="bi bi-person-plus fs-4 p-4"></i></a>
-      <a href="estructuraAdministracionEquipos.html" class="my-3"><i class="bi bi-list fs-4 p-4"></i></a>
+      <a href="AdministracionEquipos.html" class="my-3"><i class="bi bi-list fs-4 p-4"></i></a>
     </aside>  
 
     <!-- CONTENIDO CON CARDS -->
@@ -54,9 +54,13 @@
   </div>
 
   <div class="d-flex w-100 gap-2 mt-2 mt-md-0">
-    <button class="btn bg-secondary redondear-bordes flex-grow-1">Añadir equipos</button>
-    <button class="btn btn-light redondear-bordes border flex-grow-1">Asignar equipos</button>
-  </div>
+  <button type="button" class="btn bg-secondary redondear-bordes flex-grow-1" data-bs-toggle="modal" data-bs-target="#modalCrearEquipo">
+    Añadir equipos
+  </button>
+  <button type="button" class="btn btn-light redondear-bordes border flex-grow-1" data-bs-toggle="modal" data-bs-target="#modalAsignarEquipo">
+    Asignar equipos
+  </button>
+</div>
 </form>
 
 <!-- Segundo encontrador -->
@@ -281,16 +285,245 @@
   <small class="footer-text">2025 Escuela Técnica N°1 Gral. San Martín Inc. Todos los derechos reservados.</small>
 </footer>
 
+<!-- Modal Crear Equipo -->
+<div class="modal fade" id="modalCrearEquipo" tabindex="-1" aria-labelledby="modalCrearEquipoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCrearEquipoLabel">Crear Nuevo Equipo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formCrearEquipo">
+          <div class="mb-3">
+            <label for="nombreEquipo" class="form-label">Nombre del equipo</label>
+            <input type="text" class="form-control" id="nombreEquipo" required>
+          </div>
+          <div class="mb-3">
+            <label for="descripcionEquipo" class="form-label">Descripción</label>
+            <textarea class="form-control" id="descripcionEquipo" rows="3"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="contrasenaEquipo" class="form-label">Contraseña (opcional)</label>
+            <input type="password" class="form-control" id="contrasenaEquipo">
+            <div class="form-text">Si no ingresa contraseña, se generará una automáticamente.</div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="btnGuardarEquipo">Guardar Equipo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Asignar Equipo -->
+<div class="modal fade" id="modalAsignarEquipo" tabindex="-1" aria-labelledby="modalAsignarEquipoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalAsignarEquipoLabel">Asignar Equipo a Usuario</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <h6>Seleccionar Usuario</h6>
+            <select class="form-select mb-3" id="selectUsuario">
+              <option value="">Seleccione un usuario...</option>
+            </select>
+            <div id="infoUsuario" class="d-none">
+              <p><strong>Usuario seleccionado:</strong> <span id="nombreUsuario"></span></p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <h6>Seleccionar Equipo</h6>
+            <select class="form-select mb-3" id="selectEquipo">
+              <option value="">Seleccione un equipo...</option>
+            </select>
+            <div id="infoEquipo" class="d-none">
+              <p><strong>Equipo seleccionado:</strong> <span id="nombreEquipoAsignar"></span></p>
+              <p><small id="descripcionEquipoAsignar"></small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="btnAsignarEquipo" disabled>Asignar Equipo</button>
+      </div>
+    </div>
+  </div>
+</div>
 
   <!-- Bootstrap scripts -->
   <script src="js/bootstrap.bundle.js"></script>
   <script> 
-    const sidebar = document.getElementById('sidebar');
+    
+    document.addEventListener('DOMContentLoaded', function() {
+  // Elementos del DOM
+  const modalCrearEquipo = new bootstrap.Modal(document.getElementById('modalCrearEquipo'));
+  const modalAsignarEquipo = new bootstrap.Modal(document.getElementById('modalAsignarEquipo'));
+  
+  // Cargar usuarios y equipos en el modal de asignación
+  function cargarUsuarios() {
+    fetch('../back-end/equipos.php?accion=obtener_usuarios')
+      .then(response => response.json())
+      .then(usuarios => {
+        const select = document.getElementById('selectUsuario');
+        select.innerHTML = '<option value="">Seleccione un usuario...</option>';
+        usuarios.forEach(usuario => {
+          const option = document.createElement('option');
+          option.value = usuario.id_user;
+          option.textContent = `${usuario.nombre} ${usuario.apellido} (${usuario.cargo || 'Sin cargo'})`;
+          select.appendChild(option);
+        });
+      })
+      .catch(error => console.error('Error cargando usuarios:', error));
+  }
+
+  function cargarEquipos() {
+    fetch('../back-end/equipos.php?accion=obtener_equipos')
+      .then(response => response.json())
+      .then(equipos => {
+        const select = document.getElementById('selectEquipo');
+        select.innerHTML = '<option value="">Seleccione un equipo...</option>';
+        equipos.forEach(equipo => {
+          const option = document.createElement('option');
+          option.value = equipo.id_equipo;
+          option.textContent = equipo.nombre;
+          option.setAttribute('data-descripcion', equipo.descripcion || '');
+          select.appendChild(option);
+        });
+      })
+      .catch(error => console.error('Error cargando equipos:', error));
+  }
+
+  // Inicializar modal de asignar equipo
+  document.getElementById('modalAsignarEquipo').addEventListener('show.bs.modal', function() {
+    cargarUsuarios();
+    cargarEquipos();
+    document.getElementById('btnAsignarEquipo').disabled = true;
+  });
+
+  // Validar selección en modal de asignar
+  document.getElementById('selectUsuario').addEventListener('change', validarAsignacion);
+  document.getElementById('selectEquipo').addEventListener('change', function() {
+    const equipoSelect = this;
+    const descripcion = equipoSelect.options[equipoSelect.selectedIndex]?.getAttribute('data-descripcion') || '';
+    
+    if (equipoSelect.value) {
+      document.getElementById('infoEquipo').classList.remove('d-none');
+      document.getElementById('nombreEquipoAsignar').textContent = equipoSelect.options[equipoSelect.selectedIndex].text;
+      document.getElementById('descripcionEquipoAsignar').textContent = descripcion;
+    } else {
+      document.getElementById('infoEquipo').classList.add('d-none');
+    }
+    validarAsignacion();
+  });
+
+  function validarAsignacion() {
+    const usuarioSelect = document.getElementById('selectUsuario');
+    const equipoSelect = document.getElementById('selectEquipo');
+    const btnAsignar = document.getElementById('btnAsignarEquipo');
+    
+    if (usuarioSelect.value && equipoSelect.value) {
+      btnAsignar.disabled = false;
+      
+      // Mostrar info del usuario
+      document.getElementById('infoUsuario').classList.remove('d-none');
+      document.getElementById('nombreUsuario').textContent = usuarioSelect.options[usuarioSelect.selectedIndex].text;
+    } else {
+      btnAsignar.disabled = true;
+      document.getElementById('infoUsuario').classList.add('d-none');
+    }
+  }
+
+  // Guardar nuevo equipo
+  document.getElementById('btnGuardarEquipo').addEventListener('click', function() {
+    const nombre = document.getElementById('nombreEquipo').value;
+    const descripcion = document.getElementById('descripcionEquipo').value;
+    const contrasena = document.getElementById('contrasenaEquipo').value;
+
+    if (!nombre) {
+      alert('El nombre del equipo es obligatorio');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('accion', 'crear_equipo');
+    formData.append('nombre', nombre);
+    formData.append('descripcion', descripcion);
+    formData.append('contrasena', contrasena);
+
+    fetch('../back-end/equipos.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert('Equipo creado correctamente');
+        modalCrearEquipo.hide();
+        document.getElementById('formCrearEquipo').reset();
+        // Recargar la página o actualizar la tabla
+        location.reload();
+      } else {
+        alert('Error: ' + data.message);
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Error al crear el equipo');
+    });
+  });
+
+  // Asignar equipo a usuario
+  document.getElementById('btnAsignarEquipo').addEventListener('click', function() {
+    const id_usuario = document.getElementById('selectUsuario').value;
+    const id_equipo = document.getElementById('selectEquipo').value;
+
+    const formData = new FormData();
+    formData.append('accion', 'asignar_equipo');
+    formData.append('id_usuario', id_usuario);
+    formData.append('id_equipo', id_equipo);
+
+    fetch('../back-end/equipos.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert('Equipo asignado correctamente');
+        modalAsignarEquipo.hide();
+        // Limpiar selecciones
+        document.getElementById('selectUsuario').value = '';
+        document.getElementById('selectEquipo').value = '';
+        document.getElementById('infoUsuario').classList.add('d-none');
+        document.getElementById('infoEquipo').classList.add('d-none');
+      } else {
+        alert('Error: ' + data.message);
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('Error al asignar el equipo');
+    });
+  });
+
+  // Limpiar modales al cerrar
+  document.getElementById('modalCrearEquipo').addEventListener('hidden.bs.modal', function() {
+    document.getElementById('formCrearEquipo').reset();
+  });
+});const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('toggleSidebar');
 
     toggleBtn.addEventListener('click', () => {
       sidebar.classList.toggle('show');
     });
+    
   </script>
 </body>
 </html>
