@@ -10,11 +10,8 @@
   <!-- Estilos personalizados -->
   <link rel="stylesheet" href="css/plantillaPrincipal.css">
   <link rel="stylesheet" href="css/administracionZonas.css">
-
-
-
 </head>
-<body class="bg-light d-flex flex-column min-vh-100  overflow: hidden;">
+<body class="bg-light d-flex flex-column min-vh-100">
 
   <!-- HEADER -->
   <header class="bg-primary text-white py-3 d-flex align-items-center justify-content-between px-4">
@@ -33,381 +30,701 @@
 
   <!-- MAIN -->
   <main class="flex-fill">
+    <div class="d-flex flex-grow-1 min-vh-100">
+      <!-- SIDEBAR (oculta en móvil) -->
+      <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100">
+        <a href="administracionUsuarios.html" class="my-3"><i class="bi bi-house fs-4 p-4"></i></a>
+        <a href="dashboardEquipos.html" class="my-3"><i class="bi bi-grid fs-4 p-4"></i></a>
+        <a href="administracionRegistrar.html" class="my-3"><i class="bi bi-person-plus fs-4 p-4"></i></a>
+        <a href="estructuraAdministracionEquipos.html" class="my-3"><i class="bi bi-list fs-4 p-4"></i></a>
+      </aside>
 
-  <div class="d-flex flex-grow-1 min-vh-100">
-    <!-- SIDEBAR (oculta en móvil) -->
-    <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100" data-included-sidebar>
-      <!-- sidebar content loaded from /frontend/includes/sidebar.html -->
-    </aside>
+      <!-- CONTENIDO CON CARDS -->
+      <div class="flex-grow-1">
+        <div class="d-flex row justify-content-center">
+          <div class="row g-3 justify-content-between">
 
-    <!-- CONTENIDO CON CARDS -->
-    <div class="flex-grow-1">
-      <div class="d-flex row justify-content-center">
-        <div class="row g-3 justify-content-between">
+            <!-- ENCONTRADOR -->
+            <form class="d-flex flex-column flex-md-row px-4 gap-3">
+              <div class="d-flex w-100 gap-2">
+                <input class="form-control" type="search" placeholder="Buscar..." id="buscadorGeneral">
+                <button class="btn btn-secondary" type="button" id="btnBuscar">
+                  <i class="bi bi-search fs-6"></i>
+                </button>
+              </div>
 
-        <!--ENCONTRADOR-->
-        <!-- ENCONTRADOR -->
-<form class="d-flex flex-column flex-md-row px-4 gap-3">
-  <div class="d-flex w-100 gap-2">
-    <input class="form-control" type="search" placeholder="Buscar...">
-    <button class="btn btn-secondary" type="submit">
-      <i class="bi bi-search fs-6"></i>
-    </button>
-  </div>
+              <div class="d-flex w-100 gap-2 mt-2 mt-md-0">
+                <button type="button" class="btn bg-secondary redondear-bordes flex-grow-1" data-bs-toggle="modal" data-bs-target="#modalCrearZona">
+                  Añadir zona
+                </button>
+                <button type="button" class="btn btn-light redondear-bordes border flex-grow-1" data-bs-toggle="modal" data-bs-target="#modalAsignarEquipoZona">
+                  Asignar equipos
+                </button>
+              </div>
+            </form>
 
-  <div class="d-flex w-100 gap-2 mt-2 mt-md-0">
-    <button class="btn bg-secondary redondear-bordes flex-grow-1">Añadir equipos</button>
-    <button class="btn btn-light redondear-bordes border flex-grow-1">Asignar equipos</button>
-  </div>
-</form>
+            <!-- Segundo encontrador -->
+            <div class="container mt-4">
+              <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3">
 
-<!-- Segundo encontrador -->
-<div class="container mt-4">
-  <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3">
+                <!-- Buscador -->
+                <form class="d-flex flex-row flex-md-row gap-2 w-100 w-md-75 px-md-3">
+                  <input class="form-control" type="search" placeholder="Buscar..." id="buscadorEspecifico" />
+                  <button class="btn btn-secondary" type="button" id="btnBuscarEspecifico">
+                    <i class="bi bi-search fs-6"></i>
+                  </button>
+                </form>
 
-    
+                <!-- Primer dropdown -->
+                <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-primary">Nombre de usuario</button>
+                  <button
+                    id="btnGroupDrop1"
+                    type="button"
+                    class="btn btn-primary dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                    <a class="dropdown-item" href="#">yapuritag</a>
+                    <a class="dropdown-item" href="#">brunofem</a>
+                  </div>
+                </div>
 
-    <!-- Buscador -->
-    <form class="d-flex flex-row flex-md-row gap-2 w-100 w-md-75 px-md-3">
-      <input class="form-control" type="search" placeholder="Buscar..." />
-      <button class="btn btn-secondary" type="submit">
-        <i class="bi bi-search fs-6"></i>
-      </button>
-    </form>
-<!-- Primer dropdown -->
+                <!-- Segundo dropdown -->
+                <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-primary">Ver todos...</button>
+                  <button
+                    id="btnGroupDrop2"
+                    type="button"
+                    class="btn btn-primary dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="btnGroupDrop2">
+                    <a class="dropdown-item" href="administracionEquipos.html">Equipos</a>
+                    <a class="dropdown-item" href="administracionSensores.html">Sensores</a>
+                  </div>
+                </div>
 
-     <div class="btn-group" role="group">
-      <button type="button" class="btn btn-primary">Nombre de usuario</button>
-      <button
-        id="btnGroupDrop1"
-        type="button"
-        class="btn btn-primary dropdown-toggle"
-        data-bs-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false">
-      </button>
-      <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-        <a class="dropdown-item" href="#">yapuritag</a>
-        <a class="dropdown-item" href="#">brunofem</a>
-      </div>
-    </div>
-
-    <!-- Segundo dropdown -->
-    <div class="btn-group" role="group">
-      <button type="button" class="btn btn-primary">Ver todos...</button>
-      <button
-        id="btnGroupDrop2"
-        type="button"
-        class="btn btn-primary dropdown-toggle"
-        data-bs-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false">
-      </button>
-      <div class="dropdown-menu" aria-labelledby="btnGroupDrop2">
-        <a class="dropdown-item" href="administracionEquipos.html">Equipos</a>
-        <a class="dropdown-item" href="administracionSensores.html">Sensores</a>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-      <!-- CARD -->
-
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const overlay = document.getElementById('overlay');
-    const popupEditar = document.querySelector('.popup-editar');
-    const popupEliminar = document.querySelector('.popup-eliminar');
-
-    // Botones de edición
-    const btnModificar = document.getElementById('btnModificar');
-    const btnCancelarCambios = document.getElementById('btnCancelarCambios');
-    const btnAcetarCambios = document.getElementById('btnAcetarCambios');
-    const nuevoNombre = document.getElementById('nuevoNombre');
-    const NuevaDescripcion = document.getElementById('NuevaDescripcion');
-
-    // Botones de eliminación
-    const btnsEliminar = document.querySelectorAll('.btn-eliminar');
-    const btnConfirmarEliminar = document.getElementById('btnConfirmarEliminar');
-    const btnCancelarEliminar = document.getElementById('btnCancelarEliminar');
-
-    let elementoAEliminar = null; // Guardamos el elemento temporalmente
-
-    // Mostrar popup de editar
-    btnModificar.addEventListener('click', function () {
-      overlay.classList.add('mostrar');
-      popupEditar.classList.add('mostrar');
-    });
-
-    // Cerrar popup al hacer clic fuera
-    overlay.addEventListener('click', function (event) {
-      if (event.target === overlay) {
-        cerrarPopups();
-      }
-    });
-
-    // Cancelar edición
-    btnCancelarCambios.addEventListener('click', function () {
-      cerrarPopups();
-      limpiarCampos();
-    });
-
-    // Aceptar cambios
-    btnAcetarCambios.addEventListener('click', function () {
-      cerrarPopups();
-      limpiarCampos();
-      // aquí iría tu lógica para guardar cambios
-    });
-
-    // Mostrar popup de eliminar
-    btnsEliminar.forEach(btn => {
-      btn.addEventListener('click', function (e) {
-        elementoAEliminar = e.target.closest('tr'); // fila a eliminar
-        overlay.classList.add('mostrar');
-        popupEliminar.classList.add('mostrar');
-      });
-    });
-
-    // Confirmar eliminación
-    btnConfirmarEliminar.addEventListener('click', function () {
-      if (elementoAEliminar) {
-        elementoAEliminar.remove();
-        elementoAEliminar = null;
-      }
-      cerrarPopups();
-    });
-
-    // Cancelar eliminación
-    btnCancelarEliminar.addEventListener('click', function () {
-      cerrarPopups();
-      elementoAEliminar = null;
-    });
-
-    // Funciones auxiliares
-    function cerrarPopups() {
-      overlay.classList.remove('mostrar');
-      popupEditar.classList.remove('mostrar');
-      popupEliminar.classList.remove('mostrar');
-    }
-
-    function limpiarCampos() {
-      nuevoNombre.value = '';
-      NuevaDescripcion.value = '';
-    }
-  });
-</script>
-
-<!-- Overlay global -->
-<div id="overlay" class="overlay">
-
-  <!-- Popup Editar -->
-  <div class="popup popup-editar card h-50" style="width: fit-content; margin: auto 0">
-    <div class="card-body fs-4">
-      <div class="d-flex align-items-center px-4">
-        <i class="bi bi-house fs-2 p-2 hide-mobile"></i>
-        <h5 class="card-title mb-0">Editar zona</h5>
-      </div>
-
-      <div>
-        <label><strong>Nombre:</strong> <br>
-          <input type="text" id="nuevoNombre" class="border-1 redondear-bordes-pequeño border-dark" placeholder="pepe">
-        </label>
-      </div>
-      <div>
-        <label><strong>Descripción:</strong> <br>
-          <input type="text" id="NuevaDescripcion" class="border-1 redondear-bordes-pequeño border-dark" placeholder="ingrese una descripción">
-        </label>
-      </div>
-      <div class="d-flex gap-4 mt-4 justify-content-center">
-        <button id="btnAcetarCambios" class="btn btn-light redondear-bordes border flex-grow-1 flex-md-grow-0">Aceptar</button>
-        <button id="btnCancelarCambios" class="btn bg-secondary redondear-bordes flex-grow-1 flex-md-grow-0">Cancelar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Popup Eliminar -->
-  <div class="popup popup-eliminar card h-50" style="width: fit-content; margin: auto 0">
-    <div class="card-body fs-4 text-center">
-      <div class="d-flex align-items-center justify-content-center mb-3">
-        <i class="bi bi-exclamation-triangle text-danger fs-2 p-2"></i>
-        <h5 class="card-title mb-0 text-danger">¿Eliminar zona?</h5>
-      </div>
-      <p>Esta acción no se puede deshacer.</p>
-      <div class="d-flex gap-4 mt-4 justify-content-center">
-        <button id="btnConfirmarEliminar" class="btn btn-danger redondear-bordes flex-grow-1 flex-md-grow-0">Eliminar</button>
-        <button id="btnCancelarEliminar" class="btn bg-secondary redondear-bordes flex-grow-1 flex-md-grow-0">Cancelar</button>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<!-- Tabla -->
-<div class="table-container mt-4">
-  <div class="table-responsive">
-    <table class="table">
-      <tbody>
-        
-             
-        <tr valign="middle">
-          <th scope="row" class="fs-4">
-            <i class="bi bi-house fs-2 p-2 hide-mobile"></i>
-            La cocina
-          </th>
-          <td class="fs-4 text-center align-middle"><small class="fs-6">Zona</small></td>
-          <td class="fs-4">
-            <div class="d-flex flex-wrap gap-2 w-100">
-              <i class="bi bi-battery-full fs-4 px-4"></i>
-              <button class="btn btn-danger text-body redondear-bordes flex-grow-1 flex-md-grow-0 btn-eliminar">Eliminar</button>
-              <button id="btnModificar" class="btn btn-light redondear-bordes border flex-grow-1 flex-md-grow-0">Modificar</button>
-              <a href="estructuraAdministracionSensores.html" class="btn bg-secondary redondear-bordes flex-grow-1 flex-md-grow-0">Entrar</a>
+              </div>
             </div>
-          </td>
-        </tr>
-             
-        <tr valign="middle">
-          <th scope="row" class="fs-4">
-            <i class="bi bi-house fs-2 p-2 hide-mobile"></i>
-            La cocina
-          </th>
-          <td class="fs-4 text-center align-middle"><small class="fs-6">Zona</small></td>
-          <td class="fs-4">
-            <div class="d-flex flex-wrap gap-2 w-100">
-              <i class="bi bi-battery-full fs-4 px-4"></i>
-              <button class="btn btn-danger text-body redondear-bordes flex-grow-1 flex-md-grow-0 btn-eliminar">Eliminar</button>
-              <button id="btnModificar" class="btn btn-light redondear-bordes border flex-grow-1 flex-md-grow-0">Modificar</button>
-              <a href="estructuraAdministracionSensores.html" class="btn bg-secondary redondear-bordes flex-grow-1 flex-md-grow-0">Entrar</a>
-            </div>
-          </td>
-        </tr>
-             
-        <tr valign="middle">
-          <th scope="row" class="fs-4">
-            <i class="bi bi-house fs-2 p-2 hide-mobile"></i>
-            La cocina
-          </th>
-          <td class="fs-4 text-center align-middle"><small class="fs-6">Zona</small></td>
-          <td class="fs-4">
-            <div class="d-flex flex-wrap gap-2 w-100">
-              <i class="bi bi-battery-full fs-4 px-4"></i>
-              <button class="btn btn-danger text-body redondear-bordes flex-grow-1 flex-md-grow-0 btn-eliminar">Eliminar</button>
-              <button id="btnModificar" class="btn btn-light redondear-bordes border flex-grow-1 flex-md-grow-0">Modificar</button>
-              <a href="estructuraAdministracionSensores.html" class="btn bg-secondary redondear-bordes flex-grow-1 flex-md-grow-0">Entrar</a>
-            </div>
-          </td>
-        </tr>
-             
-        <tr valign="middle">
-          <th scope="row" class="fs-4">
-            <i class="bi bi-house fs-2 p-2 hide-mobile"></i>
-            La cocina
-          </th>
-          <td class="fs-4 text-center align-middle"><small class="fs-6">Zona</small></td>
-          <td class="fs-4">
-            <div class="d-flex flex-wrap gap-2 w-100">
-              <i class="bi bi-battery-full fs-4 px-4"></i>
-              <button class="btn btn-danger text-body redondear-bordes flex-grow-1 flex-md-grow-0 btn-eliminar">Eliminar</button>
-              <button id="btnModificar" class="btn btn-light redondear-bordes border flex-grow-1 flex-md-grow-0">Modificar</button>
-              <a href="estructuraAdministracionSensores.html" class="btn bg-secondary redondear-bordes flex-grow-1 flex-md-grow-0">Entrar</a>
-            </div>
-          </td>
-        </tr>
-             
-        <tr valign="middle">
-          <th scope="row" class="fs-4">
-            <i class="bi bi-house fs-2 p-2 hide-mobile"></i>
-            La cocina
-          </th>
-          <td class="fs-4 text-center align-middle"><small class="fs-6">Zona</small></td>
-          <td class="fs-4">
-            <div class="d-flex flex-wrap gap-2 w-100">
-              <i class="bi bi-battery-full fs-4 px-4"></i>
-              <button class="btn btn-danger text-body redondear-bordes flex-grow-1 flex-md-grow-0 btn-eliminar">Eliminar</button>
-              <button id="btnModificar" class="btn btn-light redondear-bordes border flex-grow-1 flex-md-grow-0">Modificar</button>
-              <a href="estructuraAdministracionSensores.html" class="btn bg-secondary redondear-bordes flex-grow-1 flex-md-grow-0">Entrar</a>
-            </div>
-          </td>
-        </tr>
-             
-        <tr valign="middle">
-          <th scope="row" class="fs-4">
-            <i class="bi bi-house fs-2 p-2 hide-mobile"></i>
-            La cocina
-          </th>
-          <td class="fs-4 text-center align-middle"><small class="fs-6">Zona</small></td>
-          <td class="fs-4">
-            <div class="d-flex flex-wrap gap-2 w-100">
-              <i class="bi bi-battery-full fs-4 px-4"></i>
-              <button class="btn btn-danger text-body redondear-bordes flex-grow-1 flex-md-grow-0 btn-eliminar">Eliminar</button>
-              <button id="btnModificar" class="btn btn-light redondear-bordes border flex-grow-1 flex-md-grow-0">Modificar</button>
-              <a href="estructuraAdministracionSensores.html" class="btn bg-secondary redondear-bordes flex-grow-1 flex-md-grow-0">Entrar</a>
-            </div>
-          </td>
-        </tr>
-             
-        <tr valign="middle">
-          <th scope="row" class="fs-4">
-            <i class="bi bi-house fs-2 p-2 hide-mobile"></i>
-            La cocina
-          </th>
-          <td class="fs-4 text-center align-middle"><small class="fs-6">Zona</small></td>
-          <td class="fs-4">
-            <div class="d-flex flex-wrap gap-2 w-100">
-              <i class="bi bi-battery-full fs-4 px-4"></i>
-              <button class="btn btn-danger text-body redondear-bordes flex-grow-1 flex-md-grow-0 btn-eliminar">Eliminar</button>
-              <button id="btnModificar" class="btn btn-light redondear-bordes border flex-grow-1 flex-md-grow-0">Modificar</button>
-              <a href="estructuraAdministracionSensores.html" class="btn bg-secondary redondear-bordes flex-grow-1 flex-md-grow-0">Entrar</a>
-            </div>
-          </td>
-        </tr>
-             
-        <tr valign="middle">
-          <th scope="row" class="fs-4">
-            <i class="bi bi-house fs-2 p-2 hide-mobile"></i>
-            La cocina
-          </th>
-          <td class="fs-4 text-center align-middle"><small class="fs-6">Zona</small></td>
-          <td class="fs-4">
-            <div class="d-flex flex-wrap gap-2 w-100">
-              <i class="bi bi-battery-full fs-4 px-4"></i>
-              <button class="btn btn-danger text-body redondear-bordes flex-grow-1 flex-md-grow-0 btn-eliminar">Eliminar</button>
-              <button id="btnModificar" class="btn btn-light redondear-bordes border flex-grow-1 flex-md-grow-0">Modificar</button>
-              <a href="estructuraAdministracionSensores.html" class="btn bg-secondary redondear-bordes flex-grow-1 flex-md-grow-0">Entrar</a>
-            </div>
-          </td>
-        </tr>
-        
-        
 
-                </tbody>
+            <!-- Tabla -->
+            <div class="table-container mt-4">
+              <div class="table-responsive">
+                <table class="table">
+                  <tbody id="tablaZonas">
+                    <!-- Las zonas se cargarán dinámicamente aquí -->
+                  </tbody>
                 </table>
-            </div>
+              </div>
             </div>
 
           </div>
         </div>
       </div>
     </div>
-
   </main>
 
   <!-- FOOTER -->
   <footer class="bg-primary text-white text-center py-2 mt-auto">
-  <small class="footer-text">2025 Escuela Técnica N°1 Gral. San Martín Inc. Todos los derechos reservados.</small>
-</footer>
+    <small class="footer-text">2025 Escuela Técnica N°1 Gral. San Martín Inc. Todos los derechos reservados.</small>
+  </footer>
 
+  <!-- Modal Crear Zona -->
+  <div class="modal fade" id="modalCrearZona" tabindex="-1" aria-labelledby="modalCrearZonaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalCrearZonaLabel">Crear Nueva Zona</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formCrearZona">
+            <div class="mb-3">
+              <label for="nombreZona" class="form-label">Nombre de la zona</label>
+              <input type="text" class="form-control" id="nombreZona" required>
+            </div>
+            <div class="mb-3">
+              <label for="descripcionZona" class="form-label">Descripción</label>
+              <textarea class="form-control" id="descripcionZona" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="estadoZona" class="form-label">Estado</label>
+              <select class="form-select" id="estadoZona">
+                <option value="1">Activa</option>
+                <option value="0">Inactiva</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="btnGuardarZona">Guardar Zona</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Asignar Equipo a Zona -->
+  <div class="modal fade" id="modalAsignarEquipoZona" tabindex="-1" aria-labelledby="modalAsignarEquipoZonaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalAsignarEquipoZonaLabel">Asignar Equipos a Zona</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <h6>Seleccionar Zona</h6>
+              <select class="form-select mb-3" id="selectZona">
+                <option value="">Seleccione una zona...</option>
+              </select>
+              <div id="infoZona" class="d-none">
+                <p><strong>Zona seleccionada:</strong> <span id="nombreZonaAsignar"></span></p>
+                <p><small id="descripcionZonaAsignar"></small></p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <h6>Seleccionar Equipo</h6>
+              <select class="form-select mb-3" id="selectEquipoZona">
+                <option value="">Seleccione un equipo...</option>
+              </select>
+              <div id="infoEquipoZona" class="d-none">
+                <p><strong>Equipo seleccionado:</strong> <span id="nombreEquipoZona"></span></p>
+                <p><small id="descripcionEquipoZona"></small></p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4">
+            <h6>Equipos Asignados a esta Zona</h6>
+            <div id="listaEquiposAsignados" class="border rounded p-3" style="max-height: 200px; overflow-y: auto;">
+              <p class="text-muted">Seleccione una zona para ver los equipos asignados</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="btnAsignarEquipoZona" disabled>Asignar Equipo</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Editar Zona -->
+  <div class="modal fade" id="modalEditarZona" tabindex="-1" aria-labelledby="modalEditarZonaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEditarZonaLabel">Editar Zona</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formEditarZona">
+            <input type="hidden" id="idZonaEditar">
+            <div class="mb-3">
+              <label for="nombreZonaEditar" class="form-label">Nombre de la zona</label>
+              <input type="text" class="form-control" id="nombreZonaEditar" required>
+            </div>
+            <div class="mb-3">
+              <label for="descripcionZonaEditar" class="form-label">Descripción</label>
+              <textarea class="form-control" id="descripcionZonaEditar" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="estadoZonaEditar" class="form-label">Estado</label>
+              <select class="form-select" id="estadoZonaEditar">
+                <option value="1">Activa</option>
+                <option value="0">Inactiva</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="btnActualizarZona">Actualizar Zona</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Eliminar Zona -->
+  <div class="modal fade" id="modalEliminarZona" tabindex="-1" aria-labelledby="modalEliminarZonaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-danger" id="modalEliminarZonaLabel">
+            <i class="bi bi-exclamation-triangle me-2"></i>¿Eliminar zona?
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <p class="fs-5">Esta acción no se puede deshacer.</p>
+          <p>¿Está seguro de que desea eliminar la zona <strong id="nombreZonaEliminar"></strong>?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" id="btnConfirmarEliminarZona">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Bootstrap scripts -->
   <script src="js/bootstrap.bundle.js"></script>
-  <script src="/alarma_tec_1/frontend/js/sidebar.js"></script>
-  <script> 
-    const sidebar = document.getElementById('sidebar');
-    const toggleBtn = document.getElementById('toggleSidebar');
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Elementos del DOM
+      const modalCrearZona = new bootstrap.Modal(document.getElementById('modalCrearZona'));
+      const modalAsignarEquipoZona = new bootstrap.Modal(document.getElementById('modalAsignarEquipoZona'));
+      const modalEditarZona = new bootstrap.Modal(document.getElementById('modalEditarZona'));
+      const modalEliminarZona = new bootstrap.Modal(document.getElementById('modalEliminarZona'));
+      
+      // Variables para el CRUD
+      let zonaEditandoId = null;
+      let zonaEliminandoId = null;
 
-    toggleBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('show');
+      // Cargar zonas en la tabla
+      function cargarZonasEnTabla() {
+        fetch('../back-end/obtener_todas_zonas.php')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Error en la respuesta del servidor');
+            }
+            return response.json();
+          })
+          .then(zonas => {
+            const tbody = document.getElementById('tablaZonas');
+            tbody.innerHTML = ''; // Limpiar tabla existente
+
+            if (zonas.length === 0) {
+              tbody.innerHTML = `
+                <tr>
+                  <td colspan="3" class="text-center fs-4 py-4">
+                    No hay zonas registradas
+                  </td>
+                </tr>
+              `;
+              return;
+            }
+
+            zonas.forEach(zona => {
+              const estadoClase = zona.estado === 1 ? 'text-success' : 'text-secondary';
+              const estadoTexto = zona.estado === 1 ? 'Activa' : 'Inactiva';
+              const iconoBateria = zona.estado === 1 ? 'bi-battery-full' : 'bi-battery-half';
+
+              const tr = document.createElement('tr');
+              tr.setAttribute('valign', 'middle');
+              tr.innerHTML = `
+                <th scope="row" class="fs-4">
+                  <i class="bi bi-house fs-2 p-2 hide-mobile"></i>
+                  ${zona.nombre}
+                </th>
+                <td class="fs-4 text-center align-middle">
+                  <small class="fs-6">Zona</small><br>
+                  <span class="badge ${estadoClase}">${estadoTexto}</span>
+                </td>
+                <td class="fs-4">
+                  <div class="d-flex flex-wrap gap-2 w-100">
+                    <i class="bi ${iconoBateria} fs-4 px-4 ${estadoClase}"></i>
+                    <button class="btn btn-danger text-body redondear-bordes flex-grow-1 flex-md-grow-0 btn-eliminar-zona" 
+                            data-id="${zona.id_zona}" data-nombre="${zona.nombre}">
+                      Eliminar
+                    </button>
+                    <button class="btn btn-light redondear-bordes border flex-grow-1 flex-md-grow-0 btn-editar-zona" 
+                            data-id="${zona.id_zona}" data-nombre="${zona.nombre}" data-descripcion="${zona.descripcion || ''}" data-estado="${zona.estado}">
+                      Modificar
+                    </button>
+                    <a href="AdministracionSensores.html?zona=${zona.id_zona}" class="btn bg-secondary redondear-bordes flex-grow-1 flex-md-grow-0">
+                      Entrar
+                    </a>
+                  </div>
+                </td>
+              `;
+              tbody.appendChild(tr);
+            });
+
+            // Agregar event listeners a los botones de editar
+            document.querySelectorAll('.btn-editar-zona').forEach(btn => {
+              btn.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const nombre = this.getAttribute('data-nombre');
+                const descripcion = this.getAttribute('data-descripcion');
+                const estado = this.getAttribute('data-estado');
+                
+                // Llenar el formulario de edición
+                document.getElementById('idZonaEditar').value = id;
+                document.getElementById('nombreZonaEditar').value = nombre;
+                document.getElementById('descripcionZonaEditar').value = descripcion;
+                document.getElementById('estadoZonaEditar').value = estado;
+                
+                // Mostrar modal de edición
+                modalEditarZona.show();
+              });
+            });
+
+            // Agregar event listeners a los botones de eliminar
+            document.querySelectorAll('.btn-eliminar-zona').forEach(btn => {
+              btn.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const nombre = this.getAttribute('data-nombre');
+                
+                // Configurar modal de eliminación
+                document.getElementById('nombreZonaEliminar').textContent = nombre;
+                zonaEliminandoId = id;
+                
+                // Mostrar modal de eliminación
+                modalEliminarZona.show();
+              });
+            });
+          })
+          .catch(error => {
+            console.error('Error cargando zonas en tabla:', error);
+            alert('Error al cargar las zonas en la tabla');
+          });
+      }
+
+      // Cargar zonas en el modal de asignación
+      function cargarZonasParaAsignar() {
+        fetch('../back-end/obtener_todas_zonas.php')
+          .then(response => response.json())
+          .then(zonas => {
+            const select = document.getElementById('selectZona');
+            select.innerHTML = '<option value="">Seleccione una zona...</option>';
+            zonas.forEach(zona => {
+              const option = document.createElement('option');
+              option.value = zona.id_zona;
+              option.textContent = zona.nombre;
+              option.setAttribute('data-descripcion', zona.descripcion || 'Sin descripción');
+              select.appendChild(option);
+            });
+          })
+          .catch(error => console.error('Error cargando zonas:', error));
+      }
+
+      // Cargar equipos en el modal de asignación
+      function cargarEquiposParaAsignar() {
+        fetch('../back-end/obtener_equipos.php')
+          .then(response => response.json())
+          .then(equipos => {
+            const select = document.getElementById('selectEquipoZona');
+            select.innerHTML = '<option value="">Seleccione un equipo...</option>';
+            equipos.forEach(equipo => {
+              const option = document.createElement('option');
+              option.value = equipo.id_equipo;
+              option.textContent = equipo.nombre;
+              option.setAttribute('data-descripcion', equipo.descripcion || 'Sin descripción');
+              select.appendChild(option);
+            });
+          })
+          .catch(error => console.error('Error cargando equipos:', error));
+      }
+
+      // Cargar equipos asignados a una zona
+      function cargarEquiposAsignados(zonaId) {
+        fetch(`../back-end/obtener_equipos_zona.php?id_zona=${zonaId}`)
+          .then(response => response.json())
+          .then(equipos => {
+            const contenedor = document.getElementById('listaEquiposAsignados');
+            
+            if (equipos.length === 0) {
+              contenedor.innerHTML = '<p class="text-muted">No hay equipos asignados a esta zona</p>';
+              return;
+            }
+            
+            let html = '';
+            equipos.forEach(equipo => {
+              html += `
+                <div class="d-flex justify-content-between align-items-center mb-2 p-2 border rounded">
+                  <div>
+                    <strong>${equipo.nombre}</strong>
+                    <br><small class="text-muted">${equipo.descripcion || 'Sin descripción'}</small>
+                  </div>
+                  <button type="button" class="btn btn-sm btn-danger btn-quitar-equipo" 
+                          data-equipo-id="${equipo.id_equipo}" data-zona-id="${zonaId}">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              `;
+            });
+            contenedor.innerHTML = html;
+
+            // Agregar event listeners a los botones de quitar
+            document.querySelectorAll('.btn-quitar-equipo').forEach(btn => {
+              btn.addEventListener('click', function() {
+                const equipoId = this.getAttribute('data-equipo-id');
+                const zonaId = this.getAttribute('data-zona-id');
+                quitarEquipoDeZona(equipoId, zonaId);
+              });
+            });
+          })
+          .catch(error => {
+            console.error('Error cargando equipos asignados:', error);
+            document.getElementById('listaEquiposAsignados').innerHTML = '<p class="text-danger">Error al cargar equipos asignados</p>';
+          });
+      }
+
+      // Función para crear zona
+      function crearZona(nombre, descripcion, estado) {
+        const formData = new FormData();
+        formData.append('nombre', nombre);
+        formData.append('descripcion', descripcion);
+        formData.append('estado', estado);
+
+        fetch('../back-end/crear_zona.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Zona creada correctamente');
+            modalCrearZona.hide();
+            document.getElementById('formCrearZona').reset();
+            cargarZonasEnTabla();
+          } else {
+            alert('Error: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error al crear la zona');
+        });
+      }
+
+      // Función para actualizar zona
+      function actualizarZona(id, nombre, descripcion, estado) {
+        const formData = new FormData();
+        formData.append('id_zona', id);
+        formData.append('nombre', nombre);
+        formData.append('descripcion', descripcion);
+        formData.append('estado', estado);
+
+        fetch('../back-end/actualizar_zona.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Zona actualizada correctamente');
+            modalEditarZona.hide();
+            cargarZonasEnTabla();
+          } else {
+            alert('Error: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error al actualizar la zona');
+        });
+      }
+
+      // Función para eliminar zona
+      function eliminarZona(id) {
+        const formData = new FormData();
+        formData.append('id_zona', id);
+
+        fetch('../back-end/eliminar_zona.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Zona eliminada correctamente');
+            modalEliminarZona.hide();
+            cargarZonasEnTabla();
+          } else {
+            alert('Error: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error al eliminar la zona');
+        });
+      }
+
+      // Función para asignar equipo a zona
+      function asignarEquipoAZona(zonaId, equipoId) {
+        const formData = new FormData();
+        formData.append('id_zona', zonaId);
+        formData.append('id_equipo', equipoId);
+
+        fetch('../back-end/asignar_equipo_zona.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Equipo asignado correctamente a la zona');
+            // Recargar la lista de equipos asignados
+            cargarEquiposAsignados(zonaId);
+            // Limpiar selección de equipo
+            document.getElementById('selectEquipoZona').value = '';
+            document.getElementById('infoEquipoZona').classList.add('d-none');
+            document.getElementById('btnAsignarEquipoZona').disabled = true;
+          } else {
+            alert('Error: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error al asignar el equipo a la zona');
+        });
+      }
+
+      // Función para quitar equipo de zona
+      function quitarEquipoDeZona(equipoId, zonaId) {
+        const formData = new FormData();
+        formData.append('id_zona', zonaId);
+        formData.append('id_equipo', equipoId);
+
+        fetch('../back-end/quitar_equipo_zona.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Equipo removido correctamente de la zona');
+            // Recargar la lista de equipos asignados
+            cargarEquiposAsignados(zonaId);
+          } else {
+            alert('Error: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error al remover el equipo de la zona');
+        });
+      }
+
+      // Inicializar modal de asignar equipo a zona
+      document.getElementById('modalAsignarEquipoZona').addEventListener('show.bs.modal', function() {
+        cargarZonasParaAsignar();
+        cargarEquiposParaAsignar();
+        document.getElementById('btnAsignarEquipoZona').disabled = true;
+        document.getElementById('listaEquiposAsignados').innerHTML = '<p class="text-muted">Seleccione una zona para ver los equipos asignados</p>';
+      });
+
+      // Validar selección en modal de asignar
+      document.getElementById('selectZona').addEventListener('change', function() {
+        const zonaSelect = this;
+        const descripcion = zonaSelect.options[zonaSelect.selectedIndex]?.getAttribute('data-descripcion') || '';
+        
+        if (zonaSelect.value) {
+          document.getElementById('infoZona').classList.remove('d-none');
+          document.getElementById('nombreZonaAsignar').textContent = zonaSelect.options[zonaSelect.selectedIndex].text;
+          document.getElementById('descripcionZonaAsignar').textContent = descripcion;
+          
+          // Cargar equipos asignados a esta zona
+          cargarEquiposAsignados(zonaSelect.value);
+        } else {
+          document.getElementById('infoZona').classList.add('d-none');
+          document.getElementById('listaEquiposAsignados').innerHTML = '<p class="text-muted">Seleccione una zona para ver los equipos asignados</p>';
+        }
+        validarAsignacionZona();
+      });
+
+      document.getElementById('selectEquipoZona').addEventListener('change', function() {
+        const equipoSelect = this;
+        const descripcion = equipoSelect.options[equipoSelect.selectedIndex]?.getAttribute('data-descripcion') || '';
+        
+        if (equipoSelect.value) {
+          document.getElementById('infoEquipoZona').classList.remove('d-none');
+          document.getElementById('nombreEquipoZona').textContent = equipoSelect.options[equipoSelect.selectedIndex].text;
+          document.getElementById('descripcionEquipoZona').textContent = descripcion;
+        } else {
+          document.getElementById('infoEquipoZona').classList.add('d-none');
+        }
+        validarAsignacionZona();
+      });
+
+      function validarAsignacionZona() {
+        const zonaSelect = document.getElementById('selectZona');
+        const equipoSelect = document.getElementById('selectEquipoZona');
+        const btnAsignar = document.getElementById('btnAsignarEquipoZona');
+        
+        btnAsignar.disabled = !(zonaSelect.value && equipoSelect.value);
+      }
+
+      // Event Listeners para los botones
+
+      // Guardar nueva zona
+      document.getElementById('btnGuardarZona').addEventListener('click', function() {
+        const nombre = document.getElementById('nombreZona').value;
+        const descripcion = document.getElementById('descripcionZona').value;
+        const estado = document.getElementById('estadoZona').value;
+
+        if (!nombre.trim()) {
+          alert('El nombre de la zona es obligatorio');
+          return;
+        }
+
+        crearZona(nombre, descripcion, estado);
+      });
+
+      // Actualizar zona
+      document.getElementById('btnActualizarZona').addEventListener('click', function() {
+        const id = document.getElementById('idZonaEditar').value;
+        const nombre = document.getElementById('nombreZonaEditar').value;
+        const descripcion = document.getElementById('descripcionZonaEditar').value;
+        const estado = document.getElementById('estadoZonaEditar').value;
+
+        if (!nombre.trim()) {
+          alert('El nombre de la zona es obligatorio');
+          return;
+        }
+
+        actualizarZona(id, nombre, descripcion, estado);
+      });
+
+      // Confirmar eliminación de zona
+      document.getElementById('btnConfirmarEliminarZona').addEventListener('click', function() {
+        if (zonaEliminandoId) {
+          eliminarZona(zonaEliminandoId);
+        }
+      });
+
+      // Asignar equipo a zona
+      document.getElementById('btnAsignarEquipoZona').addEventListener('click', function() {
+        const zonaId = document.getElementById('selectZona').value;
+        const equipoId = document.getElementById('selectEquipoZona').value;
+
+        if (zonaId && equipoId) {
+          asignarEquipoAZona(zonaId, equipoId);
+        }
+      });
+
+      // Limpiar modales al cerrar
+      document.getElementById('modalCrearZona').addEventListener('hidden.bs.modal', function() {
+        document.getElementById('formCrearZona').reset();
+      });
+
+      document.getElementById('modalEditarZona').addEventListener('hidden.bs.modal', function() {
+        document.getElementById('formEditarZona').reset();
+        zonaEditandoId = null;
+      });
+
+      document.getElementById('modalEliminarZona').addEventListener('hidden.bs.modal', function() {
+        zonaEliminandoId = null;
+      });
+
+      // Cargar zonas al iniciar la página
+      cargarZonasEnTabla();
+
+      // Sidebar toggle
+      const sidebar = document.getElementById('sidebar');
+      const toggleBtn = document.getElementById('toggleSidebar');
+
+      toggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('show');
+      });
     });
   </script>
 </body>
