@@ -215,11 +215,8 @@ form.addEventListener('submit', async (e) => {
     try {
         const formData = new FormData();
         formData.append('id_zona', selectedZonaId);
-        
-        // Solo enviar nombre_zona si se proporcionó un nuevo nombre
-        if (nuevoNombre) {
-            formData.append('nombre_zona', nuevoNombre);
-        }
+        formData.append('nombre', nuevoNombre);
+        formData.append('descripcion', nuevaDescripcion);
         
         // IMPORTANTE: El PHP actual no maneja la descripción por separado
         // Si necesitas guardar la descripción, deberías modificar el PHP
@@ -227,7 +224,8 @@ form.addEventListener('submit', async (e) => {
         
         console.log('Enviando datos:', {
             id_zona: selectedZonaId,
-            nombre_zona: nuevoNombre
+            nombre: nuevoNombre,
+            descripcion: nuevaDescripcion
         });
 
         const response = await fetch('/alarma_tec_1/back-end/actualizar_zona.php', {
