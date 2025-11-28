@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dashboard - Alarma</title>
+  <title>Dashboard - Sensores</title>
 
   <!-- Bootstrap local -->
   <link rel="stylesheet" href="css/bootstrap.custom.min.css">
@@ -11,6 +11,7 @@
   <!-- Estilos personalizados -->
   <link rel="stylesheet" href="css/plantillaPrincipal.css">
   <link rel="stylesheet" href="css/dashboardSensores.css">
+  
 </head>
 
 <body class="bg-light d-flex flex-column min-vh-100">
@@ -18,11 +19,10 @@
   <!-- HEADER -->
   <header class="bg-primary text-white py-3 d-flex align-items-center justify-content-between px-4">
     <div class="d-flex align-items-center">
-      <!-- Botón hamburguesa móvil -->
       <button class="btn btn-outline-light d-lg-none me-3" id="toggleSidebar">
         <i class="bi bi-list"></i>
       </button>
-     <h1 class="h4 m-0"><a href="index.html" class="navbar-brand">Alarma</a></h1>
+      <h1 class="h4 m-0"><a href="index.html" class="navbar-brand">Alarma</a></h1>
     </div>
     <div class="d-flex align-items-center">
       <h2 class="h5 m-0 me-2">Dashboard</h2>
@@ -34,246 +34,39 @@
   <main class="flex-fill">
     <div class="dashboard-layout">
       
-      <!-- SIDEBAR (oculta en móvil) -->
-    <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100">
-      <a href="dashboardEquipos.html" class="my-3"><i class="bi bi-house fs-4 p-4"></i></a>
-      <a href="administracionUsuarios.html" class="my-3"><i class="bi bi-person-gear fs-4 p-4"></i></a>
-      <a href="dashboardPerfil.html" class="my-3"><i class="bi bi-person fs-4 p-4"></i></a>
-      <a href="dashboardSoporte.html" class="my-3"><i class="bi bi-telephone fs-4 p-4"></i></a>
-    </aside>
+      <!-- SIDEBAR -->
+      <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100">
+        <a href="dashboardEquipos.html" class="my-3"><i class="bi bi-house fs-4 p-4"></i></a>
+        <a href="administracionUsuarios.html" class="my-3"><i class="bi bi-person-gear fs-4 p-4"></i></a>
+        <a href="dashboardPerfil.html" class="my-3"><i class="bi bi-person fs-4 p-4"></i></a>
+        <a href="dashboardSoporte.html" class="my-3"><i class="bi bi-telephone fs-4 p-4"></i></a>
+      </aside>
 
-
-      <!-- CONTENEDOR DE CARDS -->
+      <!-- CONTENEDOR DE SENSORES -->
       <div class="cards-section py-4 px-4">
         <div class="container-fluid">
-          <div class="row g-3 card-container">
-
-            <!-- CARD EJEMPLO -->
-            <div class="col-6">
-              <div class="card luzMala">
-                <div class="card-body">
-                  <div class="d-flex gap-4 align-items-center mb-3">
-                    
-                    <div class="d-flex align-items-center">
-                      <i class="bi bi-house-door me-2 fs-5"></i>
-                      <h5 class="card-title mb-0">Mi Casa</h5>
-                    </div>
-
-                    <div class="text-muted d-flex align-items-center">
-                      <i class="bi bi-wifi-off me-2 fs-6"></i>
-                      <small>Sin acceso</small>
-                    </div>
-                  
-                  </div>
-
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="d-flex gap-4">
-                      <button class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</button>
-                      <button class="btn btn-outline-secondary btn-sm">Editar</button>
-                    </div>
-                    <div class="d-flex align-items-center gap-4">
-                      <i class="bi bi-battery-full fs-5"></i>
-                      <button class="rounded-circle bg-secondary">
-                        <i class="bi bi-power fs-5 rounded-circle"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-<div class="col-6">
-              <div class="card luzMala">
-                <div class="card-body">
-                  <div class="d-flex gap-4 align-items-center mb-3">
-                    
-                    <div class="d-flex align-items-center">
-                      <i class="bi bi-house-door me-2 fs-5"></i>
-                      <h5 class="card-title mb-0">Mi Casa</h5>
-                    </div>
-
-                    <div class="text-muted d-flex align-items-center">
-                      <i class="bi bi-wifi-off me-2 fs-6"></i>
-                      <small>Sin acceso</small>
-                    </div>
-                  
-                  </div>
-
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="d-flex gap-4">
-                      <button class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</button>
-                      <button class="btn btn-outline-secondary btn-sm">Editar</button>
-                    </div>
-                    <div class="d-flex align-items-center gap-4">
-                      <i class="bi bi-battery-full fs-5"></i>
-                      <button class="rounded-circle bg-secondary">
-                        <i class="bi bi-power fs-5 rounded-circle"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-
-
+          <div class="row g-3 card-container" id="sensoresContainer">
+            <div class="text-center text-muted">Cargando sensores...</div>
           </div>
         </div>
       </div>
 
-   <!-- CONTENEDOR DE ACTIVIDAD -->
-<div class="activity-section py-4 px-3">
-  <div class="activity-container">
-    
-    <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Actividad</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">Fecha</small>  
-          <small class="text-muted">Hora</small>
+      <!-- CONTENEDOR DE ACTIVIDAD -->
+      <div class="activity-section py-4 px-3">
+        <div class="activity-container" id="actividadesContainer">
+          <div class="activity-card">
+            <div class="d-flex justify-content-between">
+              <h6 class="mb-1">Actividad</h6>
+              <div class="d-flex gap-4">
+                <small class="mb-1">Fecha</small>  
+                <small class="text-muted">Hora</small>
+              </div>
+            </div>
+          </div>
+          <!-- Las actividades se cargarán dinámicamente aquí -->
         </div>
       </div>
-    
     </div>
-
-      <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-  </div>
-</div>
-
-     
-    
-  </div>
   </main>
 
   <!-- FOOTER -->
@@ -281,84 +74,31 @@
     <small class="footer-text">2025 Escuela Técnica N°1 Gral. San Martín Inc. Todos los derechos reservados.</small>
   </footer>
 
+  <!-- MODAL EDITAR SENSOR -->
+  <div id="modalOverlay" class="modal-overlay">
+    <div class="modal-edit">
+      <i class="bi bi-radar fs-1" style="color:#000;"></i>
+      <h5>Editar Sensor</h5>
+      <form id="editSensorForm">
+        <input type="hidden" id="sensorId">
+        <div class="mb-3 text-start">
+          <label class="form-label fw-bold">Nombre anterior</label>
+          <input type="text" id="sensor-old" class="form-control" readonly style="border: solid 1px;">
+        </div>
+        <div class="mb-3 text-start">
+          <label class="form-label fw-bold">Nuevo nombre</label>
+          <input style="border: solid 1px;" type="text" id="sensor-new" class="form-control" placeholder="Ingrese el nombre">
+        </div>
+        <div class="d-flex justify-content-end gap-2">
+          <button type="button" class="btn btn-primary" id="cancelEdit" style="margin-right: 60px;">Cancelar</button>
+          <button type="submit" class="btn btn-secondary bg-secondary text-body btn-sm" style="margin-right: 20px;">Aceptar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Bootstrap scripts -->
   <script src="js/bootstrap.bundle.min.js"></script>
-  <script>
-    const sidebar = document.getElementById('sidebar');
-    const toggleBtn = document.getElementById('toggleSidebar');
-    toggleBtn.addEventListener('click', () => sidebar.classList.toggle('show'));
-  </script>
-  
-<!-- MODAL EDITAR SENSOR -->
-<div id="modalOverlay" class="modal-overlay">
-  <div class="modal-edit" style="border: solid 2px;">
-    <i class="bi bi-radar" style="color:#000;"></i>
-    <h5>Editar Sensor</h5>
-
-    <form>
-      <div class="mb-3 text-start">
-        <label class="form-label" style="font-weight: bold;">Nombre anterior</label>
-        <input type="text" id="sensor-old" class="form-control" readonly style="border: solid 1px;">
-      </div>
-
-      <div class="mb-3 text-start">
-        <label class="form-label" style="font-weight: bold;">Nuevo nombre</label>
-        <input style="border: solid 1px;" type="text" id="sensor-new" class="form-control" placeholder="Ingrese el nombre">
-      </div>
-
-      <div class="d-flex justify-content-end gap-2">
-        <button type="button" class="btn btn-primary" id="cancelEdit" style="margin-right: 60px;">Cancelar</button>
-        <button type="submit" class="btn btn-secondary bg-secondary text-body btn-sm" style="margin-right: 20px;">Aceptar</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<script>
-const modalOverlay = document.getElementById('modalOverlay');
-const cancelEdit = document.getElementById('cancelEdit');
-const editButtons = document.querySelectorAll('.btn-outline-secondary'); // Botones "Editar"
-const oldNameInput = document.getElementById('sensor-old');
-const newNameInput = document.getElementById('sensor-new');
-const form = modalOverlay.querySelector('form');
-
-let selectedCard = null; // ← guardamos qué card se está editando
-
-// Abrir modal con nombre actual
-editButtons.forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    selectedCard = e.target.closest('.card'); // guardamos la card seleccionada
-    const title = selectedCard.querySelector('.card-title').textContent.trim();
-
-    oldNameInput.value = title;
-    newNameInput.value = '';
-
-    document.body.classList.add('blur-active');
-    modalOverlay.style.display = 'flex';
-  });
-});
-
-// Función para cerrar modal
-function closeEditModal() {
-  modalOverlay.style.display = 'none';
-  document.body.classList.remove('blur-active');
-  selectedCard = null;
-}
-
-// Cerrar modal solo con el botón cancelar
-cancelEdit.addEventListener('click', closeEditModal);
-
-// Guardar cambios solo en la card seleccionada
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const newName = newNameInput.value.trim();
-
-  if (newName && selectedCard) {
-    selectedCard.querySelector('.card-title').textContent = newName;
-  }
-
-  closeEditModal();
-});
-</script>
+  <script src="js/dashboardSensores.js"></script>
 </body>
 </html>
