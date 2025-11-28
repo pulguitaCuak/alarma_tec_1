@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="css/dashboardPerfil.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mi Perfil - Alarma</title>
+  <!-- Bootstrap local -->
+  <link rel="stylesheet" href="css/bootstrap.custom.min.css">
+  <link rel="stylesheet" href="bootstrap-icons-1.13.1/bootstrap-icons.css">
+  <!-- Estilos personalizados -->
+  <link rel="stylesheet" href="css/plantillaPrincipal.css">
+  <style>
+    .profile-header {
+      background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 10px;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+    }
+
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 50px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      margin-bottom: 1rem;
+    }
+
+    .profile-header-content {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .profile-header-text h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .profile-header-text p {
+      font-size: 16px;
+      margin: 0.2rem 0;
+      opacity: 0.95;
+    }
+
+    .badge-role {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.3);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 14px;
+      margin-top: 0.5rem;
+    }
+
+    .profile-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .info-card {
+      background: white;
+      border-radius: 10px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border-left: 4px solid #0d6efd;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .info-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .info-card h6 {
+      color: #666;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+
+    .info-card .value {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .info-card i {
+      color: #0d6efd;
+      font-size: 20px;
+      margin-bottom: 0.5rem;
+    }
+
+    .profile-section {
+      background: white;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+    }
+
+    .profile-section h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      color: #666;
+      font-weight: 500;
+    }
+
+    .detail-value {
+      color: #333;
+      font-weight: 600;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .action-buttons .btn {
+      flex: 1;
+      min-width: 150px;
+      padding: 0.75rem 1.5rem;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .status-active {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .status-inactive {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    @media (max-width: 768px) {
+      .profile-header-content {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .profile-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .profile-header {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body class="bg-light d-flex flex-column min-vh-100">
+
+  <!-- HEADER -->
+  <header class="bg-primary text-white py-3 d-flex align-items-center justify-content-between px-4">
+    <div class="d-flex align-items-center">
+      <button class="btn btn-outline-light d-lg-none me-3" id="toggleSidebar">
+        <i class="bi bi-list"></i>
+      </button>
+      <h1 class="h4 m-0"><a href="dashboardEquipos.html" class="navbar-brand">Alarma</a></h1>
+    </div>
+    <div class="d-flex align-items-center">
+      <h2 class="h5 m-0 me-2">Mi Perfil</h2>
+      <i class="bi bi-person-circle fs-5"></i>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="flex-fill">
+
+  <div class="d-flex flex-grow-1">
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100" data-included-sidebar>
+      <!-- sidebar content loaded from /frontend/includes/sidebar.html -->
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="flex-grow-1 p-4">
+      <div class="container-fluid">
+
+        <!-- HEADER DEL PERFIL -->
+        <div class="profile-header">
+          <div class="profile-header-content">
+            <div class="profile-avatar" id="profileAvatar">
+              <i class="bi bi-person"></i>
+            </div>
+            <div class="profile-header-text">
+              <h2 id="nombreUsuario">Cargando...</h2>
+              <p id="cargoUsuario" style="font-size: 18px;"><i class="bi bi-briefcase me-2"></i>Rol: Cargando...</p>
+              <div class="badge-role" id="estadoBadge">
+                <i class="bi bi-circle-fill me-2" style="font-size: 8px;"></i>
+                <span id="estadoUsuario">Cargando...</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TARJETAS DE INFORMACIÓN RÁPIDA -->
+        <div class="profile-cards">
+          <div class="info-card">
+            <i class="bi bi-card-list"></i>
+            <h6>ID de Usuario</h6>
+            <div class="value" id="idUsuario">-</div>
+          </div>
+          <div class="info-card">
+            <i class="bi bi-calendar-event"></i>
+            <h6>Miembro desde</h6>
+            <div class="value" id="fechaCreacion">-</div>
+          </div>
+          <div class="info-card">
+            <i class="bi bi-hdd-rack"></i>
+            <h6>Equipos asignados</h6>
+            <div class="value" id="cantidadEquipos">0</div>
+          </div>
+        </div>
+
+        <!-- SECCIÓN INFORMACIÓN PERSONAL -->
+        <div class="profile-section">
+          <h3><i class="bi bi-person-lines-fill me-2"></i>Información Personal</h3>
+          
+          <div class="detail-row">
+            <span class="detail-label"><i class="bi bi-envelope me-2"></i>Email</span>
+            <span class="detail-value" id="emailUsuario">-</span>
+          </div>
+          
+          <div class="detail-row">
+            <span class="detail-label"><i class="bi bi-credit-card me-2"></i>Nombre Completo</span>
+            <span class="detail-value" id="nombreCompletoUsuario">-</span>
+          </div>
+          
+          <div class="detail-row">
+            <span class="detail-label"><i class="bi bi-shield-check me-2"></i>Rol</span>
+            <span class="detail-value" id="rolUsuario">-</span>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-label"><i class="bi bi-info-circle me-2"></i>Estado</span>
+            <span class="detail-value" id="estadoDetallado">-</span>
+          </div>
+        </div>
+
+        <!-- SECCIÓN ACTIVIDAD -->
+        <div class="profile-section">
+          <h3><i class="bi bi-clock-history me-2"></i>Actividad Reciente</h3>
+          
+          <div class="detail-row">
+            <span class="detail-label">Última conexión</span>
+            <span class="detail-value" id="ultimaConexion">-</span>
+          </div>
+          
+          <div class="detail-row">
+            <span class="detail-label">Total de accesos</span>
+            <span class="detail-value" id="totalAccesos">-</span>
+          </div>
+        </div>
+
+        <!-- BOTONES DE ACCIÓN -->
+        <div class="action-buttons">
+          <button class="btn btn-primary" id="btnEditarPerfil">
+            <i class="bi bi-pencil me-2"></i>Editar Perfil
+          </button>
+          <button class="btn btn-warning" id="btnCambiarContraseña">
+            <i class="bi bi-key me-2"></i>Cambiar Contraseña
+          </button>
+          <button class="btn btn-danger" id="btnCerrarSesion">
+            <i class="bi bi-box-arrow-right me-2"></i>Cerrar Sesión
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-primary text-white text-center py-2 mt-auto">
+    <small class="footer-text">2025 Escuela Técnica N°1 Gral. San Martín Inc. Todos los derechos reservados.</small>
+  </footer>
+
+  <!-- Bootstrap scripts -->
+  <script src="js/bootstrap.bundle.js"></script>
+  <script src="js/sidebar.js"></script>
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleSidebar');
+
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('show');
+    });
+
+    // Cargar datos del usuario
+    async function cargarPerfilUsuario() {
+      try {
+        const responseSession = await fetch('/alarma_tec_1/back-end/get_session_user.php');
+        const sessionData = await responseSession.json();
+        
+        if (!sessionData.id_user) {
+          window.location.href = '/alarma_tec_1/frontend/login.html';
+          return;
+        }
+
+        const response = await fetch(`/alarma_tec_1/back-end/obtener_usuario.php?id=${sessionData.id_user}`);
+        const usuario = await response.json();
+
+        if (usuario.error) {
+          console.error('Error:', usuario.error);
+          alert('Error al cargar el perfil: ' + usuario.error);
+          return;
+        }
+
+        if (usuario && usuario.id_user) {
+          // Nombre y apellido
+          const nombreCompleto = `${usuario.nombre} ${usuario.apellido}`;
+          document.getElementById('nombreUsuario').textContent = nombreCompleto;
+          document.getElementById('nombreCompletoUsuario').textContent = nombreCompleto;
+
+          // Avatar con iniciales
+          const iniciales = usuario.nombre.charAt(0) + usuario.apellido.charAt(0);
+          document.getElementById('profileAvatar').innerHTML = `<span>${iniciales.toUpperCase()}</span>`;
+          
+          // Cargo/Rol
+          document.getElementById('cargoUsuario').textContent = `Rol: ${usuario.cargo || 'N/A'}`;
+          document.getElementById('rolUsuario').textContent = usuario.cargo || 'N/A';
+          
+          // ID
+          document.getElementById('idUsuario').textContent = usuario.id_user;
+          
+          // Fecha de creación
+          if (usuario.fecha_creacion) {
+            const fecha = new Date(usuario.fecha_creacion);
+            document.getElementById('fechaCreacion').textContent = fecha.toLocaleDateString('es-AR');
+          }
+          
+          // Email
+          document.getElementById('emailUsuario').textContent = usuario.mail || usuario.email || 'N/A';
+          
+          // Estado
+          const estadoTexto = usuario.estado === 1 ? 'Activo' : usuario.estado === 2 ? 'Inactivo' : 'Pendiente';
+          const estadoClase = usuario.estado === 1 ? 'status-active' : 'status-inactive';
+          document.getElementById('estadoUsuario').textContent = estadoTexto;
+          document.getElementById('estadoBadge').className = `badge-role ${estadoClase}`;
+          document.getElementById('estadoDetallado').innerHTML = `<span class="status-badge ${estadoClase}">${estadoTexto}</span>`;
+          
+          // Cantidad de equipos
+          document.getElementById('cantidadEquipos').textContent = usuario.cantidad_equipos || 0;
+          
+          // Datos de actividad (si están disponibles)
+          document.getElementById('ultimaConexion').textContent = usuario.ultima_conexion || 'Hoy';
+          document.getElementById('totalAccesos').textContent = usuario.total_accesos || '-';
+        }
+      } catch (error) {
+        console.error('Error al cargar el perfil:', error);
+        alert('Error al cargar el perfil. Verifica la consola para más detalles.');
+      }
+    }
+
+    // Event listeners para botones
+    document.getElementById('btnEditarPerfil').addEventListener('click', () => {
+      // Redirigir a página de editar perfil (aún no existe)
+      alert('Función en desarrollo');
+    });
+
+    document.getElementById('btnCambiarContraseña').addEventListener('click', () => {
+      // Redirigir a página de cambiar contraseña (aún no existe)
+      alert('Función en desarrollo');
+    });
+
+    document.getElementById('btnCerrarSesion').addEventListener('click', () => {
+      if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+        window.location.href = '/alarma_tec_1/back-end/logout.php';
+      }
+    });
+
+    // Cargar perfil cuando se carga la página
+    document.addEventListener('DOMContentLoaded', cargarPerfilUsuario);
+  </script>
+</body>
+</html>
