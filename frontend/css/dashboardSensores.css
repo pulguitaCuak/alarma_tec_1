@@ -147,28 +147,28 @@
 
 /* Capa oscura detrás */
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.45);
   display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+      z-index: 1050;
+      align-items: center;
+      justify-content: center;
 }
 
 /* Ventana flotante */
 .modal-edit {
-  background: #fff;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 360px;
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
-  padding: 1.5rem;
-  text-align: center;
-  position: relative;
+  background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
 }
 
 /* Ícono superior */
@@ -208,3 +208,127 @@
 .modal-close:hover {
   color: #000;
 }
+
+
+
+.sensor-activo {
+  border-left: 4px solid #28a745;
+}
+
+.sensor-inactivo {
+  border-left: 4px solid #dc3545;
+}
+
+
+.card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+    }
+
+    .card {
+      min-height: 220px;
+      transition: all 0.3s ease;
+      border: 1px solid #dee2e6;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    .card-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-text {
+      flex-grow: 1;
+      margin: 1rem 0;
+      color: #6c757d;
+      line-height: 1.5;
+    }
+
+    /* MEJORAS EN EL LAYOUT GENERAL */
+    .dashboard-layout {
+      display: grid;
+      grid-template-columns: auto 1fr 350px;
+      gap: 0;
+      min-height: calc(100vh - 140px);
+    }
+
+    .cards-section {
+      background: #f8f9fa;
+      overflow-y: auto;
+    }
+
+    .activity-section {
+      background: white;
+      border-left: 1px solid #dee2e6;
+      min-height: 100%;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1200px) {
+      .dashboard-layout {
+        grid-template-columns: auto 1fr;
+      }
+      .activity-section {
+        display: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .card-container {
+        grid-template-columns: 1fr;
+      }
+      .dashboard-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    /* PUNTO INDICADOR DE ESTADO */
+    .sensor-activo::before {
+        content: '';
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 12px;
+        height: 12px;
+        background-color: #28a745;
+        border-radius: 50%;
+        border: 2px solid white;
+        box-shadow: 0 0 0 2px #28a745;
+        z-index: 1;
+    }
+
+    .sensor-inactivo::before {
+        content: '';
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 12px;
+        height: 12px;
+        background-color: #dc3545;
+        border-radius: 50%;
+        border: 2px solid white;
+        box-shadow: 0 0 0 2px #dc3545;
+        z-index: 1;
+    }
+
+    /* Aseguramos que la card tenga posición relativa para el punto absoluto */
+    .card {
+        position: relative;
+    }
