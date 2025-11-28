@@ -5,7 +5,7 @@ if (!isset($_SESSION["id_user"])) {
     echo json_encode(["error"=>"No autorizado"]);
     exit;
 }
-//no toquen si no saben, si saben hagan lo q quieran pero dejenlo andando
+
 if(!isset($_GET['id_zona'])){
     http_response_code(400);
     echo json_encode(["error"=>"Falta id_zona"]);
@@ -33,7 +33,7 @@ try{
         FROM zona_sensor zs
         INNER JOIN sensores s ON zs.id_sensor = s.id_sensor
         LEFT JOIN tipo_sensor ts ON s.id_tipo_sensor = ts.id_tipo_sensor
-        WHERE zs.id_zona = ? AND s.estado = 1
+        WHERE zs.id_zona = ? AND (s.estado = 1 OR s.estado = 2 OR s.estado = 3 OR s.estado = 4)
         ORDER BY s.id_sensor ASC
     ");
     $stmt->execute([$id_zona]);
@@ -44,3 +44,4 @@ try{
     http_response_code(500);
     echo json_encode(["error"=>"Error en la consulta: ".$e->getMessage()]);
 }
+?>

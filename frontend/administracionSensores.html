@@ -35,755 +35,842 @@
   <!-- CONTENEDOR GENERAL (SIDEBAR + CONTENIDO) -->
   <div class="d-flex" style="flex-grow:1;">
 
-    <!-- SIDEBAR (NO SE TOCA) -->
-    <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100" data-included-sidebar>
-      <!-- sidebar content loaded from /frontend/includes/sidebar.html -->
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100">
+      <a href="administracionUsuarios.html" class="my-3"><i class="bi bi-house fs-4 p-4"></i></a>
+      <a href="dashboardEquipos.html" class="my-3"><i class="bi bi-grid fs-4 p-4"></i></a>
+      <a href="administracionRegistrar.html" class="my-3"><i class="bi bi-person-plus fs-4 p-4"></i></a>
+      <a href="estructuraAdministracionEquipos.html" class="my-3"><i class="bi bi-list fs-4 p-4"></i></a>
     </aside>
 
-    <!-- CONTENIDO QUE SI BAJA -->
+    <!-- CONTENIDO PRINCIPAL -->
     <main class="flex-fill p-3">
 
-      <!-- ACÁ PODÉS PONER COSAS ARRIBA DE LAS CARDS -->
+      <!-- ENCONTRADORES -->
       <div class="contenido-superior mb-3">
-               
-        
-  <!-- ENCONTRADOR -->
-<form class="d-flex flex-column flex-md-row px-4 gap-3">
-  <div class="d-flex w-100 gap-2">
-    <input class="form-control" type="search" placeholder="Buscar...">
-    <button class="btn btn-secondary" type="submit">
-      <i class="bi bi-search fs-6"></i>
-    </button>
-  </div>
+        <!-- Primer encontrador -->
+        <form class="d-flex flex-column flex-md-row px-4 gap-3">
+          <div class="d-flex w-100 gap-2">
+            <input class="form-control" type="search" placeholder="Buscar..." id="buscadorGeneral">
+            <button class="btn btn-secondary" type="button" id="btnBuscar">
+              <i class="bi bi-search fs-6"></i>
+            </button>
+          </div>
 
-  <div class="d-flex w-100 gap-2 mt-2 mt-md-0">
-    <button class="btn bg-secondary redondear-bordes flex-grow-1">Añadir equipos</button>
-    <button class="btn btn-light redondear-bordes border flex-grow-1">Asignar equipos</button>
-  </div>
-</form>
+          <div class="d-flex w-100 gap-2 mt-2 mt-md-0">
+            <button type="button" class="btn bg-secondary redondear-bordes flex-grow-1" data-bs-toggle="modal" data-bs-target="#modalCrearSensor">
+              Añadir sensor
+            </button>
+            <button type="button" class="btn btn-light redondear-bordes border flex-grow-1" data-bs-toggle="modal" data-bs-target="#modalAsignarSensorZona">
+              Asignar a zona
+            </button>
+          </div>
+        </form>
 
-<!-- Segundo encontrador -->
-<div class="container mt-4">
-  <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3">
+        <!-- Segundo encontrador -->
+        <div class="container mt-4">
+          <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3">
 
-    
+            <!-- Buscador -->
+            <form class="d-flex flex-row flex-md-row gap-2 w-100 w-md-75 px-md-3">
+              <input class="form-control" type="search" placeholder="Buscar..." id="buscadorEspecifico" />
+              <button class="btn btn-secondary" type="button" id="btnBuscarEspecifico">
+                <i class="bi bi-search fs-6"></i>
+              </button>
+            </form>
 
-    <!-- Buscador -->
-    <form class="d-flex flex-row flex-md-row gap-2 w-100 w-md-75 px-md-3">
-      <input class="form-control" type="search" placeholder="Buscar..." />
-      <button class="btn btn-secondary" type="submit">
-        <i class="bi bi-search fs-6"></i>
-      </button>
-    </form>
-<!-- Primer dropdown -->
-
-     <div class="btn-group" role="group">
-      <button type="button" class="btn btn-primary">Nombre de usuario</button>
-      <button
-        id="btnGroupDrop1"
-        type="button"
-        class="btn btn-primary dropdown-toggle"
-        data-bs-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false">
-      </button>
-      <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-        <a class="dropdown-item" href="#">yapuritag</a>
-        <a class="dropdown-item" href="#">brunofem</a>
-      </div>
-    </div>
-
-    <!-- Segundo dropdown -->
-    <div class="btn-group" role="group">
-      <button type="button" class="btn btn-primary">Ver todos...</button>
-      <button
-        id="btnGroupDrop2"
-        type="button"
-        class="btn btn-primary dropdown-toggle"
-        data-bs-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false">
-      </button>
-      <div class="dropdown-menu" aria-labelledby="btnGroupDrop2">
-        <a class="dropdown-item" href="administracionEquipos.html">Equipos</a>
-        <a class="dropdown-item" href="administracionSensores.html">Zonas</a>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-      </div>
-
-      <div class="dashboard-layout">
-      
-      
-
-      
-      <!-- CONTENEDOR DE CARDS -->
-      
-      <div class="cards-section py-4">
-        <div class="container-fluid">
-          <div class="row g-3 card-container">
-
-            <!-- Overlay global -->
-            <div id="overlay" class="overlay">
-
-              <!-- Popup Editar -->
-              <div class="popup popup-editar card h-50" style="width: fit-content; margin: auto 0">
-                <div class="card-body fs-4">
-                  <div class="d-flex align-items-center px-4">
-                    <i class="bi bi-house fs-2 p-2 hide-mobile"></i>
-                    <h5 class="card-title mb-0">Editar zona</h5>
-                  </div>
-
-                  <div>
-                    <label><strong>Nombre:</strong><br>
-                      <input type="text" id="nuevoNombre" class="border-1 redondear-bordes-pequeño border-dark" placeholder="pepe">
-                    </label>
-                  </div>
-                  <div>
-                    <label><strong>Descripción:</strong><br>
-                      <input type="text" id="NuevaDescripcion" class="border-1 redondear-bordes-pequeño border-dark" placeholder="ingrese una descripción">
-                    </label>
-                  </div>
-                  <div class="d-flex gap-4 mt-4 justify-content-center">
-                    <button id="btnAcetarCambios" class="btn btn-light redondear-bordes border">Aceptar</button>
-                    <button id="btnCancelarCambios" class="btn bg-secondary redondear-bordes">Cancelar</button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Popup Eliminar -->
-              <div class="popup popup-eliminar card h-50" style="width: fit-content; margin: auto 0">
-                <div class="card-body fs-4 text-center">
-                  <div class="d-flex align-items-center justify-content-center mb-3">
-                    <i class="bi bi-exclamation-triangle text-danger fs-2 p-2"></i>
-                    <h5 class="card-title mb-0 text-danger">¿Eliminar zona?</h5>
-                  </div>
-                  <p>Esta acción no se puede deshacer.</p>
-                  <div class="d-flex gap-4 mt-4 justify-content-center">
-                    <button id="btnConfirmarEliminar" class="btn btn-danger redondear-bordes">Eliminar</button>
-                    <button id="btnCancelarEliminar" class="btn bg-secondary redondear-bordes">Cancelar</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const powerButtons = document.querySelectorAll('.power');
-
-    powerButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        // Buscamos la card contenedora del botón
-        const card = button.closest('.cambiarLuz');
-
-        // Alternamos entre las clases de luz
-        if (card.classList.contains('luzMala')) {
-          card.classList.remove('luzMala');
-          card.classList.add('luz');
-        } else {
-          card.classList.remove('luz');
-          card.classList.add('luzMala');
-        }
-      });
-    });
-  });
-</script>
-
-            <!-- CARD EJEMPLO -->
-            <div class="col-6">
-              <div class="card luz cambiarLuz">
-                <div class="card-body">
-                  <div class="d-flex gap-4 align-items-center mb-3">
-                    <div class="d-flex align-items-center">
-                      <i class="bi bi-house-door me-2 fs-5"></i>
-                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
-                    </div>
-
-                    <div class="text-muted d-flex align-items-center">
-                      <i class="bi bi-wifi-off me-2 fs-6"></i>
-                      <small>Sin acceso</small>
-                    </div>
-                  </div>
-
-                  <div class="d-flex justify-content-between align-items-center gap-1">
-                    <div class="d-flex gap-2">
-                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
-                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
-                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
-                    </div>
-                    <div class="d-flex align-items-center gap-4">
-                      <i class="bi bi-battery-full fs-5"></i>
-                      <button class="rounded-circle bg-secondary power">
-                        <i class="bi bi-power fs-5 rounded-circle"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
+            <!-- Primer dropdown -->
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-primary">Nombre de usuario</button>
+              <button
+                id="btnGroupDrop1"
+                type="button"
+                class="btn btn-primary dropdown-toggle"
+                data-bs-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false">
+              </button>
+              <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <a class="dropdown-item" href="#">yapuritag</a>
+                <a class="dropdown-item" href="#">brunofem</a>
               </div>
             </div>
 
-            <div class="col-6">
-              <div class="card luz cambiarLuz">
-                <div class="card-body">
-                  <div class="d-flex gap-4 align-items-center mb-3">
-                    <div class="d-flex align-items-center">
-                      <i class="bi bi-house-door me-2 fs-5"></i>
-                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
-                    </div>
-
-                    <div class="text-muted d-flex align-items-center">
-                      <i class="bi bi-wifi-off me-2 fs-6"></i>
-                      <small>Sin acceso</small>
-                    </div>
-                  </div>
-
-                  <div class="d-flex justify-content-between align-items-center gap-1">
-                    <div class="d-flex gap-2">
-                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
-                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
-                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
-                    </div>
-                    <div class="d-flex align-items-center gap-4">
-                      <i class="bi bi-battery-full fs-5"></i>
-                      <button class="rounded-circle bg-secondary power">
-                        <i class="bi bi-power fs-5 rounded-circle"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
+            <!-- Segundo dropdown -->
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-primary">Ver todos...</button>
+              <button
+                id="btnGroupDrop2"
+                type="button"
+                class="btn btn-primary dropdown-toggle"
+                data-bs-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false">
+              </button>
+              <div class="dropdown-menu" aria-labelledby="btnGroupDrop2">
+                <a class="dropdown-item" href="administracionEquipos.html">Equipos</a>
+                <a class="dropdown-item" href="administracionZonas.html">Zonas</a>
               </div>
             </div>
-
-            <div class="col-6">
-              <div class="card luz cambiarLuz">
-                <div class="card-body">
-                  <div class="d-flex gap-4 align-items-center mb-3">
-                    <div class="d-flex align-items-center">
-                      <i class="bi bi-house-door me-2 fs-5"></i>
-                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
-                    </div>
-
-                    <div class="text-muted d-flex align-items-center">
-                      <i class="bi bi-wifi-off me-2 fs-6"></i>
-                      <small>Sin acceso</small>
-                    </div>
-                  </div>
-
-                  <div class="d-flex justify-content-between align-items-center gap-1">
-                    <div class="d-flex gap-2">
-                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
-                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
-                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
-                    </div>
-                    <div class="d-flex align-items-center gap-4">
-                      <i class="bi bi-battery-full fs-5"></i>
-                      <button class="rounded-circle bg-secondary power">
-                        <i class="bi bi-power fs-5 rounded-circle"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-6">
-              <div class="card luz cambiarLuz">
-                <div class="card-body">
-                  <div class="d-flex gap-4 align-items-center mb-3">
-                    <div class="d-flex align-items-center">
-                      <i class="bi bi-house-door me-2 fs-5"></i>
-                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
-                    </div>
-
-                    <div class="text-muted d-flex align-items-center">
-                      <i class="bi bi-wifi-off me-2 fs-6"></i>
-                      <small>Sin acceso</small>
-                    </div>
-                  </div>
-
-                  <div class="d-flex justify-content-between align-items-center gap-1">
-                    <div class="d-flex gap-2">
-                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
-                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
-                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
-                    </div>
-                    <div class="d-flex align-items-center gap-4">
-                      <i class="bi bi-battery-full fs-5"></i>
-                      <button class="rounded-circle bg-secondary power">
-                        <i class="bi bi-power fs-5 rounded-circle"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-6">
-              <div class="card luz cambiarLuz">
-                <div class="card-body">
-                  <div class="d-flex gap-4 align-items-center mb-3">
-                    <div class="d-flex align-items-center">
-                      <i class="bi bi-house-door me-2 fs-5"></i>
-                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
-                    </div>
-
-                    <div class="text-muted d-flex align-items-center">
-                      <i class="bi bi-wifi-off me-2 fs-6"></i>
-                      <small>Sin acceso</small>
-                    </div>
-                  </div>
-
-                  <div class="d-flex justify-content-between align-items-center gap-1">
-                    <div class="d-flex gap-2">
-                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
-                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
-                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
-                    </div>
-                    <div class="d-flex align-items-center gap-4">
-                      <i class="bi bi-battery-full fs-5"></i>
-                      <button class="rounded-circle bg-secondary power">
-                        <i class="bi bi-power fs-5 rounded-circle"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-6">
-              <div class="card luz cambiarLuz">
-                <div class="card-body">
-                  <div class="d-flex gap-4 align-items-center mb-3">
-                    <div class="d-flex align-items-center">
-                      <i class="bi bi-house-door me-2 fs-5"></i>
-                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
-                    </div>
-
-                    <div class="text-muted d-flex align-items-center">
-                      <i class="bi bi-wifi-off me-2 fs-6"></i>
-                      <small>Sin acceso</small>
-                    </div>
-                  </div>
-
-                  <div class="d-flex justify-content-between align-items-center gap-1">
-                    <div class="d-flex gap-2">
-                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
-                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
-                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
-                    </div>
-                    <div class="d-flex align-items-center gap-4">
-                      <i class="bi bi-battery-full fs-5"></i>
-                      <button class="rounded-circle bg-secondary power">
-                        <i class="bi bi-power fs-5 rounded-circle"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-6">
-              <div class="card luz cambiarLuz">
-                <div class="card-body">
-                  <div class="d-flex gap-4 align-items-center mb-3">
-                    <div class="d-flex align-items-center">
-                      <i class="bi bi-house-door me-2 fs-5"></i>
-                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
-                    </div>
-
-                    <div class="text-muted d-flex align-items-center">
-                      <i class="bi bi-wifi-off me-2 fs-6"></i>
-                      <small>Sin acceso</small>
-                    </div>
-                  </div>
-
-                  <div class="d-flex justify-content-between align-items-center gap-1">
-                    <div class="d-flex gap-2">
-                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
-                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
-                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
-                    </div>
-                    <div class="d-flex align-items-center gap-4">
-                      <i class="bi bi-battery-full fs-5"></i>
-                      <button class="rounded-circle bg-secondary power">
-                        <i class="bi bi-power fs-5 rounded-circle"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-6">
-              <div class="card luz cambiarLuz">
-                <div class="card-body">
-                  <div class="d-flex gap-4 align-items-center mb-3">
-                    <div class="d-flex align-items-center">
-                      <i class="bi bi-house-door me-2 fs-5"></i>
-                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
-                    </div>
-
-                    <div class="text-muted d-flex align-items-center">
-                      <i class="bi bi-wifi-off me-2 fs-6"></i>
-                      <small>Sin acceso</small>
-                    </div>
-                  </div>
-
-                  <div class="d-flex justify-content-between align-items-center gap-1">
-                    <div class="d-flex gap-2">
-                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
-                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
-                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
-                    </div>
-                    <div class="d-flex align-items-center gap-4">
-                      <i class="bi bi-battery-full fs-5"></i>
-                      <button class="rounded-circle bg-secondary power">
-                        <i class="bi bi-power fs-5 rounded-circle"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-6">
-              <div class="card luz cambiarLuz">
-                <div class="card-body">
-                  <div class="d-flex gap-4 align-items-center mb-3">
-                    <div class="d-flex align-items-center">
-                      <i class="bi bi-house-door me-2 fs-5"></i>
-                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
-                    </div>
-
-                    <div class="text-muted d-flex align-items-center">
-                      <i class="bi bi-wifi-off me-2 fs-6"></i>
-                      <small>Sin acceso</small>
-                    </div>
-                  </div>
-
-                  <div class="d-flex justify-content-between align-items-center gap-1">
-                    <div class="d-flex gap-2">
-                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
-                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
-                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
-                    </div>
-                    <div class="d-flex align-items-center gap-4">
-                      <i class="bi bi-battery-full fs-5"></i>
-                      <button class="rounded-circle bg-secondary power">
-                        <i class="bi bi-power fs-5 rounded-circle"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-6">
-              <div class="card luz cambiarLuz">
-                <div class="card-body">
-                  <div class="d-flex gap-4 align-items-center mb-3">
-                    <div class="d-flex align-items-center">
-                      <i class="bi bi-house-door me-2 fs-5"></i>
-                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
-                    </div>
-
-                    <div class="text-muted d-flex align-items-center">
-                      <i class="bi bi-wifi-off me-2 fs-6"></i>
-                      <small>Sin acceso</small>
-                    </div>
-                  </div>
-
-                  <div class="d-flex justify-content-between align-items-center gap-1">
-                    <div class="d-flex gap-2">
-                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
-                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
-                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
-                    </div>
-                    <div class="d-flex align-items-center gap-4">
-                      <i class="bi bi-battery-full fs-5"></i>
-                      <button class="rounded-circle bg-secondary power">
-                        <i class="bi bi-power fs-5 rounded-circle"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-6">
-              <div class="card luz cambiarLuz">
-                <div class="card-body">
-                  <div class="d-flex gap-4 align-items-center mb-3">
-                    <div class="d-flex align-items-center">
-                      <i class="bi bi-house-door me-2 fs-5"></i>
-                      <h5 class="card-title mb-0">Esquina de la cocina</h5>
-                    </div>
-
-                    <div class="text-muted d-flex align-items-center">
-                      <i class="bi bi-wifi-off me-2 fs-6"></i>
-                      <small>Sin acceso</small>
-                    </div>
-                  </div>
-
-                  <div class="d-flex justify-content-between align-items-center gap-1">
-                    <div class="d-flex gap-2">
-                      <a href="estructuraAdministracionSensor.html" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
-                      <button class="btn btn-outline-secondary btn-sm btnEditar">Editar</button>
-                      <button class="btn btn-outline-black bg-danger btn-sm btnEliminar text-white">Eliminar</button>        
-                    </div>
-                    <div class="d-flex align-items-center gap-4">
-                      <i class="bi bi-battery-full fs-5"></i>
-                      <button class="rounded-circle bg-secondary power">
-                        <i class="bi bi-power fs-5 rounded-circle"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            
-            
-
-            
-
 
           </div>
         </div>
       </div>
 
-<div class="activity-section">
-  <div class="activity-container">
-    
-    <div class="activity-card borde">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Actividad</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">Fecha</small>  
-          <small class="text-muted">Hora</small>
+      <!-- CONTENEDOR DE CARDS DINÁMICAS -->
+      <div class="cards-section py-4">
+        <div class="container-fluid">
+          <div class="row g-3 card-container" id="contenedorSensores">
+            <!-- Los sensores se cargarán dinámicamente aquí -->
+          </div>
         </div>
       </div>
-    
-    </div>
 
-      <div class="activity-card">
-      <div class="d-flex justify-content-between gap-4">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
+      <!-- SECCIÓN DE ACTIVIDAD -->
+      <div class="activity-section">
+        <div class="activity-container">
+          <div class="activity-card borde">
+            <div class="d-flex justify-content-between">
+              <h6 class="mb-1">Actividad</h6>
+              <div class="d-flex gap-4">
+                <small class="mb-1">Fecha</small>  
+                <small class="text-muted">Hora</small>
+              </div>
+            </div>
+          </div>
+          <!-- Las actividades se pueden cargar dinámicamente aquí -->
         </div>
       </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-
-        <div class="activity-card">
-      <div class="d-flex justify-content-between">
-        <h6 class="mb-1">Puerta abierta</h6>
-        <div class="d-flex gap-4">
-          <small class="mb-1">19/8/2021</small>  
-          <small class="text-muted">14:32</small>
-        </div>
-      </div>
-      <small class="text-muted">Sensor entrada</small>
-    </div>
-  </div>
-</div>
-
-
-    </div>
 
     </main>
-
-  </div> <!-- WRAPPER -->
+  </div>
 
   <!-- FOOTER -->
   <footer class="bg-primary text-white text-center py-2 mt-auto">
     <small class="footer-text">2025 Escuela Técnica N°1 Gral. San Martín Inc. Todos los derechos reservados.</small>
   </footer>
 
+  <!-- MODALES -->
+
+  <!-- Modal Crear Sensor -->
+  <div class="modal fade" id="modalCrearSensor" tabindex="-1" aria-labelledby="modalCrearSensorLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalCrearSensorLabel">Crear Nuevo Sensor</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formCrearSensor">
+            <div class="mb-3">
+              <label for="nombreSensor" class="form-label">Nombre del sensor *</label>
+              <input type="text" class="form-control" id="nombreSensor" required>
+            </div>
+            <div class="mb-3">
+              <label for="descripcionSensor" class="form-label">Descripción</label>
+              <textarea class="form-control" id="descripcionSensor" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="tipoSensor" class="form-label">Tipo de sensor *</label>
+              <select class="form-select" id="tipoSensor" required>
+                <option value="">Seleccione un tipo...</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="estadoSensor" class="form-label">Estado</label>
+              <select class="form-select" id="estadoSensor">
+                <option value="1">Activo</option>
+                <option value="2">Inactivo</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="btnGuardarSensor">Guardar Sensor</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Asignar Sensor a Zona -->
+  <div class="modal fade" id="modalAsignarSensorZona" tabindex="-1" aria-labelledby="modalAsignarSensorZonaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalAsignarSensorZonaLabel">Asignar Sensor a Zona</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <h6>Seleccionar Zona</h6>
+              <select class="form-select mb-3" id="selectZonaSensor">
+                <option value="">Seleccione una zona...</option>
+              </select>
+              <div id="infoZonaSensor" class="d-none">
+                <p><strong>Zona seleccionada:</strong> <span id="nombreZonaSensor"></span></p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <h6>Seleccionar Sensor</h6>
+              <select class="form-select mb-3" id="selectSensor">
+                <option value="">Seleccione un sensor...</option>
+              </select>
+              <div id="infoSensor" class="d-none">
+                <p><strong>Sensor seleccionado:</strong> <span id="nombreSensorAsignar"></span></p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4">
+            <h6>Sensores Asignados a esta Zona</h6>
+            <div id="listaSensoresAsignados" class="border rounded p-3" style="max-height: 200px; overflow-y: auto;">
+              <p class="text-muted">Seleccione una zona para ver los sensores asignados</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="btnAsignarSensorZona" disabled>Asignar Sensor</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Editar Sensor -->
+  <div class="modal fade" id="modalEditarSensor" tabindex="-1" aria-labelledby="modalEditarSensorLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalEditarSensorLabel">Editar Sensor</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formEditarSensor">
+            <input type="hidden" id="idSensorEditar">
+            <div class="mb-3">
+              <label for="nombreSensorEditar" class="form-label">Nombre del sensor *</label>
+              <input type="text" class="form-control" id="nombreSensorEditar" required>
+            </div>
+            <div class="mb-3">
+              <label for="descripcionSensorEditar" class="form-label">Descripción</label>
+              <textarea class="form-control" id="descripcionSensorEditar" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="tipoSensorEditar" class="form-label">Tipo de sensor *</label>
+              <select class="form-select" id="tipoSensorEditar" required>
+                <option value="">Seleccione un tipo...</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="estadoSensorEditar" class="form-label">Estado</label>
+              <select class="form-select" id="estadoSensorEditar">
+                <option value="1">Activo</option>
+                <option value="2">Inactivo</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="btnActualizarSensor">Actualizar Sensor</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Eliminar Sensor -->
+  <div class="modal fade" id="modalEliminarSensor" tabindex="-1" aria-labelledby="modalEliminarSensorLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-danger" id="modalEliminarSensorLabel">
+            <i class="bi bi-exclamation-triangle me-2"></i>¿Dar de baja sensor?
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <p class="fs-5">Esta acción no se puede deshacer.</p>
+          <p>¿Está seguro de que desea dar de baja el sensor <strong id="nombreSensorEliminar"></strong>?</p>
+          <p class="text-muted"><small>El sensor se marcará como "Suspendido" y dejará de aparecer en la lista.</small></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" id="btnConfirmarEliminarSensor">Dar de Baja</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Bootstrap scripts -->
   <script src="js/bootstrap.bundle.js"></script>
-  <script src="/alarma_tec_1/frontend/js/sidebar.js"></script>
   <script>
-    const sidebar = document.getElementById('sidebar');
-    const toggleBtn = document.getElementById('toggleSidebar');
-    toggleBtn.addEventListener('click', () => sidebar.classList.toggle('show'));
+    document.addEventListener('DOMContentLoaded', function() {
+      // Elementos del DOM
+      const modalCrearSensor = new bootstrap.Modal(document.getElementById('modalCrearSensor'));
+      const modalAsignarSensorZona = new bootstrap.Modal(document.getElementById('modalAsignarSensorZona'));
+      const modalEditarSensor = new bootstrap.Modal(document.getElementById('modalEditarSensor'));
+      const modalEliminarSensor = new bootstrap.Modal(document.getElementById('modalEliminarSensor'));
+      
+      // Variables para el CRUD
+      let sensorEditandoId = null;
+      let sensorEliminandoId = null;
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const overlay = document.getElementById('overlay');
-      const popupEditar = document.querySelector('.popup-editar');
-      const popupEliminar = document.querySelector('.popup-eliminar');
+      // Cargar sensores en las cards
+      function cargarSensoresEnCards() {
+        fetch('../back-end/obtener_todos_sensores.php')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Error en la respuesta del servidor');
+            }
+            return response.json();
+          })
+          .then(sensores => {
+            const contenedor = document.getElementById('contenedorSensores');
+            contenedor.innerHTML = ''; // Limpiar contenedor existente
 
-      const btnsEditar = document.querySelectorAll('.btnEditar');
-      const btnsEliminar = document.querySelectorAll('.btnEliminar');
-      const btnCancelarCambios = document.getElementById('btnCancelarCambios');
-      const btnAcetarCambios = document.getElementById('btnAcetarCambios');
-      const btnConfirmarEliminar = document.getElementById('btnConfirmarEliminar');
-      const btnCancelarEliminar = document.getElementById('btnCancelarEliminar');
+            if (sensores.length === 0) {
+              contenedor.innerHTML = `
+                <div class="col-12 text-center py-4">
+                  <p class="fs-4 text-muted">No hay sensores registrados</p>
+                </div>
+              `;
+              return;
+            }
 
-      const nuevoNombre = document.getElementById('nuevoNombre');
-      const NuevaDescripcion = document.getElementById('NuevaDescripcion');
+            sensores.forEach(sensor => {
+              // Estado 1 = Activo (luz verde), Estado 2 = Inactivo (luz roja)
+              const estadoClase = sensor.estado === 1 ? 'luz' : 'luzMala';
+              const estadoTexto = sensor.estado === 1 ? 'Activo' : 'Inactivo';
+              const iconoWifi = sensor.estado === 1 ? 'bi-wifi' : 'bi-wifi-off';
+              const iconoBateria = sensor.estado === 1 ? 'bi-battery-full' : 'bi-battery-half';
 
-      let elementoAEliminar = null;
+              const card = document.createElement('div');
+              card.className = 'col-6';
+              card.innerHTML = `
+                <div class="card ${estadoClase} cambiarLuz">
+                  <div class="card-body">
+                    <div class="d-flex gap-4 align-items-center mb-3">
+                      <div class="d-flex align-items-center">
+                        <i class="bi bi-house-door me-2 fs-5"></i>
+                        <h5 class="card-title mb-0">${sensor.nombre}</h5>
+                      </div>
+                      <div class="text-muted d-flex align-items-center">
+                        <i class="bi ${iconoWifi} me-2 fs-6"></i>
+                        <small>${estadoTexto}</small>
+                      </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center gap-1">
+                      <div class="d-flex gap-2">
+                        <a href="estructuraAdministracionSensor.html?id=${sensor.id_sensor}" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
+                        <button class="btn btn-outline-secondary btn-sm btn-editar-sensor" 
+                                data-id="${sensor.id_sensor}" 
+                                data-nombre="${sensor.nombre}" 
+                                data-descripcion="${sensor.descripcion || ''}" 
+                                data-tipo="${sensor.id_tipo_sensor}" 
+                                data-estado="${sensor.estado}">
+                          Editar
+                        </button>
+                        <button class="btn btn-outline-black bg-danger btn-sm btn-eliminar-sensor text-white" 
+                                data-id="${sensor.id_sensor}" 
+                                data-nombre="${sensor.nombre}">
+                          Dar de Baja
+                        </button>        
+                      </div>
+                      <div class="d-flex align-items-center gap-4">
+                        <i class="bi ${iconoBateria} fs-5"></i>
+                        <button class="rounded-circle bg-secondary power" data-id="${sensor.id_sensor}" data-estado="${sensor.estado}">
+                          <i class="bi bi-power fs-5 rounded-circle"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `;
+              contenedor.appendChild(card);
+            });
 
-      // Mostrar popup editar
-      btnsEditar.forEach(btn => {
-        btn.addEventListener('click', () => {
-          overlay.classList.add('mostrar');
-          popupEditar.classList.add('mostrar');
-        });
-      });
+            // Agregar event listeners a los botones de editar
+            document.querySelectorAll('.btn-editar-sensor').forEach(btn => {
+              btn.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const nombre = this.getAttribute('data-nombre');
+                const descripcion = this.getAttribute('data-descripcion');
+                const tipo = this.getAttribute('data-tipo');
+                const estado = this.getAttribute('data-estado');
+                
+                // Llenar el formulario de edición
+                document.getElementById('idSensorEditar').value = id;
+                document.getElementById('nombreSensorEditar').value = nombre;
+                document.getElementById('descripcionSensorEditar').value = descripcion;
+                document.getElementById('tipoSensorEditar').value = tipo;
+                document.getElementById('estadoSensorEditar').value = estado;
+                
+                // Mostrar modal de edición
+                modalEditarSensor.show();
+              });
+            });
 
-      // Mostrar popup eliminar
-      btnsEliminar.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          elementoAEliminar = e.target.closest('.card');
-          overlay.classList.add('mostrar');
-          popupEliminar.classList.add('mostrar');
-        });
-      });
+            // Agregar event listeners a los botones de eliminar
+            document.querySelectorAll('.btn-eliminar-sensor').forEach(btn => {
+              btn.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const nombre = this.getAttribute('data-nombre');
+                
+                // Configurar modal de eliminación
+                document.getElementById('nombreSensorEliminar').textContent = nombre;
+                sensorEliminandoId = id;
+                
+                // Mostrar modal de eliminación
+                modalEliminarSensor.show();
+              });
+            });
 
-      // Cancelar o aceptar editar
-      btnCancelarCambios.addEventListener('click', cerrarPopups);
-      btnAcetarCambios.addEventListener('click', cerrarPopups);
+            // Agregar funcionalidad a los botones de power
+            document.querySelectorAll('.power').forEach(button => {
+              button.addEventListener('click', function() {
+                const card = this.closest('.cambiarLuz');
+                const sensorId = this.getAttribute('data-id');
+                const estadoActual = parseInt(this.getAttribute('data-estado'));
+                
+                // Solo permitir cambiar entre Activo (1) e Inactivo (2)
+                if (estadoActual === 1 || estadoActual === 2) {
+                  cambiarEstadoSensor(sensorId, estadoActual, card, this);
+                }
+              });
+            });
 
-      // Confirmar o cancelar eliminar
-      btnConfirmarEliminar.addEventListener('click', () => {
-        if (elementoAEliminar) elementoAEliminar.remove();
-        cerrarPopups();
-      });
-      btnCancelarEliminar.addEventListener('click', cerrarPopups);
-
-      overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) cerrarPopups();
-      });
-
-      function cerrarPopups() {
-        overlay.classList.remove('mostrar');
-        popupEditar.classList.remove('mostrar');
-        popupEliminar.classList.remove('mostrar');
-        nuevoNombre.value = '';
-        NuevaDescripcion.value = '';
+          })
+          .catch(error => {
+            console.error('Error cargando sensores:', error);
+            alert('Error al cargar los sensores');
+          });
       }
+
+      // Función para cambiar estado del sensor (solo entre Activo e Inactivo)
+      function cambiarEstadoSensor(sensorId, estadoActual, card, boton) {
+        // Alternar solo entre 1 (Activo) y 2 (Inactivo)
+        const nuevoEstado = estadoActual === 1 ? 2 : 1;
+
+        const formData = new FormData();
+        formData.append('id_sensor', sensorId);
+        formData.append('estado', nuevoEstado);
+        formData.append('accion', 'actualizar');
+
+        fetch('../back-end/actualizar_sensor.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.ok) {
+            // Actualizar visualmente la card
+            if (nuevoEstado === 1) { // Activo
+              card.classList.remove('luzMala');
+              card.classList.add('luz');
+              card.querySelector('.bi-wifi-off').className = 'bi bi-wifi me-2 fs-6';
+              card.querySelector('small').textContent = 'Activo';
+              card.querySelector('.bi-battery-half').className = 'bi bi-battery-full fs-5';
+            } else { // Inactivo (2)
+              card.classList.remove('luz');
+              card.classList.add('luzMala');
+              card.querySelector('.bi-wifi').className = 'bi bi-wifi-off me-2 fs-6';
+              card.querySelector('small').textContent = 'Inactivo';
+              card.querySelector('.bi-battery-full').className = 'bi bi-battery-half fs-5';
+            }
+            
+            // Actualizar el data-estado del botón para futuros clicks
+            boton.setAttribute('data-estado', nuevoEstado);
+          } else {
+            alert('Error al cambiar el estado del sensor: ' + data.mensaje);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error al cambiar el estado del sensor');
+        });
+      }
+
+      // Cargar tipos de sensores
+      function cargarTiposSensores() {
+        fetch('../back-end/obtener_tipos_sensor.php')
+          .then(response => response.json())
+          .then(tipos => {
+            const selectCrear = document.getElementById('tipoSensor');
+            const selectEditar = document.getElementById('tipoSensorEditar');
+            
+            selectCrear.innerHTML = '<option value="">Seleccione un tipo...</option>';
+            selectEditar.innerHTML = '<option value="">Seleccione un tipo...</option>';
+            
+            tipos.forEach(tipo => {
+              const option = document.createElement('option');
+              option.value = tipo.id_tipo_sensor;
+              option.textContent = tipo.nombre;
+              
+              selectCrear.appendChild(option.cloneNode(true));
+              selectEditar.appendChild(option);
+            });
+          })
+          .catch(error => console.error('Error cargando tipos de sensores:', error));
+      }
+
+      // Cargar zonas en el modal de asignación
+      function cargarZonasParaAsignar() {
+        fetch('../back-end/obtener_todas_zonas.php')
+          .then(response => response.json())
+          .then(zonas => {
+            const select = document.getElementById('selectZonaSensor');
+            select.innerHTML = '<option value="">Seleccione una zona...</option>';
+            zonas.forEach(zona => {
+              const option = document.createElement('option');
+              option.value = zona.id_zona;
+              option.textContent = zona.nombre;
+              select.appendChild(option);
+            });
+          })
+          .catch(error => console.error('Error cargando zonas:', error));
+      }
+
+      // Cargar sensores en el modal de asignación
+      function cargarSensoresParaAsignar() {
+        fetch('../back-end/obtener_todos_sensores.php')
+          .then(response => response.json())
+          .then(sensores => {
+            const select = document.getElementById('selectSensor');
+            select.innerHTML = '<option value="">Seleccione un sensor...</option>';
+            sensores.forEach(sensor => {
+              const option = document.createElement('option');
+              option.value = sensor.id_sensor;
+              option.textContent = sensor.nombre;
+              select.appendChild(option);
+            });
+          })
+          .catch(error => console.error('Error cargando sensores:', error));
+      }
+
+      // Cargar sensores asignados a una zona
+      function cargarSensoresAsignados(zonaId) {
+        fetch(`../back-end/obtener_sensores.php?id_zona=${zonaId}`)
+          .then(response => response.json())
+          .then(sensores => {
+            const contenedor = document.getElementById('listaSensoresAsignados');
+            
+            if (sensores.length === 0) {
+              contenedor.innerHTML = '<p class="text-muted">No hay sensores asignados a esta zona</p>';
+              return;
+            }
+            
+            let html = '';
+            sensores.forEach(sensor => {
+              html += `
+                <div class="d-flex justify-content-between align-items-center mb-2 p-2 border rounded">
+                  <div>
+                    <strong>${sensor.nombre}</strong>
+                    <br><small class="text-muted">${sensor.descripcion || 'Sin descripción'}</small>
+                    <br><small class="text-muted">Tipo: ${sensor.tipo_sensor || 'No especificado'}</small>
+                  </div>
+                  <button type="button" class="btn btn-sm btn-danger btn-quitar-sensor" 
+                          data-sensor-id="${sensor.id_sensor}" data-zona-id="${zonaId}">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              `;
+            });
+            contenedor.innerHTML = html;
+
+            // Agregar event listeners a los botones de quitar
+            document.querySelectorAll('.btn-quitar-sensor').forEach(btn => {
+              btn.addEventListener('click', function() {
+                const sensorId = this.getAttribute('data-sensor-id');
+                const zonaId = this.getAttribute('data-zona-id');
+                quitarSensorDeZona(sensorId, zonaId);
+              });
+            });
+          })
+          .catch(error => {
+            console.error('Error cargando sensores asignados:', error);
+            document.getElementById('listaSensoresAsignados').innerHTML = '<p class="text-danger">Error al cargar sensores asignados</p>';
+          });
+      }
+
+      // Función para crear sensor
+      function crearSensor(nombre, descripcion, tipoSensor, estado) {
+        const formData = new FormData();
+        formData.append('nombre', nombre);
+        formData.append('descripcion', descripcion);
+        formData.append('id_tipo_sensor', tipoSensor);
+        formData.append('estado', estado);
+
+        fetch('../back-end/agregar_sensor.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.ok) {
+            alert('Sensor creado correctamente');
+            modalCrearSensor.hide();
+            document.getElementById('formCrearSensor').reset();
+            cargarSensoresEnCards();
+          } else {
+            alert('Error: ' + data.mensaje);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error al crear el sensor');
+        });
+      }
+
+      // Función para actualizar sensor
+      function actualizarSensor(id, nombre, descripcion, tipoSensor, estado) {
+        const formData = new FormData();
+        formData.append('id_sensor', id);
+        formData.append('nombre', nombre);
+        formData.append('descripcion', descripcion);
+        formData.append('id_tipo_sensor', tipoSensor);
+        formData.append('estado', estado);
+        formData.append('accion', 'actualizar');
+
+        fetch('../back-end/actualizar_sensor.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.ok) {
+            alert('Sensor actualizado correctamente');
+            modalEditarSensor.hide();
+            cargarSensoresEnCards();
+          } else {
+            alert('Error: ' + data.mensaje);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error al actualizar el sensor');
+        });
+      }
+
+      // Función para eliminar sensor (dar de baja)
+      function eliminarSensor(id) {
+        const formData = new FormData();
+        formData.append('id_sensor', id);
+        formData.append('accion', 'eliminar');
+
+        fetch('../back-end/actualizar_sensor.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.ok) {
+            alert('Sensor dado de baja correctamente');
+            modalEliminarSensor.hide();
+            cargarSensoresEnCards();
+          } else {
+            alert('Error: ' + data.mensaje);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error al dar de baja el sensor');
+        });
+      }
+
+      // Función para asignar sensor a zona
+      function asignarSensorAZona(zonaId, sensorId) {
+        const cambios = {};
+        cambios[sensorId] = true; // Asignar el sensor
+
+        const formData = new FormData();
+        formData.append('id_zona', zonaId);
+        formData.append('cambios', JSON.stringify(cambios));
+
+        fetch('../back-end/asignar_sensores.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.ok) {
+            alert('Sensor asignado correctamente a la zona');
+            // Recargar la lista de sensores asignados
+            cargarSensoresAsignados(zonaId);
+            // Limpiar selección de sensor
+            document.getElementById('selectSensor').value = '';
+            document.getElementById('infoSensor').classList.add('d-none');
+            document.getElementById('btnAsignarSensorZona').disabled = true;
+          } else {
+            alert('Error: ' + data.mensaje);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error al asignar el sensor a la zona');
+        });
+      }
+
+      // Función para quitar sensor de zona
+      function quitarSensorDeZona(sensorId, zonaId) {
+        const cambios = {};
+        cambios[sensorId] = false; // Quitar el sensor
+
+        const formData = new FormData();
+        formData.append('id_zona', zonaId);
+        formData.append('cambios', JSON.stringify(cambios));
+
+        fetch('../back-end/asignar_sensores.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.ok) {
+            alert('Sensor removido correctamente de la zona');
+            // Recargar la lista de sensores asignados
+            cargarSensoresAsignados(zonaId);
+          } else {
+            alert('Error: ' + data.mensaje);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error al remover el sensor de la zona');
+        });
+      }
+
+      // Inicializar modal de asignar sensor a zona
+      document.getElementById('modalAsignarSensorZona').addEventListener('show.bs.modal', function() {
+        cargarZonasParaAsignar();
+        cargarSensoresParaAsignar();
+        document.getElementById('btnAsignarSensorZona').disabled = true;
+        document.getElementById('listaSensoresAsignados').innerHTML = '<p class="text-muted">Seleccione una zona para ver los sensores asignados</p>';
+      });
+
+      // Validar selección en modal de asignar
+      document.getElementById('selectZonaSensor').addEventListener('change', function() {
+        const zonaSelect = this;
+        
+        if (zonaSelect.value) {
+          document.getElementById('infoZonaSensor').classList.remove('d-none');
+          document.getElementById('nombreZonaSensor').textContent = zonaSelect.options[zonaSelect.selectedIndex].text;
+          
+          // Cargar sensores asignados a esta zona
+          cargarSensoresAsignados(zonaSelect.value);
+        } else {
+          document.getElementById('infoZonaSensor').classList.add('d-none');
+          document.getElementById('listaSensoresAsignados').innerHTML = '<p class="text-muted">Seleccione una zona para ver los sensores asignados</p>';
+        }
+        validarAsignacionSensor();
+      });
+
+      document.getElementById('selectSensor').addEventListener('change', function() {
+        const sensorSelect = this;
+        
+        if (sensorSelect.value) {
+          document.getElementById('infoSensor').classList.remove('d-none');
+          document.getElementById('nombreSensorAsignar').textContent = sensorSelect.options[sensorSelect.selectedIndex].text;
+        } else {
+          document.getElementById('infoSensor').classList.add('d-none');
+        }
+        validarAsignacionSensor();
+      });
+
+      function validarAsignacionSensor() {
+        const zonaSelect = document.getElementById('selectZonaSensor');
+        const sensorSelect = document.getElementById('selectSensor');
+        const btnAsignar = document.getElementById('btnAsignarSensorZona');
+        
+        btnAsignar.disabled = !(zonaSelect.value && sensorSelect.value);
+      }
+
+      // Event Listeners para los botones
+
+      // Guardar nuevo sensor
+      document.getElementById('btnGuardarSensor').addEventListener('click', function() {
+        const nombre = document.getElementById('nombreSensor').value;
+        const descripcion = document.getElementById('descripcionSensor').value;
+        const tipoSensor = document.getElementById('tipoSensor').value;
+        const estado = document.getElementById('estadoSensor').value;
+
+        if (!nombre.trim()) {
+          alert('El nombre del sensor es obligatorio');
+          return;
+        }
+
+        if (!tipoSensor) {
+          alert('Debe seleccionar un tipo de sensor');
+          return;
+        }
+
+        crearSensor(nombre, descripcion, tipoSensor, estado);
+      });
+
+      // Actualizar sensor
+      document.getElementById('btnActualizarSensor').addEventListener('click', function() {
+        const id = document.getElementById('idSensorEditar').value;
+        const nombre = document.getElementById('nombreSensorEditar').value;
+        const descripcion = document.getElementById('descripcionSensorEditar').value;
+        const tipoSensor = document.getElementById('tipoSensorEditar').value;
+        const estado = document.getElementById('estadoSensorEditar').value;
+
+        if (!nombre.trim()) {
+          alert('El nombre del sensor es obligatorio');
+          return;
+        }
+
+        if (!tipoSensor) {
+          alert('Debe seleccionar un tipo de sensor');
+          return;
+        }
+
+        actualizarSensor(id, nombre, descripcion, tipoSensor, estado);
+      });
+
+      // Confirmar eliminación de sensor
+      document.getElementById('btnConfirmarEliminarSensor').addEventListener('click', function() {
+        if (sensorEliminandoId) {
+          eliminarSensor(sensorEliminandoId);
+        }
+      });
+
+      // Asignar sensor a zona
+      document.getElementById('btnAsignarSensorZona').addEventListener('click', function() {
+        const zonaId = document.getElementById('selectZonaSensor').value;
+        const sensorId = document.getElementById('selectSensor').value;
+
+        if (zonaId && sensorId) {
+          asignarSensorAZona(zonaId, sensorId);
+        }
+      });
+
+      // Limpiar modales al cerrar
+      document.getElementById('modalCrearSensor').addEventListener('hidden.bs.modal', function() {
+        document.getElementById('formCrearSensor').reset();
+      });
+
+      document.getElementById('modalEditarSensor').addEventListener('hidden.bs.modal', function() {
+        document.getElementById('formEditarSensor').reset();
+        sensorEditandoId = null;
+      });
+
+      document.getElementById('modalEliminarSensor').addEventListener('hidden.bs.modal', function() {
+        sensorEliminandoId = null;
+      });
+
+      // Cargar datos al iniciar la página
+      cargarSensoresEnCards();
+      cargarTiposSensores();
+
+      // Sidebar toggle
+      const sidebar = document.getElementById('sidebar');
+      const toggleBtn = document.getElementById('toggleSidebar');
+
+      toggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('show');
+      });
     });
   </script>
 </body>
 </html>
- 
-
-
-
-

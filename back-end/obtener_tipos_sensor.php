@@ -12,20 +12,19 @@ require_once "db.php";
 try {
     $sql = "
         SELECT 
-            id_sensor,
-            nombre,
-            estado,
             id_tipo_sensor,
+            nombre,
             descripcion
-        FROM sensores
-        ORDER BY id_sensor ASC
+        FROM tipo_sensor
+        WHERE id_tipo_sensor IS NOT NULL
+        ORDER BY nombre ASC
     ";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
-    $sensores = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $tipos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    echo json_encode($sensores);
+    echo json_encode($tipos);
 
 } catch (PDOException $e) {
     http_response_code(500);

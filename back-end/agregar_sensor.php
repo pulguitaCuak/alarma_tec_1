@@ -11,12 +11,17 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // Validar datos
 $nombre = trim($_POST['nombre'] ?? '');
 $id_tipo_sensor = intval($_POST['id_tipo_sensor'] ?? 0);
-$estado = intval($_POST['estado'] ?? 1);
+$estado = intval($_POST['estado'] ?? 1); // Por defecto Activo (1)
 $descripcion = trim($_POST['descripcion'] ?? '');
 
 if (!$nombre || !$id_tipo_sensor) {
     echo json_encode(['ok' => false, 'mensaje' => 'Faltan datos requeridos']);
     exit;
+}
+
+// Validar que el estado sea 1 o 2
+if ($estado !== 1 && $estado !== 2) {
+    $estado = 1; // Por defecto Activo
 }
 
 try {

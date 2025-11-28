@@ -12,20 +12,20 @@ $id_sensor = $_POST['id_sensor'] ?? 0;
 $nombre = $_POST['nombre'] ?? '';
 $descripcion = $_POST['descripcion'] ?? '';
 $estado = $_POST['estado'] ?? '';
-$accion = $_POST['accion'] ?? 'actualizar'; // 'actualizar' o 'eliminar'
+$accion = $_POST['accion'] ?? 'actualizar';
 
 try {
-    // Si la acción es eliminar, marcar como eliminado (soft delete - estado = 2)
+    // Si la acción es eliminar, usar estado 4 = Suspendido (para dar de baja)
     if ($accion === 'eliminar') {
-        $query = "UPDATE sensores SET estado = 2 WHERE id_sensor = ?";
+        $query = "UPDATE sensores SET estado = 4 WHERE id_sensor = ?";
         $stmt = $pdo->prepare($query);
         $stmt->execute([$id_sensor]);
         
-        echo json_encode(["ok" => true, "mensaje" => "Sensor eliminado correctamente"]);
+        echo json_encode(["ok" => true, "mensaje" => "Sensor dado de baja correctamente"]);
         exit;
     }
 
-    // De lo contrario, actualizar
+    // Para actualizar, permitir solo estados 1 (Activo) y 2 (Inactivo)
     $updates = [];
     $params = [];
 
@@ -41,8 +41,8 @@ try {
         $params[] = $descripcion;
     }
 
-    // Actualizar estado si se proporciona
-    if ($estado !== '') {
+    // Actualizar estado si se proporciona (solo 1 o 2)
+    if ($estado !== '' && ($estado == 1 || $estado == 2)) {
         $updates[] = "estado = ?";
         $params[] = intval($estado);
     }
