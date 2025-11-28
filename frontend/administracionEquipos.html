@@ -114,91 +114,6 @@
   </div>
 </div>
 
-      <!-- CARD -->
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const overlay = document.getElementById('overlay');
-    const popupEditar = document.querySelector('.popup-editar');
-    const popupEliminar = document.querySelector('.popup-eliminar');
-
-    // Botones de edición
-    const btnModificar = document.getElementById('btnModificar');
-    const btnCancelarCambios = document.getElementById('btnCancelarCambios');
-    const btnAcetarCambios = document.getElementById('btnAcetarCambios');
-    const nuevoNombre = document.getElementById('nuevoNombre');
-    const NuevaDescripcion = document.getElementById('NuevaDescripcion');
-
-    // Botones de eliminación
-    const btnsEliminar = document.querySelectorAll('.btn-eliminar');
-    const btnConfirmarEliminar = document.getElementById('btnConfirmarEliminar');
-    const btnCancelarEliminar = document.getElementById('btnCancelarEliminar');
-
-    let elementoAEliminar = null; // Guardamos el elemento temporalmente
-
-    // Mostrar popup de editar
-    btnModificar.addEventListener('click', function () {
-      overlay.classList.add('mostrar');
-      popupEditar.classList.add('mostrar');
-    });
- 
-    // Cerrar popup al hacer clic fuera
-    overlay.addEventListener('click', function (event) {
-      if (event.target === overlay) {
-        cerrarPopups();
-      }
-    });
-
-    // Cancelar edición
-    btnCancelarCambios.addEventListener('click', function () {
-      cerrarPopups();
-      limpiarCampos();
-    });
-
-    // Aceptar cambios
-    btnAcetarCambios.addEventListener('click', function () {
-      cerrarPopups();
-      limpiarCampos();
-      // aquí iría tu lógica para guardar cambios
-    });
-
-    // Mostrar popup de eliminar
-    btnsEliminar.forEach(btn => {
-      btn.addEventListener('click', function (e) {
-        elementoAEliminar = e.target.closest('tr'); // fila a eliminar
-        overlay.classList.add('mostrar');
-        popupEliminar.classList.add('mostrar');
-      });
-    });
-
-    // Confirmar eliminación
-    btnConfirmarEliminar.addEventListener('click', function () {
-      if (elementoAEliminar) {
-        elementoAEliminar.remove();
-        elementoAEliminar = null;
-      }
-      cerrarPopups();
-    });
-
-    // Cancelar eliminación
-    btnCancelarEliminar.addEventListener('click', function () {
-      cerrarPopups();
-      elementoAEliminar = null;
-    });
-
-    // Funciones auxiliares
-    function cerrarPopups() {
-      overlay.classList.remove('mostrar');
-      popupEditar.classList.remove('mostrar');
-      popupEliminar.classList.remove('mostrar');
-    }
-
-    function limpiarCampos() {
-      nuevoNombre.value = '';
-      NuevaDescripcion.value = '';
-    }
-  });
-</script>
-
 <!-- Overlay global -->
 <div id="overlay" class="overlay">
 
@@ -212,16 +127,16 @@
 
       <div>
         <label><strong>Nombre:</strong> <br>
-          <input type="text" id="nuevoNombre" class="border-1 redondear-bordes-pequeño border-dark" placeholder="pepe">
+          <input type="text" id="nuevoNombre" class="border-1 redondear-bordes-pequeño border-dark" placeholder="Ingrese el nombre">
         </label>
       </div>
       <div>
         <label><strong>Descripción:</strong> <br>
-          <input type="text" id="NuevaDescripcion" class="border-1 redondear-bordes-pequeño border-dark" placeholder="ingrese una descripción">
+          <input type="text" id="NuevaDescripcion" class="border-1 redondear-bordes-pequeño border-dark" placeholder="Ingrese una descripción">
         </label>
       </div>
       <div class="d-flex gap-4 mt-4 justify-content-center">
-        <button id="btnAcetarCambios" class="btn btn-light redondear-bordes border flex-grow-1 flex-md-grow-0">Aceptar</button>
+        <button id="btnAceptarCambios" class="btn btn-light redondear-bordes border flex-grow-1 flex-md-grow-0">Aceptar</button>
         <button id="btnCancelarCambios" class="btn bg-secondary redondear-bordes flex-grow-1 flex-md-grow-0">Cancelar</button>
       </div>
     </div>
@@ -249,29 +164,11 @@
   <div class="table-responsive">
     <table class="table">
       <tbody>
-        
-             
-        <tr valign="middle">
-          <th scope="row" class="fs-4">
-            <i class="bi bi-house fs-2 p-2 hide-mobile"></i>
-            Mi casa
-          </th>
-          <td class="fs-4 text-center align-middle"><small class="fs-6">Equipo</small></td>
-          <td class="fs-4">
-            <div class="d-flex flex-wrap gap-2 w-100">
-              <button class="btn btn-danger text-body redondear-bordes flex-grow-1 flex-md-grow-0 btn-eliminar">Eliminar</button>
-              <button id="btnModificar" class="btn btn-light redondear-bordes border flex-grow-1 flex-md-grow-0">Modificar</button>
-              <a href="estructuraAdministracionZonas.html" class="btn bg-secondary redondear-bordes flex-grow-1 flex-md-grow-0">Entrar</a>
-            </div>
-          </td>
-        </tr>
-        
-        
-
-                </tbody>
-                </table>
-            </div>
-            </div>
+        <!-- Los equipos se cargarán dinámicamente aquí -->
+      </tbody>
+    </table>
+  </div>
+</div>
 
           </div>
         </div>
@@ -360,170 +257,385 @@
   <!-- Bootstrap scripts -->
   <script src="js/bootstrap.bundle.js"></script>
   <script> 
-    
     document.addEventListener('DOMContentLoaded', function() {
-  // Elementos del DOM
-  const modalCrearEquipo = new bootstrap.Modal(document.getElementById('modalCrearEquipo'));
-  const modalAsignarEquipo = new bootstrap.Modal(document.getElementById('modalAsignarEquipo'));
-  
-  // Cargar usuarios y equipos en el modal de asignación
-  function cargarUsuarios() {
-    fetch('../back-end/equipos.php?accion=obtener_usuarios')
-      .then(response => response.json())
-      .then(usuarios => {
-        const select = document.getElementById('selectUsuario');
-        select.innerHTML = '<option value="">Seleccione un usuario...</option>';
-        usuarios.forEach(usuario => {
-          const option = document.createElement('option');
-          option.value = usuario.id_user;
-          option.textContent = `${usuario.nombre} ${usuario.apellido} (${usuario.cargo || 'Sin cargo'})`;
-          select.appendChild(option);
-        });
-      })
-      .catch(error => console.error('Error cargando usuarios:', error));
-  }
-
-  function cargarEquipos() {
-    fetch('../back-end/equipos.php?accion=obtener_equipos')
-      .then(response => response.json())
-      .then(equipos => {
-        const select = document.getElementById('selectEquipo');
-        select.innerHTML = '<option value="">Seleccione un equipo...</option>';
-        equipos.forEach(equipo => {
-          const option = document.createElement('option');
-          option.value = equipo.id_equipo;
-          option.textContent = equipo.nombre;
-          option.setAttribute('data-descripcion', equipo.descripcion || '');
-          select.appendChild(option);
-        });
-      })
-      .catch(error => console.error('Error cargando equipos:', error));
-  }
-
-  // Inicializar modal de asignar equipo
-  document.getElementById('modalAsignarEquipo').addEventListener('show.bs.modal', function() {
-    cargarUsuarios();
-    cargarEquipos();
-    document.getElementById('btnAsignarEquipo').disabled = true;
-  });
-
-  // Validar selección en modal de asignar
-  document.getElementById('selectUsuario').addEventListener('change', validarAsignacion);
-  document.getElementById('selectEquipo').addEventListener('change', function() {
-    const equipoSelect = this;
-    const descripcion = equipoSelect.options[equipoSelect.selectedIndex]?.getAttribute('data-descripcion') || '';
-    
-    if (equipoSelect.value) {
-      document.getElementById('infoEquipo').classList.remove('d-none');
-      document.getElementById('nombreEquipoAsignar').textContent = equipoSelect.options[equipoSelect.selectedIndex].text;
-      document.getElementById('descripcionEquipoAsignar').textContent = descripcion;
-    } else {
-      document.getElementById('infoEquipo').classList.add('d-none');
-    }
-    validarAsignacion();
-  });
-
-  function validarAsignacion() {
-    const usuarioSelect = document.getElementById('selectUsuario');
-    const equipoSelect = document.getElementById('selectEquipo');
-    const btnAsignar = document.getElementById('btnAsignarEquipo');
-    
-    if (usuarioSelect.value && equipoSelect.value) {
-      btnAsignar.disabled = false;
+      // Elementos del DOM
+      const modalCrearEquipo = new bootstrap.Modal(document.getElementById('modalCrearEquipo'));
+      const modalAsignarEquipo = new bootstrap.Modal(document.getElementById('modalAsignarEquipo'));
       
-      // Mostrar info del usuario
-      document.getElementById('infoUsuario').classList.remove('d-none');
-      document.getElementById('nombreUsuario').textContent = usuarioSelect.options[usuarioSelect.selectedIndex].text;
-    } else {
-      btnAsignar.disabled = true;
-      document.getElementById('infoUsuario').classList.add('d-none');
-    }
-  }
+      // Variables para el CRUD
+      let equipoEditandoId = null;
+      let elementoAEliminar = null;
 
-  // Guardar nuevo equipo
-  document.getElementById('btnGuardarEquipo').addEventListener('click', function() {
-    const nombre = document.getElementById('nombreEquipo').value;
-    const descripcion = document.getElementById('descripcionEquipo').value;
-    const contrasena = document.getElementById('contrasenaEquipo').value;
+      // Cargar usuarios y equipos en el modal de asignación
+      function cargarUsuarios() {
+        fetch('../back-end/equipos.php?accion=obtener_usuarios')
+          .then(response => response.json())
+          .then(usuarios => {
+            const select = document.getElementById('selectUsuario');
+            select.innerHTML = '<option value="">Seleccione un usuario...</option>';
+            usuarios.forEach(usuario => {
+              const option = document.createElement('option');
+              option.value = usuario.id_user;
+              option.textContent = `${usuario.nombre} ${usuario.apellido} (${usuario.cargo || 'Sin cargo'})`;
+              select.appendChild(option);
+            });
+          })
+          .catch(error => console.error('Error cargando usuarios:', error));
+      }
 
-    if (!nombre) {
-      alert('El nombre del equipo es obligatorio');
-      return;
-    }
+      function cargarEquipos() {
+        fetch('../back-end/obtener_equipos.php')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Error en la respuesta del servidor');
+            }
+            return response.json();
+          })
+          .then(equipos => {
+            const select = document.getElementById('selectEquipo');
+            select.innerHTML = '<option value="">Seleccione un equipo...</option>';
+            
+            equipos.forEach(equipo => {
+              const option = document.createElement('option');
+              option.value = equipo.id_equipo;
+              option.textContent = equipo.nombre;
+              option.setAttribute('data-descripcion', equipo.descripcion || 'Sin descripción');
+              select.appendChild(option);
+            });
+          })
+          .catch(error => {
+            console.error('Error cargando equipos:', error);
+            alert('Error al cargar los equipos');
+          });
+      }
 
-    const formData = new FormData();
-    formData.append('accion', 'crear_equipo');
-    formData.append('nombre', nombre);
-    formData.append('descripcion', descripcion);
-    formData.append('contrasena', contrasena);
+      // Cargar equipos en la tabla
+      function cargarEquiposEnTabla() {
+        fetch('../back-end/obtener_equipos.php')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Error en la respuesta del servidor');
+            }
+            return response.json();
+          })
+          .then(equipos => {
+            const tbody = document.querySelector('.table tbody');
+            tbody.innerHTML = ''; // Limpiar tabla existente
 
-    fetch('../back-end/equipos.php', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        alert('Equipo creado correctamente');
-        modalCrearEquipo.hide();
+            if (equipos.length === 0) {
+              tbody.innerHTML = `
+                <tr>
+                  <td colspan="3" class="text-center fs-4 py-4">
+                    No hay equipos registrados
+                  </td>
+                </tr>
+              `;
+              return;
+            }
+
+            equipos.forEach(equipo => {
+              const tr = document.createElement('tr');
+              tr.setAttribute('valign', 'middle');
+              tr.innerHTML = `
+                <th scope="row" class="fs-4">
+                  <i class="bi bi-house fs-2 p-2 hide-mobile"></i>
+                  ${equipo.nombre}
+                </th>
+                <td class="fs-4 text-center align-middle"><small class="fs-6">Equipo</small></td>
+                <td class="fs-4">
+                  <div class="d-flex flex-wrap gap-2 w-100">
+                    <button class="btn btn-danger text-body redondear-bordes flex-grow-1 flex-md-grow-0 btn-eliminar">Eliminar</button>
+                    <button class="btn btn-light redondear-bordes border flex-grow-1 flex-md-grow-0 btn-modificar" data-id="${equipo.id_equipo}" data-nombre="${equipo.nombre}" data-descripcion="${equipo.descripcion || ''}">Modificar</button>
+                    <a href="dashboardZonas.html?id_equipo=${equipo.id_equipo}" class="btn bg-secondary redondear-bordes flex-grow-1 flex-md-grow-0">Entrar</a>
+                  </div>
+                </td>
+              `;
+              tbody.appendChild(tr);
+            });
+
+            // Agregar event listeners a los botones de modificar
+            document.querySelectorAll('.btn-modificar').forEach(btn => {
+              btn.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                const nombre = this.getAttribute('data-nombre');
+                const descripcion = this.getAttribute('data-descripcion');
+                
+                // Guardar ID del equipo que estamos editando
+                equipoEditandoId = id;
+                
+                // Llenar el formulario de edición
+                document.getElementById('nuevoNombre').value = nombre;
+                document.getElementById('NuevaDescripcion').value = descripcion;
+                
+                // Mostrar popup de edición
+                document.getElementById('overlay').classList.add('mostrar');
+                document.querySelector('.popup-editar').classList.add('mostrar');
+              });
+            });
+
+            // Agregar event listeners a los botones de eliminar
+            document.querySelectorAll('.btn-eliminar').forEach(btn => {
+              btn.addEventListener('click', function(e) {
+                elementoAEliminar = e.target.closest('tr');
+                const idEquipo = elementoAEliminar.querySelector('.btn-modificar').getAttribute('data-id');
+                
+                // Guardar ID del equipo a eliminar
+                elementoAEliminar.setAttribute('data-id', idEquipo);
+                
+                document.getElementById('overlay').classList.add('mostrar');
+                document.querySelector('.popup-eliminar').classList.add('mostrar');
+              });
+            });
+          })
+          .catch(error => {
+            console.error('Error cargando equipos en tabla:', error);
+            alert('Error al cargar los equipos en la tabla');
+          });
+      }
+
+      // Función para actualizar equipo
+      function actualizarEquipo(id, nombre, descripcion) {
+        const formData = new FormData();
+        formData.append('id_equipo', id);
+        formData.append('nombre', nombre);
+        formData.append('descripcion', descripcion);
+        formData.append('accion', 'actualizar');
+
+        fetch('../back-end/actualizar_equipo.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.ok) {
+            alert('Equipo actualizado correctamente');
+            cerrarPopups();
+            cargarEquiposEnTabla(); // Recargar la tabla
+          } else {
+            alert('Error: ' + data.mensaje);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error al actualizar el equipo');
+        });
+      }
+
+      // Función para eliminar equipos
+      function eliminarEquipo(elemento) {
+        const idEquipo = elemento.getAttribute('data-id');
+        
+        const formData = new FormData();
+        formData.append('id_equipo', idEquipo);
+        formData.append('accion', 'eliminar');
+
+        fetch('../back-end/actualizar_equipo.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.ok) {
+            elemento.remove();
+            cerrarPopups();
+            alert('Equipo eliminado correctamente');
+            // Recargar la tabla para asegurar consistencia
+            cargarEquiposEnTabla();
+          } else {
+            alert('Error: ' + data.mensaje);
+            cerrarPopups();
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error al eliminar el equipo');
+          cerrarPopups();
+        });
+      }
+
+      // Funciones auxiliares para popups
+      function cerrarPopups() {
+        document.getElementById('overlay').classList.remove('mostrar');
+        document.querySelector('.popup-editar').classList.remove('mostrar');
+        document.querySelector('.popup-eliminar').classList.remove('mostrar');
+        equipoEditandoId = null;
+        elementoAEliminar = null;
+        limpiarCamposEdicion();
+      }
+
+      function limpiarCamposEdicion() {
+        document.getElementById('nuevoNombre').value = '';
+        document.getElementById('NuevaDescripcion').value = '';
+      }
+
+      // Event Listeners para los popups
+      document.getElementById('overlay').addEventListener('click', function(event) {
+        if (event.target === this) {
+          cerrarPopups();
+        }
+      });
+
+      // Aceptar cambios en edición
+      document.getElementById('btnAceptarCambios').addEventListener('click', function() {
+        const nuevoNombre = document.getElementById('nuevoNombre').value;
+        const nuevaDescripcion = document.getElementById('NuevaDescripcion').value;
+
+        if (!nuevoNombre.trim()) {
+          alert('El nombre del equipo es obligatorio');
+          return;
+        }
+
+        if (equipoEditandoId) {
+          actualizarEquipo(equipoEditandoId, nuevoNombre, nuevaDescripcion);
+        }
+      });
+
+      // Cancelar edición
+      document.getElementById('btnCancelarCambios').addEventListener('click', function() {
+        cerrarPopups();
+      });
+
+      // Confirmar eliminación
+      document.getElementById('btnConfirmarEliminar').addEventListener('click', function() {
+        if (elementoAEliminar) {
+          eliminarEquipo(elementoAEliminar);
+        }
+      });
+
+      // Cancelar eliminación
+      document.getElementById('btnCancelarEliminar').addEventListener('click', function() {
+        cerrarPopups();
+      });
+
+      // Inicializar modal de asignar equipo
+      document.getElementById('modalAsignarEquipo').addEventListener('show.bs.modal', function() {
+        cargarUsuarios();
+        cargarEquipos();
+        document.getElementById('btnAsignarEquipo').disabled = true;
+      });
+
+      // Validar selección en modal de asignar
+      document.getElementById('selectUsuario').addEventListener('change', validarAsignacion);
+      document.getElementById('selectEquipo').addEventListener('change', function() {
+        const equipoSelect = this;
+        const descripcion = equipoSelect.options[equipoSelect.selectedIndex]?.getAttribute('data-descripcion') || '';
+        
+        if (equipoSelect.value) {
+          document.getElementById('infoEquipo').classList.remove('d-none');
+          document.getElementById('nombreEquipoAsignar').textContent = equipoSelect.options[equipoSelect.selectedIndex].text;
+          document.getElementById('descripcionEquipoAsignar').textContent = descripcion;
+        } else {
+          document.getElementById('infoEquipo').classList.add('d-none');
+        }
+        validarAsignacion();
+      });
+
+      function validarAsignacion() {
+        const usuarioSelect = document.getElementById('selectUsuario');
+        const equipoSelect = document.getElementById('selectEquipo');
+        const btnAsignar = document.getElementById('btnAsignarEquipo');
+        
+        if (usuarioSelect.value && equipoSelect.value) {
+          btnAsignar.disabled = false;
+          
+          // Mostrar info del usuario
+          document.getElementById('infoUsuario').classList.remove('d-none');
+          document.getElementById('nombreUsuario').textContent = usuarioSelect.options[usuarioSelect.selectedIndex].text;
+        } else {
+          btnAsignar.disabled = true;
+          document.getElementById('infoUsuario').classList.add('d-none');
+        }
+      }
+
+      // Guardar nuevo equipo
+      document.getElementById('btnGuardarEquipo').addEventListener('click', function() {
+        const nombre = document.getElementById('nombreEquipo').value;
+        const descripcion = document.getElementById('descripcionEquipo').value;
+        const contrasena = document.getElementById('contrasenaEquipo').value;
+
+        if (!nombre) {
+          alert('El nombre del equipo es obligatorio');
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append('accion', 'crear_equipo');
+        formData.append('nombre', nombre);
+        formData.append('descripcion', descripcion);
+        formData.append('contrasena', contrasena);
+
+        fetch('../back-end/equipos.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Equipo creado correctamente');
+            modalCrearEquipo.hide();
+            document.getElementById('formCrearEquipo').reset();
+            // Recargar la tabla
+            cargarEquiposEnTabla();
+          } else {
+            alert('Error: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error al crear el equipo');
+        });
+      });
+
+      // Asignar equipo a usuario
+      document.getElementById('btnAsignarEquipo').addEventListener('click', function() {
+        const id_usuario = document.getElementById('selectUsuario').value;
+        const id_equipo = document.getElementById('selectEquipo').value;
+
+        const formData = new FormData();
+        formData.append('accion', 'asignar_equipo');
+        formData.append('id_usuario', id_usuario);
+        formData.append('id_equipo', id_equipo);
+
+        fetch('../back-end/equipos.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Equipo asignado correctamente');
+            modalAsignarEquipo.hide();
+            // Limpiar selecciones
+            document.getElementById('selectUsuario').value = '';
+            document.getElementById('selectEquipo').value = '';
+            document.getElementById('infoUsuario').classList.add('d-none');
+            document.getElementById('infoEquipo').classList.add('d-none');
+          } else {
+            alert('Error: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Error al asignar el equipo');
+        });
+      });
+
+      // Limpiar modales al cerrar
+      document.getElementById('modalCrearEquipo').addEventListener('hidden.bs.modal', function() {
         document.getElementById('formCrearEquipo').reset();
-        // Recargar la página o actualizar la tabla
-        location.reload();
-      } else {
-        alert('Error: ' + data.message);
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      alert('Error al crear el equipo');
+      });
+
+      // Cargar equipos al iniciar la página
+      cargarEquiposEnTabla();
+
+      // Sidebar toggle
+      const sidebar = document.getElementById('sidebar');
+      const toggleBtn = document.getElementById('toggleSidebar');
+
+      toggleBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('show');
+      });
     });
-  });
-
-  // Asignar equipo a usuario
-  document.getElementById('btnAsignarEquipo').addEventListener('click', function() {
-    const id_usuario = document.getElementById('selectUsuario').value;
-    const id_equipo = document.getElementById('selectEquipo').value;
-
-    const formData = new FormData();
-    formData.append('accion', 'asignar_equipo');
-    formData.append('id_usuario', id_usuario);
-    formData.append('id_equipo', id_equipo);
-
-    fetch('../back-end/equipos.php', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        alert('Equipo asignado correctamente');
-        modalAsignarEquipo.hide();
-        // Limpiar selecciones
-        document.getElementById('selectUsuario').value = '';
-        document.getElementById('selectEquipo').value = '';
-        document.getElementById('infoUsuario').classList.add('d-none');
-        document.getElementById('infoEquipo').classList.add('d-none');
-      } else {
-        alert('Error: ' + data.message);
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      alert('Error al asignar el equipo');
-    });
-  });
-
-  // Limpiar modales al cerrar
-  document.getElementById('modalCrearEquipo').addEventListener('hidden.bs.modal', function() {
-    document.getElementById('formCrearEquipo').reset();
-  });
-});const sidebar = document.getElementById('sidebar');
-    const toggleBtn = document.getElementById('toggleSidebar');
-
-    toggleBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('show');
-    });
-    
   </script>
 </body>
 </html>

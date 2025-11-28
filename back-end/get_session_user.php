@@ -11,6 +11,5 @@ if (isset($_SESSION['id_user'])) {
         'cargo' => $_SESSION['cargo'] ?? null
     ]);
 } else {
-    // Si no hay sesión, devolver error
     echo json_encode(['id_user' => null]);
 }
