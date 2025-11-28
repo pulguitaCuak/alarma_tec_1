@@ -3,18 +3,482 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dashboard - Alarma</title>
+  <title>Administración de Sensores - Alarma</title>
 
   <!-- Bootstrap local -->
   <link rel="stylesheet" href="css/bootstrap.custom.min.css">
   <link rel="stylesheet" href="bootstrap-icons-1.13.1/bootstrap-icons.css">
-
   <!-- Estilos personalizados -->
   <link rel="stylesheet" href="css/plantillaPrincipal.css">
   <link rel="stylesheet" href="css/estructuraDasboardSensores.css">
   <link rel="stylesheet" href="css/administracionSensores.css">
-
 </head>
+
+<body class="bg-light d-flex flex-column min-vh-100">
+
+  <!-- HEADER -->
+  <header class="bg-primary text-white py-3 d-flex align-items-center justify-content-between px-4">
+    <div class="d-flex align-items-center">
+      <button class="btn btn-outline-light d-lg-none me-3" id="toggleSidebar">
+        <i class="bi bi-list"></i>
+      </button>
+      <h1 class="h4 m-0"><a href="dashboardEquipos.html" class="navbar-brand">Alarma</a></h1>
+    </div>
+    <div class="d-flex align-items-center">
+      <h2 class="h5 m-0 me-2">Administración</h2>
+      <i class="bi bi-hdd-stack fs-5"></i>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="flex-fill">
+
+  <div class="d-flex flex-grow-1">
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100" data-included-sidebar>
+      <!-- sidebar content loaded from /frontend/includes/sidebar.html -->
+    </aside>
+
+    <!-- CONTENIDO CON CARDS -->
+    <div class="flex-grow-1 ms-3">
+      <div class="container-fluid py-4">
+        
+        <!-- BARRA DE BÚSQUEDA Y BOTONES -->
+        <div class="row mb-4">
+          <div class="col-12 d-flex gap-2 flex-wrap">
+            <input class="form-control" style="max-width: 500px;" type="search" placeholder="Buscar..." id="buscadorGeneral">
+            <button class="btn btn-secondary" type="button" id="btnBuscar">
+              <i class="bi bi-search"></i>
+            </button>
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalCrearSensor">
+              <i class="bi bi-plus-circle me-2"></i>Añadir Sensor
+            </button>
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalAsignarSensor">
+              <i class="bi bi-link-45deg me-2"></i>Asignar Sensor
+            </button>
+          </div>
+        </div>
+
+        <!-- CONTENEDOR DE TARJETAS -->
+        <div id="contenedorSensores" class="row g-3">
+          <div class="col-12 text-center py-5">
+            <p class="text-muted">Cargando sensores...</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-primary text-white text-center py-2 mt-auto">
+    <small class="footer-text">2025 Escuela Técnica N°1 Gral. San Martín Inc. Todos los derechos reservados.</small>
+  </footer>
+
+  <!-- MODALES -->
+
+  <!-- Modal Crear Sensor -->
+  <div class="modal fade" id="modalCrearSensor" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Crear Nuevo Sensor</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formCrearSensor">
+            <div class="mb-3">
+              <label class="form-label">Nombre del sensor *</label>
+              <input type="text" class="form-control" id="nombreSensor" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Tipo de sensor *</label>
+              <select class="form-select" id="tipoSensor" required>
+                <option value="">Seleccione un tipo...</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Descripción</label>
+              <textarea class="form-control" id="descripcionSensor" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Estado</label>
+              <select class="form-select" id="estadoSensor">
+                <option value="1">Activo</option>
+                <option value="2">Inactivo</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="btnGuardarSensor">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Asignar Sensor -->
+  <div class="modal fade" id="modalAsignarSensor" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Asignar Sensor a Zona</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <label class="form-label">Sensor *</label>
+              <select class="form-select" id="selectSensorAsignar" required>
+                <option value="">Seleccione sensor...</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Zona *</label>
+              <select class="form-select" id="selectZonaAsignar" required>
+                <option value="">Seleccione zona...</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="btnConfirmarAsignar">Asignar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Editar Sensor -->
+  <div class="modal fade" id="modalEditarSensor" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Editar Sensor</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="formEditarSensor">
+            <input type="hidden" id="idSensorEditar">
+            <div class="mb-3">
+              <label class="form-label">Nombre *</label>
+              <input type="text" class="form-control" id="nombreSensorEditar" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Tipo *</label>
+              <select class="form-select" id="tipoSensorEditar" required></select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Descripción</label>
+              <textarea class="form-control" id="descripcionSensorEditar" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Estado</label>
+              <select class="form-select" id="estadoSensorEditar">
+                <option value="1">Activo</option>
+                <option value="2">Inactivo</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="btnActualizarSensor">Actualizar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Eliminar Sensor -->
+  <div class="modal fade" id="modalEliminarSensor" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title"><i class="bi bi-exclamation-triangle me-2"></i>Dar de Baja Sensor</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body text-center">
+          <p class="fs-5">¿Está seguro de que desea dar de baja el sensor?</p>
+          <p><strong id="nombreSensorEliminar"></strong></p>
+          <p class="text-muted">Esta acción no se puede deshacer.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" id="btnConfirmarEliminar">Dar de Baja</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap scripts -->
+  <script src="js/bootstrap.bundle.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Cargar sidebar
+      const sidebarContainer = document.querySelector('[data-included-sidebar]');
+      fetch('includes/sidebar.html')
+        .then(response => response.text())
+        .then(html => sidebarContainer.innerHTML = html)
+        .catch(err => console.error('Error cargando sidebar:', err));
+
+      // Modales
+      const modalCrearSensor = new bootstrap.Modal(document.getElementById('modalCrearSensor'));
+      const modalEditarSensor = new bootstrap.Modal(document.getElementById('modalEditarSensor'));
+      const modalEliminarSensor = new bootstrap.Modal(document.getElementById('modalEliminarSensor'));
+      const modalAsignarSensor = new bootstrap.Modal(document.getElementById('modalAsignarSensor'));
+      
+      let sensorEliminandoId = null;
+
+      // Cargar sensores en tarjetas
+      function cargarSensores() {
+        fetch('../back-end/obtener_todos_sensores.php')
+          .then(r => r.json())
+          .then(sensores => {
+            const contenedor = document.getElementById('contenedorSensores');
+            contenedor.innerHTML = '';
+
+            if (!sensores || sensores.length === 0) {
+              contenedor.innerHTML = '<div class="col-12 text-center py-5"><p class="text-muted">No hay sensores registrados</p></div>';
+              return;
+            }
+
+            sensores.forEach(sensor => {
+              const estadoColor = sensor.estado === 1 ? 'success' : 'danger';
+              const estadoTexto = sensor.estado === 1 ? 'Activo' : 'Inactivo';
+              const estadoIcono = sensor.estado === 1 ? '✓' : '✗';
+
+              const tarjeta = document.createElement('div');
+              tarjeta.className = 'col-12 col-md-6 col-lg-6 col-xl-5';
+              tarjeta.innerHTML = `
+                <div class="card h-100 shadow-sm" style="border-left: 5px solid var(--bs-${estadoColor});">
+                  <div class="card-body d-flex justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                      <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="bi bi-cpu"></i>
+                        <h5 class="card-title mb-0">${sensor.nombre}</h5>
+                      </div>
+                      <p class="card-text text-muted small mb-2">${sensor.descripcion || 'Sin descripción'}</p>
+                      <div class="d-flex gap-2 flex-wrap">
+                        <button class="btn btn-sm btn-info btn-entrar" data-id="${sensor.id_sensor}">
+                          Entrar
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary btn-editar" data-id="${sensor.id_sensor}" data-nombre="${sensor.nombre}" data-desc="${sensor.descripcion || ''}" data-tipo="${sensor.id_tipo_sensor}" data-estado="${sensor.estado}">
+                          Editar
+                        </button>
+                        <button class="btn btn-sm btn-danger btn-eliminar" data-id="${sensor.id_sensor}" data-nombre="${sensor.nombre}">
+                          Dar de Baja
+                        </button>
+                      </div>
+                    </div>
+                    <div class="text-end">
+                      <div class="ms-2">
+                        <i class="bi bi-wifi-2 text-${estadoColor}" style="font-size: 1.5rem;"></i>
+                        <br>
+                        <small class="text-${estadoColor} fw-bold">${estadoTexto}</small>
+                      </div>
+                      <button class="btn btn-outline-secondary btn-sm rounded-circle mt-2 btn-power" data-id="${sensor.id_sensor}">
+                        <i class="bi bi-power"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              `;
+              contenedor.appendChild(tarjeta);
+            });
+
+            // Event listeners para botones
+            document.querySelectorAll('.btn-entrar').forEach(btn => {
+              btn.addEventListener('click', function() {
+                window.location.href = `administracionSensor.html?id=${this.dataset.id}`;
+              });
+            });
+
+            document.querySelectorAll('.btn-editar').forEach(btn => {
+              btn.addEventListener('click', function() {
+                document.getElementById('idSensorEditar').value = this.dataset.id;
+                document.getElementById('nombreSensorEditar').value = this.dataset.nombre;
+                document.getElementById('descripcionSensorEditar').value = this.dataset.desc;
+                document.getElementById('tipoSensorEditar').value = this.dataset.tipo;
+                document.getElementById('estadoSensorEditar').value = this.dataset.estado;
+                modalEditarSensor.show();
+              });
+            });
+
+            document.querySelectorAll('.btn-eliminar').forEach(btn => {
+              btn.addEventListener('click', function() {
+                sensorEliminandoId = this.dataset.id;
+                document.getElementById('nombreSensorEliminar').textContent = this.dataset.nombre;
+                modalEliminarSensor.show();
+              });
+            });
+
+            document.querySelectorAll('.btn-power').forEach(btn => {
+              btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                alert('Función de encendido/apagado no implementada aún');
+              });
+            });
+          })
+          .catch(error => console.error('Error:', error));
+      }
+
+      // Cargar tipos de sensores
+      function cargarTiposSensores() {
+        fetch('../back-end/obtener_tipos_sensor.php')
+          .then(r => r.json())
+          .then(tipos => {
+            [document.getElementById('tipoSensor'), document.getElementById('tipoSensorEditar')].forEach(select => {
+              select.innerHTML = '<option value="">Seleccione un tipo...</option>';
+              tipos.forEach(tipo => {
+                const option = document.createElement('option');
+                option.value = tipo.id_tipo_sensor;
+                option.textContent = tipo.nombre;
+                select.appendChild(option);
+              });
+            });
+          });
+      }
+
+      // Cargar zonas y sensores para asignar
+      function cargarDatosAsignar() {
+        fetch('../back-end/obtener_todos_sensores.php')
+          .then(r => r.json())
+          .then(sensores => {
+            const select = document.getElementById('selectSensorAsignar');
+            select.innerHTML = '<option value="">Seleccione sensor...</option>';
+            sensores.forEach(sensor => {
+              const option = document.createElement('option');
+              option.value = sensor.id_sensor;
+              option.textContent = sensor.nombre;
+              select.appendChild(option);
+            });
+          });
+
+        fetch('../back-end/obtener_todas_zonas.php')
+          .then(r => r.json())
+          .then(zonas => {
+            const select = document.getElementById('selectZonaAsignar');
+            select.innerHTML = '<option value="">Seleccione zona...</option>';
+            zonas.forEach(zona => {
+              const option = document.createElement('option');
+              option.value = zona.id_zona;
+              option.textContent = zona.descripcion;
+              select.appendChild(option);
+            });
+          });
+      }
+
+      // Event listeners de modales
+      document.getElementById('btnGuardarSensor').addEventListener('click', function() {
+        const nombre = document.getElementById('nombreSensor').value.trim();
+        const tipoSensor = document.getElementById('tipoSensor').value;
+
+        if (!nombre || !tipoSensor) {
+          alert('Complete los campos obligatorios');
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append('nombre', nombre);
+        formData.append('id_tipo_sensor', tipoSensor);
+        formData.append('estado', document.getElementById('estadoSensor').value);
+        formData.append('descripcion', document.getElementById('descripcionSensor').value);
+
+        fetch('../back-end/agregar_sensor.php', { method: 'POST', body: formData })
+          .then(r => r.json())
+          .then(data => {
+            if (data.ok) {
+              alert('Sensor creado correctamente');
+              modalCrearSensor.hide();
+              document.getElementById('formCrearSensor').reset();
+              cargarSensores();
+            } else alert('Error: ' + data.mensaje);
+          });
+      });
+
+      document.getElementById('btnActualizarSensor').addEventListener('click', function() {
+        const id = document.getElementById('idSensorEditar').value;
+        const nombre = document.getElementById('nombreSensorEditar').value.trim();
+        const tipoSensor = document.getElementById('tipoSensorEditar').value;
+
+        if (!nombre || !tipoSensor) {
+          alert('Complete los campos obligatorios');
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append('id_sensor', id);
+        formData.append('nombre', nombre);
+        formData.append('id_tipo_sensor', tipoSensor);
+        formData.append('estado', document.getElementById('estadoSensorEditar').value);
+        formData.append('descripcion', document.getElementById('descripcionSensorEditar').value);
+
+        fetch('../back-end/actualizar_sensor.php', { method: 'POST', body: formData })
+          .then(r => r.json())
+          .then(data => {
+            if (data.ok) {
+              alert('Sensor actualizado');
+              modalEditarSensor.hide();
+              cargarSensores();
+            } else alert('Error: ' + data.mensaje);
+          });
+      });
+
+      document.getElementById('btnConfirmarEliminar').addEventListener('click', function() {
+        const formData = new FormData();
+        formData.append('id_sensor', sensorEliminandoId);
+
+        fetch('../back-end/actualizar_sensor.php', { method: 'POST', body: formData })
+          .then(r => r.json())
+          .then(data => {
+            if (data.ok) {
+              alert('Sensor dado de baja');
+              modalEliminarSensor.hide();
+              cargarSensores();
+            } else alert('Error: ' + data.mensaje);
+          });
+      });
+
+      document.getElementById('btnConfirmarAsignar').addEventListener('click', function() {
+        const sensor = document.getElementById('selectSensorAsignar').value;
+        const zona = document.getElementById('selectZonaAsignar').value;
+
+        if (!sensor || !zona) {
+          alert('Seleccione sensor y zona');
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append('id_sensor', sensor);
+        formData.append('id_zona', zona);
+
+        fetch('../back-end/asignar_sensores.php', { method: 'POST', body: formData })
+          .then(r => r.json())
+          .then(data => {
+            if (data.ok) {
+              alert('Sensor asignado correctamente');
+              modalAsignarSensor.hide();
+              cargarDatosAsignar();
+            } else alert('Error: ' + data.mensaje);
+          });
+      });
+
+      // Sidebar toggle
+      document.getElementById('toggleSidebar').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.toggle('show');
+      });
+
+      // Cargar datos iniciales
+      cargarSensores();
+      cargarTiposSensores();
+      cargarDatosAsignar();
+    });
+  </script>
+</body>
+</html>
 
 <body class="bg-light d-flex flex-column min-vh-100">
 
