@@ -47,50 +47,53 @@
               <div class="card-body">
                 <h4 class="text-center mb-4">Registrarse</h4>
 
-                <form>
+                <form id="registroForm">
                   <div class="row mb-3">
                     <div class="col">
                       <label class="form-label fw-bold">Nombre</label>
-                      <input style="background-color: #ebeef0"  type="text" class="form-control" placeholder="usuario">
+                      <input style="background-color: #ebeef0" type="text" id="nombre" class="form-control" placeholder="usuario" required>
                     </div>
                     <div class="col">
                       <label class="form-label fw-bold">Teléfono</label>
-                      <input style="background-color: #ebeef0" type="text" class="form-control" placeholder="11234523">
+                      <input style="background-color: #ebeef0" type="tel" id="telefono" class="form-control" placeholder="11234523" required>
                     </div>
                   </div>
 
                   <div class="mb-3">
                     <label class="form-label fw-bold">Email</label>
-                    <input style="background-color: #ebeef0" type="email" class="form-control" placeholder="emaildeejemplo1@gmail.com">
+                    <input style="background-color: #ebeef0" type="email" id="email" class="form-control" placeholder="emaildeejemplo1@gmail.com" required>
                   </div>
 
                   <div class="mb-3">
                     <label class="form-label fw-bold">Fecha De Nacimiento</label>
-                    <input style="background-color: #ebeef0" type="text" class="form-control" placeholder="Día/Mes/Año">
+                    <input style="background-color: #ebeef0" type="date" id="fechaNacimiento" class="form-control" required>
                   </div>
 
                   <div class="mb-3">
                     <label class="form-label fw-bold">DNI</label>
-                    <input style="background-color: #ebeef0" type="text" class="form-control" placeholder="DNI">
+                    <input style="background-color: #ebeef0" type="number" id="dni" class="form-control" placeholder="DNI" required>
                   </div>
 
                   <!-- Contraseña -->
                   <div class="mb-3 position-relative">
                     <label class="form-label fw-bold">Contraseña</label>
-                    <input style="background-color: #ebeef0" type="password" id="password" class="form-control" placeholder="contraseña">
-                    <button style="margin-top: 15px;"  type="button" class="btn btn-link position-absolute top-50 end-0 translate-middle-y me-2 p-0 text-secondary" onclick="togglePassword('password', 'eye1')">
-                      <i class="bi bi-eye" id="eye1"  style="color: black;"></i>
+                    <input style="background-color: #ebeef0" type="password" id="password" class="form-control" placeholder="contraseña" required>
+                    <button style="margin-top: 15px;" type="button" class="btn btn-link position-absolute top-50 end-0 translate-middle-y me-2 p-0 text-secondary" onclick="togglePassword('password', 'eye1')">
+                      <i class="bi bi-eye" id="eye1" style="color: black;"></i>
                     </button>
                   </div>
 
                   <!-- Confirmar contraseña -->
                   <div class="mb-4 position-relative">
                     <label class="form-label fw-bold">Confirmar Contraseña</label>
-                    <input style="background-color: #ebeef0" type="password" id="confirmPassword" class="form-control" placeholder="contraseña">
+                    <input style="background-color: #ebeef0" type="password" id="confirmPassword" class="form-control" placeholder="contraseña" required>
                     <button style="margin-top: 15px;" type="button" class="btn btn-link position-absolute top-50 end-0 translate-middle-y me-2 p-0 text-secondary" onclick="togglePassword('confirmPassword', 'eye2')">
                       <i class="bi bi-eye" id="eye2" style="color: black;"></i>
                     </button>
                   </div>
+
+                  <div id="mensajeError" class="alert alert-danger d-none"></div>
+                  <div id="mensajeExito" class="alert alert-success d-none"></div>
 
                   <div class="d-grid">
                     <button type="submit" class="btn btn-info fw-semibold">Registrarse</button>
@@ -114,14 +117,23 @@
   </footer>
 
   <!-- Bootstrap scripts -->
-  <script src="js/bootstrap.bundle.min.js"></script>
-  <script src="/alarma_tec_1/frontend/js/sidebar.js"></script>
+  <script src="js/bootstrap.bundle.js"></script>
+  <script src="js/sidebar.js"></script>
 
   <script>
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('toggleSidebar');
     toggleBtn.addEventListener('click', () => {
       sidebar.classList.toggle('show');
+    });
+
+    // Cargar sidebar
+    document.addEventListener('DOMContentLoaded', () => {
+      const sidebarContainer = document.querySelector('[data-included-sidebar]');
+      fetch('includes/sidebar.html')
+        .then(response => response.text())
+        .then(html => sidebarContainer.innerHTML = html)
+        .catch(err => console.error('Error cargando sidebar:', err));
     });
 
     // Función mostrar/ocultar contraseñas
@@ -137,6 +149,67 @@
         eye.classList.replace("bi-eye-slash", "bi-eye");
       }
     }
+
+    // Validar y enviar formulario
+    document.getElementById('registroForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const nombre = document.getElementById('nombre').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const dni = document.getElementById('dni').value.trim();
+      const telefono = document.getElementById('telefono').value.trim();
+      const fechaNacimiento = document.getElementById('fechaNacimiento').value;
+      const errorDiv = document.getElementById('mensajeError');
+      const exitoDiv = document.getElementById('mensajeExito');
+
+      // Validar que las contraseñas coincidan
+      if (password !== confirmPassword) {
+        errorDiv.textContent = 'Las contraseñas no coinciden';
+        errorDiv.classList.remove('d-none');
+        exitoDiv.classList.add('d-none');
+        return;
+      }
+
+      try {
+        const formData = new FormData();
+        formData.append('nombre', nombre);
+        formData.append('apellido', 'Usuario');
+        formData.append('email', email);
+        formData.append('password', password);
+        formData.append('confirmPassword', confirmPassword);
+        formData.append('dni', dni);
+        formData.append('telefono', telefono);
+        formData.append('fechaNacimiento', fechaNacimiento);
+
+        const response = await fetch('../back-end/registro.php', {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.ok) {
+          exitoDiv.textContent = result.mensaje;
+          exitoDiv.classList.remove('d-none');
+          errorDiv.classList.add('d-none');
+          setTimeout(() => {
+            document.getElementById('registroForm').reset();
+            window.location.href = 'login.html';
+          }, 2000);
+        } else {
+          errorDiv.textContent = result.mensaje || 'Error al registrar';
+          errorDiv.classList.remove('d-none');
+          exitoDiv.classList.add('d-none');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        errorDiv.textContent = 'Error al procesar la solicitud';
+        errorDiv.classList.remove('d-none');
+        exitoDiv.classList.add('d-none');
+      }
+    });
   </script>
 
 </body>
