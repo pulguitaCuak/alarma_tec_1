@@ -34,11 +34,8 @@
 
     <div class="d-flex flex-grow-1">
       <!-- SIDEBAR (oculta en móvil) -->
-      <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100">
-        <a href="#" class="my-3"><i class="bi bi-house fs-4 p-4"></i></a>
-      <a href="#" class="my-3"><i class="bi bi-grid fs-4 p-4"></i></a>
-      <a href="#" class="my-3"><i class="bi bi-person-plus fs-4 p-4"></i></a>
-      <a href="#" class="my-3"><i class="bi bi-list fs-4 p-4"></i></a>
+      <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100" data-included-sidebar>
+        <!-- sidebar content loaded from /frontend/includes/sidebar.html -->
       </aside>
 
       <!-- CONTENIDO CON USUARIOS -->
@@ -184,7 +181,8 @@
         
 
   <!-- Bootstrap scripts -->
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/alarma_tec_1/frontend/js/sidebar.js"></script>
 
 <script>
   let usuariosOriginales = []; //estaría bueno reemplazar esto por un trigger en la bd, pero por las dudas no toco nada

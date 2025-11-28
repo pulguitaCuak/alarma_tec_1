@@ -91,10 +91,10 @@
   <main class="flex-fill">
     <div class="d-flex flex-grow-1">
       <!-- SIDEBAR (oculta en móvil) -->
-      <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100">
-        <a href="/alarma_tec_1/frontend/administracionUsuarios.html" class="my-3 text-white" title="Usuarios"><i class="bi bi-people fs-4 p-4"></i></a>
-        <a href="/alarma_tec_1/frontend/dashboardEquipos.html" class="my-3 text-white" title="Equipos"><i class="bi bi-grid fs-4 p-4"></i></a>
+      <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100" data-included-sidebar>
+        <!-- sidebar content loaded from /frontend/includes/sidebar.html -->
       </aside>
+      
 
       <!-- CONTENIDO -->
       <div class="flex-grow-1 ms-3">
@@ -119,6 +119,7 @@
 
   <!-- Bootstrap scripts -->
   <script src="/alarma_tec_1/frontend/js/bootstrap.bundle.js"></script>
+    <script src="/alarma_tec_1/frontend/js/sidebar.js"></script>
   <script>
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('toggleSidebar');
