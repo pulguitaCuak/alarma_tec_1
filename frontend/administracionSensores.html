@@ -433,7 +433,7 @@
                     </div>
                     <div class="d-flex justify-content-between align-items-center gap-1">
                       <div class="d-flex gap-2">
-                        <a href="estructuraAdministracionSensor.html?id=${sensor.id_sensor}" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
+                        <a href="administracionSensor.html?id=${sensor.id_sensor}" class="btn btn-secondary bg-secondary text-body btn-sm">Entrar</a>
                         <button class="btn btn-outline-secondary btn-sm btn-editar-sensor" 
                                 data-id="${sensor.id_sensor}" 
                                 data-nombre="${sensor.nombre}" 
@@ -566,7 +566,7 @@
       function cargarTiposSensores() {
         fetch('../back-end/obtener_tipos_sensor.php')
           .then(response => response.json())
-          .then(tipos => {
+          .then(tipos => {  
             const selectCrear = document.getElementById('tipoSensor');
             const selectEditar = document.getElementById('tipoSensorEditar');
             
