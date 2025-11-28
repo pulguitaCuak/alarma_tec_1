@@ -12,13 +12,34 @@ body {
   position: relative;
   top: auto;
   bottom: auto;
-  background-color: #aadbe3;
+  background-color: #212529; /* dark background for sidebar */
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 1rem;
   transition: transform 0.3s ease;
   z-index: 10;
+}
+
+/* Force sidebar icons and links to white */
+.sidebar a,
+.sidebar a i,
+.sidebar a svg,
+.sidebar .btn {
+  color: #ffffff !important;
+  background-color: transparent !important;
+}
+
+/* Enforce SVG fills inside sidebar to be white */
+.sidebar svg path,
+.sidebar svg {
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* Ensure bootstrap icon fonts appear white */
+.sidebar .bi {
+  color: #ffffff !important;
 }
 
 

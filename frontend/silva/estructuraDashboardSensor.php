@@ -100,13 +100,8 @@ $id_equipo = isset($_GET['id_equipo']) ? intval($_GET['id_equipo']) : 0;
     <div class="dashboard-layout">
 
       <!-- SIDEBAR -->
-      <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100">
-        <a href="estructuraDashboardZonas.php?id_equipo=<?php echo $id_equipo; ?>" class="my-3" title="Volver">
-          <i class="bi bi-arrow-left-circle fs-4 p-4"></i>
-        </a>
-        <a href="#" class="my-3"><i class="bi bi-house fs-4 p-4"></i></a>
-        <a href="#" class="my-3"><i class="bi bi-person-gear fs-4 p-4"></i></a>
-        <a href="#" class="my-3"><i class="bi bi-telephone fs-4 p-4"></i></a>
+      <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100" data-included-sidebar>
+        <!-- sidebar content loaded from /frontend/includes/sidebar.html -->
       </aside>
 
       <!-- CONTENEDOR PRINCIPAL -->

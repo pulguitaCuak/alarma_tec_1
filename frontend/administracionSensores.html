@@ -24,7 +24,7 @@
       <button class="btn btn-outline-light d-lg-none me-3" id="toggleSidebar">
         <i class="bi bi-list"></i>
       </button>
-      <h1 class="h4 m-0"><a href="index.html" class="navbar-brand">Alarma</a></h1>
+      <h1 class="h4 m-0"><a href="dashboardEquipos.html" class="navbar-brand">Alarma</a></h1>
     </div>
     <div class="d-flex align-items-center">
       <h2 class="h5 m-0 me-2">Dashboard</h2>
@@ -36,11 +36,8 @@
   <div class="d-flex" style="flex-grow:1;">
 
     <!-- SIDEBAR (NO SE TOCA) -->
-    <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100">
-      <a href="administracionUsuarios.html" class="my-3"><i class="bi bi-house fs-4 p-4"></i></a>
-      <a href="dashboardEquipos.html" class="my-3"><i class="bi bi-grid fs-4 p-4"></i></a>
-      <a href="administracionRegistrar.html" class="my-3"><i class="bi bi-person-plus fs-4 p-4"></i></a>
-      <a href="estructuraAdministracionEquipos.html" class="my-3"><i class="bi bi-list fs-4 p-4"></i></a>
+    <aside id="sidebar" class="sidebar bg-dark d-flex flex-column align-items-center py-4 min-vh-100" data-included-sidebar>
+      <!-- sidebar content loaded from /frontend/includes/sidebar.html -->
     </aside>
 
     <!-- CONTENIDO QUE SI BAJA -->
@@ -719,6 +716,7 @@
 
   <!-- Bootstrap scripts -->
   <script src="js/bootstrap.bundle.js"></script>
+  <script src="/alarma_tec_1/frontend/js/sidebar.js"></script>
   <script>
     const sidebar = document.getElementById('sidebar');
     const toggleBtn = document.getElementById('toggleSidebar');
