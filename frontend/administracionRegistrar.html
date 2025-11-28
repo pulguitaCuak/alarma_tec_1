@@ -194,10 +194,7 @@
           exitoDiv.textContent = result.mensaje;
           exitoDiv.classList.remove('d-none');
           errorDiv.classList.add('d-none');
-          setTimeout(() => {
-            document.getElementById('registroForm').reset();
-            window.location.href = 'login.html';
-          }, 2000);
+          document.getElementById('registroForm').reset();
         } else {
           errorDiv.textContent = result.mensaje || 'Error al registrar';
           errorDiv.classList.remove('d-none');
